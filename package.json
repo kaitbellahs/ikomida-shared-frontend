@@ -22,7 +22,7 @@
     "build": "yarn build:clean && yarn build:js && yarn build:svelte",
     "build:win": "yarn build:clean && yarn build:svelte:win && yarn build:js",
     "build:js": "tsc",
-    "build:svelte": "ls && mv ./src/components/*.svelte ./lib/components/",
+    "build:svelte": "ls src/components && mv src/components/*.svelte lib/components/",
     "build:svelte:win": "yarn cpy ./src/components/*.svelte ./lib/components/",
     "format": "prettier --write ./src",
     "clean": "git status --ignored -u --porcelain . | grep -v node_modules/ | grep -e '^!! ' | sed 's/^!! packages\\/[a-z-]*\\///g' | tr '\\n' ' ' | xargs rm",
