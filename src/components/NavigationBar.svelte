@@ -1,0 +1,442 @@
+<script lang="ts">
+  import { v4 as uuidV4 } from 'uuid';
+  import Fa from 'svelte-fa';
+  import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+  import { AppLauncher } from '@capacitor/app-launcher';
+  import { onDestroy, onMount } from 'svelte';
+  import Alert from './Alert.svelte';
+  import Navigation from '../Stores/Navigation';
+  import MenuHamburger from '../Stores/MenuHamburger';
+  import Title from '../Stores/Title';
+  import Menu from '../Stores/Menu';
+  import MessageAlert from '../Stores/MessageAlert';
+  import { Capacitor } from '@capacitor/core';
+  import { Clipboard } from '@capacitor/clipboard';
+
+  import { Layout as LayoutStore } from '../Stores';
+  let Layout = LayoutStore.instance.store;
+
+  export let logo = '';
+  export let paddingTop = 0;
+  export let topMargin = 0;
+  export let paddingBottom = 0;
+
+  let swipeGoBack: boolean = false;
+  let showMenu = false;
+  let showMenuHamburger = false;
+  let showAlert = false;
+  let App: any;
+  let stack = Navigation.instance?.store;
+  let menuHamburger = MenuHamburger.instance?.store;
+  let menu = Menu.instance?.store;
+  let title = Title.instance?.store;
+
+  let swipe = {
+    x: 0,
+    y: 0,
+    t: 0,
+    c: 600,
+  };
+
+  $: if (swipeGoBack) {
+    swipeGoBack = false;
+    goBack();
+  }
+
+  $: if ($stack) {
+    showMenu = false;
+    showMenuHamburger = false;
+    showAlert = false;
+  }
+
+  function easeIn(node: HTMLDivElement, { duration }: { duration: number }) {
+    return {
+      duration,
+      css: (t: number) => `
+        transform: translateX(-${100 - t * 100}%);
+    left: -${100 - t * 100}%;
+    `,
+    };
+  }
+
+  function easeOut(node: HTMLDivElement, { duration }: { duration: number }) {
+    return {
+      duration,
+      css: (t: number) => `
+        transform: translateX(-${100 - t * 100}%);
+    left: -${100 - t * 100}%;
+    `,
+    };
+  }
+
+  function goBack() {
+    showMenuHamburger = false;
+    showMenu = false;
+    if (Navigation.instance?.callBack) {
+      Navigation.instance?.callBack?.();
+    } else {
+      if ($stack.length > 1 || Capacitor.getPlatform() !== 'android') {
+        Navigation.instance.pop();
+      } else {
+        toggleAlert();
+      }
+    }
+  }
+
+  function toggleMenu() {
+    showMenu = !showMenu;
+  }
+
+  function toggleAlert() {
+    showAlert = !showAlert;
+  }
+
+  function toggleMenuHamburger() {
+    showMenuHamburger = !showMenuHamburger;
+  }
+
+  function callHamburgerCallback(callback: () => void) {
+    callback?.();
+    toggleMenuHamburger();
+  }
+
+  function callCallback(callback: () => void) {
+    toggleMenu();
+    callback?.();
+  }
+
+  async function openIkomida() {
+    const url = 'https://ikomida.com';
+    const { value } = await AppLauncher.canOpenUrl({ url });
+    await AppLauncher.openUrl({ url });
+    if (!value) {
+      await Clipboard.write({ string: url });
+      MessageAlert.instance.show(
+        `Se o navigador externo nao abriu: abra o e digitar essa URL: ${url}, também foi copiado para sua área de transferência para colar-lo!`,
+      );
+    }
+  }
+
+  function StartSwipe(e: any) {
+    swipe.x = e?.changedTouches?.[0]?.screenX ?? 0;
+    swipe.y = e?.changedTouches?.[0]?.screenY ?? 0;
+    swipe.t = new Date().getTime();
+  }
+
+  function EndSwipe(e: any) {
+    const time = new Date().getTime() - swipe.c;
+    if (time > 0 && time < swipe.t) {
+      const swipex = swipe.x - (e?.changedTouches?.[0]?.screenX ?? 0);
+      const swipey = swipe.y - (e?.changedTouches?.[0]?.screenY ?? 0);
+      swipeGoBack = swipex > 90 && swipey < swipex;
+    }
+  }
+  function addStartEventListener(source: Window & typeof globalThis, cb: (e: any) => void) {
+    source.addEventListener('mousedown', cb);
+    source.addEventListener('touchstart', cb, { passive: true });
+  }
+
+  function removeStartEventListener(source: Window & typeof globalThis, cb: (e: any) => void) {
+    source.removeEventListener('mousedown', cb);
+    source.removeEventListener('touchstart', cb);
+  }
+
+  function addEndEventListener(source: Window & typeof globalThis, cb: (e: any) => void) {
+    source.addEventListener('mouseup', cb);
+    source.addEventListener('touchend', cb);
+  }
+
+  function removeEndEventListener(source: Window & typeof globalThis, cb: (e: any) => void) {
+    source.removeEventListener('mouseup', cb);
+    source.removeEventListener('touchend', cb);
+  }
+
+  onMount(async () => {
+    try {
+      const capacitor = await import('@capacitor/app');
+      App = capacitor?.App;
+      App?.addListener('backButton', goBack);
+    } catch (_) {}
+    addStartEventListener(window, StartSwipe);
+    addEndEventListener(window, EndSwipe);
+  });
+
+  onDestroy(() => {
+    removeStartEventListener(window, StartSwipe);
+    removeEndEventListener(window, EndSwipe);
+  });
+</script>
+
+<header
+  class="shadow"
+  style="--topMargin: {topMargin}px;padding-top: {paddingTop}px;--paddingBottom: {paddingBottom}px;--background:{$Layout
+    ?.header?.background ?? '#4c0708'};--color:{$Layout?.header?.color || '#ffffff'};--menuHamburger:{$Layout?.header
+    ?.menuHamburger ?? '#ffffff'};"
+>
+  {#if ($stack?.length ?? 0) > 1}
+    <div id="backButton" on:click={goBack}>
+      <div>
+        <Fa style="margin-right: 15px;font-size: 1.7em;" icon={faChevronLeft} />
+      </div>
+    </div>
+  {:else if ($menuHamburger?.length ?? 0) > 0}
+    <div class="menuHamburger" on:click={toggleMenuHamburger}>
+      <div />
+      <div />
+      <div />
+    </div>
+    {#if showMenuHamburger}
+      <div
+        in:easeIn={{ duration: 300 }}
+        out:easeOut={{ duration: 300 }}
+        id="menuHamburger"
+        on:click|stopPropagation={toggleMenuHamburger}
+      >
+        <ul>
+          {#if logo}
+            <li class="logo"><img src={logo} alt="" /></li>
+          {/if}
+          {#each $menuHamburger as menu (menu?.uuid ?? uuidV4())}
+            {#if menu}
+              <li on:click={() => callHamburgerCallback(menu?.callback)}>
+                {#if menu?.icon}
+                  <div class="icon">
+                    <Fa style="font-size: 1.3em;" icon={menu?.icon} />
+                  </div>
+                {/if}
+                <span>{menu?.name}</span>
+              </li>
+            {/if}
+          {/each}
+          <li on:click={openIkomida}>
+            <span>Powered by</span>&nbsp;<span style="color: {$Layout?.link ?? '#e8d130'};">iKomida</span>
+          </li>
+        </ul>
+      </div>
+    {/if}
+  {/if}
+  <h1>{$title}</h1>
+  {#if ($menu?.length ?? 0) > 0}
+    <div class="menu" on:click={toggleMenu}>
+      <div />
+      <div />
+      <div />
+    </div>
+    <ul class="menu" class:showMenu>
+      {#each $menu as { icon, name, callback }}
+        <li on:click={() => callCallback(callback)}>
+          {#if icon}
+            <Fa style="font-size: 1.5em; margin-right: 10px;" {icon} />
+          {/if}
+          {name}
+        </li>
+      {/each}
+    </ul>
+  {:else if ($menu?.length ?? 0) == 1}
+    <button class="singleMenuItem" on:click={$menu[0].callback}
+      ><Fa style="font-size: 1.5em; margin-right: 10px;" icon={$menu[0].icon} /></button
+    >
+  {/if}
+</header>
+{#if showAlert}
+  <Alert
+    title="Alerta"
+    message={`Você quer realmente fechar o App?`}
+    closeCallBack={toggleAlert}
+    buttons={[
+      {
+        name: 'Sim',
+        callback: () => {
+          App?.exitApp();
+        },
+      },
+      {
+        name: 'Não quero',
+        callback: toggleAlert,
+        principal: true,
+      },
+    ]}
+  />
+{/if}
+
+<style>
+  div.menu {
+    flex-direction: column;
+    height: 32px;
+    padding: 0;
+    margin: 0;
+    place-content: center;
+    place-items: center;
+    justify-items: center;
+    display: flex;
+    overflow: hidden;
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+  div.menu > div {
+    background: var(--menuHamburger);
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    margin: 1.5px 20px;
+  }
+  ul.menu {
+    display: none;
+    position: fixed;
+    right: 0;
+    top: calc(53px + var(--topMargin));
+    background: var(--background);
+    list-style: none;
+    padding: 0;
+    min-width: 50%;
+    max-width: 100%;
+    overflow: hidden;
+    font-size: 1.2em;
+  }
+  ul.showMenu {
+    display: block;
+  }
+  ul.menu > li {
+    padding: 10px;
+    border-bottom: 1px solid gray;
+    display: flex;
+  }
+  .singleMenuItem {
+    background: transparent;
+    border: 0;
+  }
+  div.menuHamburger {
+    flex-direction: column;
+    height: 32px;
+    padding: 0;
+    margin: 0;
+    place-content: center;
+    place-items: center;
+    justify-items: center;
+    display: flex;
+    overflow: hidden;
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+  div.menuHamburger > div {
+    background: var(--menuHamburger);
+    display: block;
+    height: 4px;
+    border-radius: 2px;
+    width: 32px;
+    margin: 3px 20px;
+  }
+  #menuHamburger > ul {
+    display: flex;
+    flex-direction: column;
+    background: var(--background);
+    list-style: none;
+    padding: 0;
+    min-width: 90%;
+    max-width: 90%;
+    height: 100%;
+    overflow: hidden;
+    padding-top: 10px;
+    font-size: 1.2em;
+    overflow-y: scroll;
+    padding-bottom: calc(62px + var(--paddingBottom));
+    box-shadow: 4px 0px #0000002e;
+  }
+  #menuHamburger {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    top: calc(53px + var(--topMargin));
+    background: rgba(0, 0, 0, 0.7);
+    padding: 0;
+    min-width: 100%;
+    max-width: 100%;
+    height: calc(100% - 53px - var(--topMargin));
+    overflow: hidden;
+    overflow-y: scroll;
+  }
+  #menuHamburger > ul > li {
+    border-bottom: 1px solid gray;
+    padding: 12px 20px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+  }
+  #menuHamburger > ul > li.logo {
+    padding: 10px 20px;
+    place-content: center;
+  }
+  #menuHamburger > ul > li.logo > img {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 40px;
+    height: 210px;
+    object-fit: contain;
+  }
+  #menuHamburger > ul > li:last-of-type {
+    flex-grow: 1;
+    align-items: flex-end;
+  }
+  #menuHamburger > ul > li > .icon {
+    width: 50px;
+    place-content: flex-start;
+    place-items: center;
+    justify-items: center;
+    display: flex;
+    overflow: hidden;
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--background);
+    color: var(--color);
+    display: flex;
+    width: 100%;
+    height: calc(50px + var(--topMargin));
+    padding: 0;
+    padding-top: var(--topMargin);
+    box-shadow: 1px 2px rgba(var(--background), 0.3);
+    align-items: center;
+    z-index: 99999999;
+  }
+  header > #backButton {
+    font-weight: bold;
+    background-color: transparent;
+    color: var(--menuHamburger);
+    border: 0;
+    height: 50px;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    place-content: center;
+    place-items: center;
+    justify-items: center;
+    display: flex;
+    overflow: hidden;
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+  header > #backButton > div {
+    display: flex;
+    place-content: center;
+    align-items: center;
+    width: 72px;
+  }
+  header > h1 {
+    background-color: transparent;
+    border: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1.55em;
+    padding: 0;
+    flex: 1;
+  }
+</style>
