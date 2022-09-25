@@ -19,7 +19,8 @@ jobs:
       - id: publish
         run: |
           gcloud auth activate-service-account artifact-registry@ikomida-dev.iam.gserviceaccount.com --key-file=$GOOGLE_APPLICATION_CREDENTIALS
-          npx google-artifactregistry-auth
           rm .npmrc || true
           echo "@ikomida:registry=https://us-central1-npm.pkg.dev/ikomida-dev/node/" >> .npmrc && echo "//us-central1-npm.pkg.dev/ikomida-dev/node/:always-auth=true" >> .npmrc
+          npx google-artifactregistry-auth
+          yarn install
           npm publish
