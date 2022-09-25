@@ -19,7 +19,7 @@
   "scripts": {
     "build:clean": "rimraf ./build ./lib ./docs",
     "glogin": "artifactregistry-auth",
-    "build": "yarn build:clean && yarn build:svelte && yarn build:js",
+    "build": "yarn build:clean && yarn build:js && yarn build:svelte",
     "build:win": "yarn build:clean && yarn build:svelte:win && yarn build:js",
     "build:js": "tsc",
     "build:svelte": "mv ./src/components/*.svelte ./lib/components/",
