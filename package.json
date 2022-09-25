@@ -19,9 +19,9 @@
   "scripts": {
     "build:clean": "rimraf ./build ./lib ./docs",
     "glogin": "artifactregistry-auth",
-    "build": "yarn build:clean && yarn build:js && yarn build:svelte",
+    "build": "yarn build:clean && yarn build:svelte && yarn build:js",
     "build:js": "tsc",
-    "build:svelte": "yarn cpy ./src/components/*.svelte ./lib/components",
+    "build:svelte": "yarn cpy ./src/components/*.svelte ./lib/components/",
     "format": "prettier --write ./src",
     "clean": "git status --ignored -u --porcelain . | grep -v node_modules/ | grep -e '^!! ' | sed 's/^!! packages\\/[a-z-]*\\///g' | tr '\\n' ' ' | xargs rm",
     "prepare": "yarn build",
