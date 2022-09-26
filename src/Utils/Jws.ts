@@ -6,7 +6,7 @@ import {
 const algorithm = 'PS256';
 //TODO: configure as environemnt list
 const spki: any = {
-  production: `-----BEGIN PUBLIC KEY-----"
+  production: `-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2mVTPwaaCGfT0TnZoLsX
 bTvDcAd6vfiNiCg541aojDFQJPgimJ4/aVOhs8edC5CkNSNxWGpSvhk5+ss0pqgZ
 lGKpRQWxleOl27urGdz7W0rg5DLkNr1tu0jNTORPX0MTduWOmPlPEiyafcC1J4cB
@@ -15,7 +15,7 @@ p5Z+8LCzDRdJrCdxxgk5iCG0OslmOJWrzccn0KvxS/UKY7i/VYV5Rj7mhCHH8Kfw
 ZjpZaOgm23klxVnVl+ORntuvmCEBgrNnlKHTwdIy//SGHqxDzrQJj4nWVSoy5sjA
 ewIDAQAB
 -----END PUBLIC KEY-----`,
-  homologation: `-----BEGIN PUBLIC KEY-----"
+  homologation: `-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0K74IW5Jx4Fbhl1+yRbS
 0LMdvbRmHbdjMABxGwvHzBaMQsE+XOwPN/x5a5Q31UtUf9MnKpV9FgRwqhvsyahZ
 QG2A4C934zreRUUzkIpqyM0erl6iEFFf8d1zgsj6hDGkvnHNygYd2pbuO3HLRiye
