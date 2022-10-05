@@ -1,8 +1,8 @@
-import TextEdit from "../components/TextEdit.svelte";
+import TextEdit from '../components/TextEdit.svelte'
 
 export function validateFields(object: any) {
   if (!object) {
-    return false;
+    return false
   }
   for (const item of Object.entries(object)) {
     if (
@@ -10,19 +10,24 @@ export function validateFields(object: any) {
       (typeof item?.[1] === 'object' && !validateFields(item?.[1])) ||
       !item?.[1]
     ) {
-      return false;
+      return false
     }
   }
-  return true;
+  return true
 }
 
 export function updateInputs(inputs: any, object: any) {
   for (const key of Object.keys(inputs)) {
     if (typeof object[key] === 'object' && typeof inputs === 'object' && key in inputs) {
-      updateInputs(inputs?.[key], object[key]);
-    } else if (['bigint', 'boolean', 'number', 'string', 'symbol', 'undefined'].includes(typeof object[key]) && typeof inputs === 'object' && key in inputs && inputs?.[key] instanceof TextEdit) {
-      inputs?.[key]?.updateValue(object[key]);
+      updateInputs(inputs?.[key], object[key])
+    } else if (
+      ['bigint', 'boolean', 'number', 'string', 'symbol', 'undefined'].includes(typeof object[key]) &&
+      typeof inputs === 'object' &&
+      key in inputs &&
+      inputs?.[key] instanceof TextEdit
+    ) {
+      inputs?.[key]?.updateValue(object[key])
     }
   }
-  return true;
+  return true
 }

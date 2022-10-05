@@ -1,5 +1,5 @@
-import { Classes } from '@ikomida/shared-types';
-import BaseStore from './BaseStore';
+import { Classes } from '@ikomida/shared-types'
+import BaseStore from './BaseStore.js'
 
 export default class Layout extends BaseStore<Classes.CLayout> {
   createStore() {
@@ -11,16 +11,16 @@ export default class Layout extends BaseStore<Classes.CLayout> {
         header: {
           color: '#ffffff',
           background: '#4c0708',
-          menuHamburger: '#ffffff',
+          menuHamburger: '#ffffff'
         },
         tabs: { background: '#ffe4c4', color: '#4c0708' },
         button: { background: '#4c0708', color: 'white' },
-        dialog: { background: '#ffffffdf', color: '#4c0708' },
-      }),
-    );
+        dialog: { background: '#ffffffdf', color: '#4c0708' }
+      })
+    )
   }
   set(data: Classes.CLayout) {
-    const store = this.store;
-    return store.set(data);
+    const store = this.store
+    return store.set(data)
   }
 }
