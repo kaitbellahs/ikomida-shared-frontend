@@ -1,6 +1,6 @@
 {
   "name": "@ikomida/shared-frontend",
-  "version": "0.0.106",
+  "version": "0.0.107",
   "description": "the iKomida fromntend shared code",
   "private": false,
   "author": "Khalid Ait Bellahs",
@@ -22,7 +22,7 @@
     "build": "yarn build:clean && yarn build:js && yarn build:svelte",
     "build:win": "yarn build:clean && yarn build:svelte:win && yarn build:js",
     "build:js": "tsc",
-    "build:svelte": "chmod +x mvSvelteFiles.sh && ./mvSvelteFiles.sh",
+    "build:svelte": "cp ./src/components/*.svelte ./lib/components/",
     "build:svelte:win": "yarn cpy ./src/components/*.svelte ./lib/components/",
     "format": "prettier --write ./src",
     "clean": "git status --ignored -u --porcelain . | grep -v node_modules/ | grep -e '^!! ' | sed 's/^!! packages\\/[a-z-]*\\///g' | tr '\\n' ' ' | xargs rm",
@@ -35,11 +35,11 @@
     "cpy-cli": "^4.2.0",
     "prettier": "^2.7.1",
     "svelte": "^3.50.1",
-    "svelte-check": "^2.9.0",
-    "svelte-strip": "^1.0.1",
+    "svelte-check": "^2.9.1",
+    "svelte-strip": "^1.0.2",
     "tslib": "^2.4.0",
-    "typescript": "^4.8.3",
-    "typescript-svelte-plugin": "^0.3.9"
+    "typescript": "^4.8.4",
+    "typescript-svelte-plugin": "^0.3.10"
   },
   "dependencies": {
     "@capacitor-community/http": "^1.4.1",
@@ -51,14 +51,14 @@
     "@capacitor/preferences": "^4.0.1",
     "@capacitor/push-notifications": "^4.1.0",
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
-    "@ikomida/shared-logics": "^0.0.41",
-    "@ikomida/shared-types": "^0.0.142",
+    "@ikomida/shared-logics": "^0.2.0",
+    "@ikomida/shared-types": "^1.0.2",
     "@types/uuid": "^8.3.4",
-    "jose": "^4.9.3",
+    "jose": "^4.10.0",
     "react-image-file-resizer": "^0.4.8",
     "reflect-metadata": "^0.1.13",
     "svelte-fa": "^3.0.3",
-    "svelte2tsx": "^0.5.18",
+    "svelte2tsx": "^0.5.19",
     "uuid": "^9.0.0"
   }
 }

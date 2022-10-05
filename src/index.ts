@@ -1,6 +1,6 @@
-export * as Views from './components/index';
-export * as Stores from './Stores';
-export * as Utils from './Utils';
-export * as Types from './Types';
-export * as Logics from '@ikomida/shared-logics';
-export { default as Network } from './Network/Network';
+export * as Logics from '@ikomida/shared-logics'
+export * as Views from './components/index.js'
+export * as Stores from './Stores/index.js'
+export * as Utils from './Utils/index.js'
+export * as Types from './Types/index.js'
+export { default as Network } from './Network/Network.js'
