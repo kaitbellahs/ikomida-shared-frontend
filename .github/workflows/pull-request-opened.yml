@@ -55,7 +55,6 @@ jobs:
       - name: Prepare and validate code
         run: |
           yarn format
-          yarn lint
           yarn svelte-check
       - name: Build code
         run: yarn build
