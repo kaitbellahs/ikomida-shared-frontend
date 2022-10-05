@@ -119,10 +119,10 @@
   resolved "https://us-central1-npm.pkg.dev/ikomida-dev/node/@ikomida/shared-types/-/@ikomida/shared-types-1.0.2.tgz#1026a9c3002e0862cbbbcbfc42da2c092ca71d02"
   integrity sha512-VIjVAo7AExX1b/LVVIAOXsMftcBf3ssUNrCB9eFs8rXC7ApYrOzgBg/RNXynZ7N8GMmbCAyXQ6NXnGt0BwJjSw==
 
-"@ikomida/shared-types@^1.0.4":
-  version "1.0.4"
-  resolved "https://us-central1-npm.pkg.dev/ikomida-dev/node/@ikomida/shared-types/-/@ikomida/shared-types-1.0.4.tgz#3acbac943024786f5bf8078450d0bdd51c76d292"
-  integrity sha512-6KQK4FufVz0qWDA+fdSPvVhNtaZp5JS9dWSF2SXvWlVuMaYtJ5O3u9PHO/Cqk33PGYQtjB1zOa3VgaxYgU/20A==
+"@ikomida/shared-types@^1.0.5":
+  version "1.0.5"
+  resolved "https://us-central1-npm.pkg.dev/ikomida-dev/node/@ikomida/shared-types/-/@ikomida/shared-types-1.0.5.tgz#2d11dc413e4e394e8b653d8415bba3b46e16392c"
+  integrity sha512-WJY6vLN9JIZ/Ili0vZEQO7hjyU8LlT6vD2Wq2Azl9E2DkoRMR+/ZPtpxGyGpsfY9c9uY/k2tUh3YboTZa+fN0g==
 
 "@jridgewell/resolve-uri@^3.0.3":
   version "3.1.0"
