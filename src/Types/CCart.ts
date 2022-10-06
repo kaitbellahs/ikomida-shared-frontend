@@ -13,7 +13,9 @@ export default class CCart extends Classes.CProduct {
     discountType: Types.TDiscount,
     quantity: number,
     leftQuantity: number,
-    image?: string
+    image?: string,
+    optionsCategories?: Classes.CProductOptionsCategory[],
+    options?: Classes.CProductOption[]
   ): CCart {
     return this.createInitObject(arguments)
   }
