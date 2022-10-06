@@ -15,16 +15,16 @@
   export let type: TUploadablePhoto | undefined = undefined
   let showImage = true
   let isLoading = true
-  let height =
-    !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE].includes(type)
+  $: height =
+    !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
       ? 'calc(100vw - 40px)'
       : type === TUploadablePhoto.PROFILE
       ? '210px'
       : type === TUploadablePhoto.THUMB
       ? '45px'
       : '160px'
-  let minHeight =
-    !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE].includes(type)
+  $: minHeight =
+    !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
       ? '500px'
       : type === TUploadablePhoto.PROFILE
       ? '210px'
@@ -50,7 +50,7 @@
           break
       }
       const resizeHeight =
-        !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE].includes(type)
+        !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
           ? 400
           : type === TUploadablePhoto.PROFILE
           ? 210
@@ -107,12 +107,17 @@
     />
   {/if}
   <button
-    style="--uploadLeft:{TUploadablePhoto.THUMB === type ? 12 : 70}px;--uploadWidth:{TUploadablePhoto.THUMB === type
-      ? 24
-      : 140}px;--uploadBottom:{TUploadablePhoto.THUMB === type ? -16 : -45}px;--uploadHeight:{TUploadablePhoto.THUMB ===
-    type
-      ? 15
-      : 70}px;"
+    style="--uploadLeft:{TUploadablePhoto.THUMB === type
+      ? 0
+      : 'calc(50% - 70px)'};--uploadWidth:{TUploadablePhoto.THUMB === type
+      ? '100%'
+      : '140px'};--uploadBottom:{TUploadablePhoto.THUMB === type
+      ? -16
+      : -45}px;--uploadHeight:{TUploadablePhoto.THUMB === type
+      ? 'calc(100% + 16px)'
+      : '70px'};--uploadBackgroundColor:{TUploadablePhoto.THUMB === type
+      ? 'transparent'
+      : '#00000077'};--uploadRadius:{TUploadablePhoto.THUMB === type ? '0' : '100%'};"
     class="upload"
     aria-label="upload"
     on:click={openFileSelector}
@@ -120,7 +125,7 @@
     <Fa
       style="
     font-size: {TUploadablePhoto.THUMB === type ? 0.8 : 1.7}em;
-    margin-bottom: {TUploadablePhoto.THUMB === type ? 0 : 35}px;"
+    margin-bottom: {TUploadablePhoto.THUMB === type ? -43 : 35}px;"
       icon={faCamera}
     />
     <input
@@ -166,9 +171,9 @@
   .imageContainer > .upload {
     width: var(--uploadWidth);
     position: absolute;
-    left: calc(50% - var(--uploadLeft));
-    background: #00000077;
-    border-radius: 100%;
+    left: var(--uploadLeft);
+    background: var(--uploadBackgroundColor);
+    border-radius: var(--uploadRadius);
     overflow: hidden;
     bottom: var(--uploadBottom);
     height: var(--uploadHeight);
