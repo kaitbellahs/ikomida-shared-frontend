@@ -31,3 +31,7 @@ export function updateInputs(inputs: any, object: any) {
   }
   return true
 }
+
+export function isTrue(object: any) {
+  return ![undefined, null, false].includes(object)
+}
