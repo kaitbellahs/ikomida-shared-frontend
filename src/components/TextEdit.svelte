@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { v4 as uuidV4 } from 'uuid';
-  import Fa from 'svelte-fa';
-  import { currency, percent, formatAsName } from '../Utils/Strings';
-  import { current_component, bubble, listen } from 'svelte/internal';
-  import { Finances, Validations } from '@ikomida/shared-logics';
+  import { v4 as uuidV4 } from 'uuid'
+  import Fa from 'svelte-fa'
+  import { currency, percent, formatAsName } from '../Utils/Strings'
+  import { current_component, bubble, listen } from 'svelte/internal'
+  import { Finances, Validations } from '@ikomida/shared-logics'
   import {
     faEye,
     faEyeSlash,
@@ -17,337 +17,342 @@
     faPercent,
     faCalendar,
     faShop,
-    faHourglass,
-  } from '@fortawesome/free-solid-svg-icons';
-  import type { IconDefinition } from '@fortawesome/free-solid-svg-icons';
-  import TTextEdit from '../Types/TTextEdit';
-  import { Layout as LayoutStore } from '../Stores';
-  let Layout = LayoutStore.instance.store;
+    faHourglass
+  } from '@fortawesome/free-solid-svg-icons'
+  import type { IconDefinition } from '@fortawesome/free-solid-svg-icons'
+  import TTextEdit from '../Types/TTextEdit'
+  import { Layout as LayoutStore } from '../Stores'
+  import { Objects } from '../Utils'
+  let Layout = LayoutStore.instance.store
 
-  export let type: TTextEdit = TTextEdit.GENERIC;
-  export let placeHolder: string | null = null;
-  export let initialValue: string | number | null = null;
-  export let value: string | Date | number | null | undefined = null;
-  export let buttonName: string | null = null;
-  export let buttonIcon: IconDefinition | null = null;
-  export let buttonDisabled: boolean = false;
-  export let callback: any | null = null;
-  export let icon: IconDefinition | string | null = null;
-  export let mask: string | null = null;
-  export let maskKey = '_';
-  export let filter: RegExp | null = null;
-  export let disabled = false;
-  export let isValid = true;
-  export let validation: Function | null = null;
-  export let leftPadding = 0;
-  export let rightPadding = 0;
-  export let marginTop = 30;
-  export let element: HTMLDivElement | null = null;
-  export let error: string | null = null;
-  export let min: number | null = null;
-  export let max: number | null = null;
-  export let focus = false;
-  export let empty = true;
-  export let upper = false;
-  export let lower = false;
-  export let forceUpdate = false;
+  export let type: TTextEdit = TTextEdit.GENERIC
+  export let placeHolder: string | null = null
+  export let initialValue: string | number | null = null
+  export let value: string | Date | number | null | undefined = null
+  export let buttonName: string | null = null
+  export let buttonIcon: IconDefinition | null = null
+  export let buttonDisabled: boolean = false
+  export let callback: any | null = null
+  export let icon: IconDefinition | string | null = null
+  export let mask: string | null = null
+  export let maskKey = '_'
+  export let filter: RegExp | null = null
+  export let disabled = false
+  export let isValid = true
+  export let validation: Function | null = null
+  export let leftPadding = 0
+  export let rightPadding = 0
+  export let marginTop = 30
+  export let element: HTMLDivElement | null = null
+  export let error: string | null = null
+  export let min: number | null = null
+  export let max: number | null = null
+  export let sizeMultiplier = 1
+  export let focus = false
+  export let empty = true
+  export let upper = false
+  export let lower = false
+  export let forceUpdate = false
 
-  const uuid = uuidV4();
-  const events = getEventsAction(current_component);
-  let init = true;
-  let showSecret = false;
-  let input: HTMLInputElement | HTMLTextAreaElement;
-  let pickerInput: HTMLInputElement;
-  let timeInput: HTMLInputElement;
-  let colorInput: HTMLInputElement;
-  let inputValue: string;
-  let secret = false;
+  const uuid = uuidV4()
+  const events = getEventsAction(current_component)
+  let init = true
+  let showSecret = false
+  let input: HTMLInputElement | HTMLTextAreaElement
+  let pickerInput: HTMLInputElement
+  let timeInput: HTMLInputElement
+  let colorInput: HTMLInputElement
+  let inputValue: string
+  let secret = false
 
   $: if (secret) {
-    icon = icon ?? faUnlock;
+    icon = icon ?? faUnlock
   }
 
   $: switch (type) {
     case TTextEdit.PHONE:
-      filter = forceUpdate || !filter ? /\d/gi : filter;
-      mask = forceUpdate || !mask ? '(__) _____-____' : mask;
-      error = forceUpdate || !error ? 'O número de telefone inserido não é válido' : error;
-      icon = forceUpdate || !icon ? faMobileRetro : icon;
-      break;
+      filter = forceUpdate || !filter ? /\d/gi : filter
+      mask = forceUpdate || !mask ? '(__) _____-____' : mask
+      error = forceUpdate || !error ? 'O número de telefone inserido não é válido' : error
+      icon = forceUpdate || !icon ? faMobileRetro : icon
+      break
     case TTextEdit.CPF:
-      filter = forceUpdate || !filter ? /\d/gi : filter;
-      mask = forceUpdate || !mask ? '___.___.___-__' : mask;
-      error = forceUpdate || !error ? 'O CPF inserido não é válido' : error;
-      icon = forceUpdate || !icon ? faIdCard : icon;
-      break;
+      filter = forceUpdate || !filter ? /\d/gi : filter
+      mask = forceUpdate || !mask ? '___.___.___-__' : mask
+      error = forceUpdate || !error ? 'O CPF inserido não é válido' : error
+      icon = forceUpdate || !icon ? faIdCard : icon
+      break
     case TTextEdit.CNPJ:
-      filter = forceUpdate || !filter ? /\d/gi : filter;
-      mask = forceUpdate || !mask ? '__.___.___/____-__' : mask;
-      error = forceUpdate || !error ? 'O CNPJ inserido não é válido' : error;
-      icon = forceUpdate || !icon ? faShop : icon;
-      break;
+      filter = forceUpdate || !filter ? /\d/gi : filter
+      mask = forceUpdate || !mask ? '__.___.___/____-__' : mask
+      error = forceUpdate || !error ? 'O CNPJ inserido não é válido' : error
+      icon = forceUpdate || !icon ? faShop : icon
+      break
     case TTextEdit.COLOR:
-      filter = forceUpdate || !filter ? /[a-f0-9]/gi : filter;
-      mask = forceUpdate || !mask ? '#______' : mask;
-      error = forceUpdate || !error ? 'A cor inserida não é válida' : error;
-      break;
+      filter = forceUpdate || !filter ? /[a-f0-9]/gi : filter
+      mask = forceUpdate || !mask ? '#______' : mask
+      error = forceUpdate || !error ? 'A cor inserida não é válida' : error
+      break
     case TTextEdit.CEP:
-      filter = forceUpdate || !filter ? /\d/gi : filter;
-      mask = forceUpdate || !mask ? '_____-___' : mask;
-      error = forceUpdate || !error ? 'O CEP inserido não é válido' : error;
-      icon = forceUpdate || !icon ? faTruck : icon;
-      break;
+      filter = forceUpdate || !filter ? /\d/gi : filter
+      mask = forceUpdate || !mask ? '_____-___' : mask
+      error = forceUpdate || !error ? 'O CEP inserido não é válido' : error
+      icon = forceUpdate || !icon ? faTruck : icon
+      break
     case TTextEdit.EMAIL:
-      error = forceUpdate || !error ? 'O email inserido não é válido' : error;
-      icon = forceUpdate || !icon ? faAt : icon;
-      break;
+      error = forceUpdate || !error ? 'O email inserido não é válido' : error
+      icon = forceUpdate || !icon ? faAt : icon
+      break
     case TTextEdit.NAME:
-      filter = forceUpdate || !filter ? /[a-z ]/gi : filter;
-      break;
+      filter = forceUpdate || !filter ? /[a-z ]/gi : filter
+      break
     case TTextEdit.ALPHABET:
-      filter = forceUpdate || !filter ? /[a-z]/gi : filter;
-      break;
+      filter = forceUpdate || !filter ? /[a-z]/gi : filter
+      break
     case TTextEdit.PASSWORD:
-      secret = true;
-      icon = forceUpdate || !icon ? faUnlock : icon;
-      break;
+      secret = true
+      icon = forceUpdate || !icon ? faUnlock : icon
+      break
     case TTextEdit.NUMBER:
-      filter = forceUpdate || !filter ? /\d/gi : filter;
-      max = forceUpdate || !max ? 11 : max;
-      break;
+      filter = forceUpdate || !filter ? /\d/gi : filter
+      max = forceUpdate || !max ? 11 : max
+      break
     case TTextEdit.CURRENCY:
-      max = forceUpdate || !max ? 11 : max;
-      filter = forceUpdate || !filter ? /\d/gi : filter;
-      icon = forceUpdate || !icon ? faSackDollar : icon;
-      break;
+      max = forceUpdate || !max ? 11 : max
+      filter = forceUpdate || !filter ? /\d/gi : filter
+      icon = forceUpdate || !icon ? faSackDollar : icon
+      break
     case TTextEdit.PERCENT:
-      max = forceUpdate || !max ? 11 : max;
-      filter = forceUpdate || !filter ? /\d/gi : filter;
-      icon = forceUpdate || !icon ? faPercent : icon;
-      break;
+      max = forceUpdate || !max ? 11 : max
+      filter = forceUpdate || !filter ? /\d/gi : filter
+      icon = forceUpdate || !icon ? faPercent : icon
+      break
     case TTextEdit.ALPHA_NUMERIC:
-      filter = forceUpdate || !filter ? /[A-Za-z0-9]/gi : filter;
-      break;
+      filter = forceUpdate || !filter ? /[A-Za-z0-9]/gi : filter
+      break
     case TTextEdit.SLUG:
-      filter = forceUpdate || !filter ? /[a-z0-9\.-]/gi : filter;
-      break;
+      filter = forceUpdate || !filter ? /[a-z0-9\.-]/gi : filter
+      break
     case TTextEdit.SPACE_ALPHA_NUMERIC:
-      filter = forceUpdate || !filter ? /[A-Za-z0-9 ]/gi : filter;
-      break;
+      filter = forceUpdate || !filter ? /[A-Za-z0-9 ]/gi : filter
+      break
     case TTextEdit.KEY:
-      filter = forceUpdate || !filter ? /[A-Za-z0-9-]/gi : filter;
-      break;
+      filter = forceUpdate || !filter ? /[A-Za-z0-9-]/gi : filter
+      break
     case TTextEdit.DATE:
-      filter = forceUpdate || !filter ? /[0-9-]/gi : filter;
-      icon = forceUpdate || icon ? icon : faCalendar;
+      filter = forceUpdate || !filter ? /[0-9-]/gi : filter
+      icon = forceUpdate || icon ? icon : faCalendar
     case TTextEdit.TIME:
-      mask = '__:__';
-      filter = forceUpdate || !filter ? /[0-9-]/gi : filter;
-      icon = forceUpdate || icon ? icon : faHourglass;
-      break;
+      mask = '__:__'
+      filter = forceUpdate || !filter ? /[0-9-]/gi : filter
+      icon = forceUpdate || icon ? icon : faHourglass
+      break
     default:
-      break;
+      break
   }
 
   $: if (focus && input) {
-    input?.focus();
+    input?.focus()
   }
   $: if (secret && input) {
-    buttonIcon = showSecret ? faEye : faEyeSlash;
-    callback = showSecretCallBack;
-    input.value = inputValue;
+    buttonIcon = showSecret ? faEye : faEyeSlash
+    callback = showSecretCallBack
+    input.value = inputValue
   }
-  $: height = type === TTextEdit.TEXT ? 88 : 44;
+  $: height = (type === TTextEdit.TEXT ? 88 : 44) * sizeMultiplier
   function update() {
     if (type === TTextEdit.COLOR && colorInput) {
-      colorInput.value = input.value;
+      colorInput.value = input.value
     } else if (type === TTextEdit.DATE) {
-      const date = value as Date;
-      input.value = isValid ? `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}` : '';
+      const date = value as Date
+      input.value = isValid ? `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}` : ''
     } else {
-      input.value = doMask(removeMask(String(initialValue ?? '')));
+      input.value = doMask(removeMask(String(initialValue ?? '')))
     }
   }
-  $: if (init && initialValue && input) {
-    init = false;
-    update();
+  $: if (init && Objects.isTrue(initialValue) && input) {
+    init = false
+    update()
   }
 
-  $: if (forceUpdate && initialValue && input) {
-    init = false;
-    update();
+  $: if (forceUpdate && Objects.isTrue(initialValue) && input) {
+    init = false
+    update()
   }
 
-  $: if (init && !initialValue && input) {
-    init = false;
-    input.value = doMask('');
+  $: if (init && !Objects.isTrue(initialValue) && input) {
+    init = false
+    input.value = doMask('')
     if (type === TTextEdit.COLOR && colorInput) {
-      colorInput.value = input.value;
+      colorInput.value = input.value
     }
   }
 
   export function updateValue(_value: string) {
-    input.value = doMask(removeMask(_value));
+    input.value = doMask(removeMask(_value))
     if (type === TTextEdit.COLOR && colorInput) {
-      colorInput.value = input.value;
+      colorInput.value = input.value
     }
   }
 
   function onKeyPress<E extends Event = Event, T extends EventTarget = Element>(
-    event: E & { currentTarget: EventTarget & T },
+    event: E & { currentTarget: EventTarget & T }
   ) {
-    event.preventDefault();
-    const newValue = removeMask((event?.target as any)?.value);
+    event.preventDefault()
+    const newValue = removeMask((event?.target as any)?.value)
     if (max && (newValue?.length ?? 0) > max) {
-      input.value = inputValue;
-      return;
+      input.value = inputValue
+      return
     }
     if (type === TTextEdit.DATE && pickerInput) {
-      const date = new Date(doMask(newValue));
-      value = date;
-      input.value = isValid ? `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}` : '';
+      const date = new Date(doMask(newValue))
+      value = date
+      input.value = isValid ? `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}` : ''
     } else {
-      input.value = doMask(newValue);
+      input.value = doMask(newValue)
     }
     if (type === TTextEdit.COLOR && colorInput) {
-      colorInput.value = input.value;
+      colorInput.value = input.value
     }
   }
 
   function removeMask(__value: string | string[] | null) {
-    __value = `${__value ?? ''}`;
+    __value = `${__value ?? ''}`
     if (type && [TTextEdit.CURRENCY, TTextEdit.PERCENT].includes(type)) {
-      __value = `${Finances.toNumber(__value)}`;
+      __value = `${Finances.toNumber(__value)}`
     }
-    __value = mask != null ? Array.from(__value).filter((char, index) => char != mask?.[index]) : Array.from(__value);
-    const matches = filter ? __value.join('').match(filter) : null;
+    __value = mask != null ? Array.from(__value).filter((char, index) => char != mask?.[index]) : Array.from(__value)
+    const matches = filter ? __value.join('').match(filter) : null
     if (matches) {
-      __value = matches;
+      __value = matches
     } else if (filter && !matches) {
-      __value = [];
+      __value = []
     }
-    return __value.join('');
+    return __value.join('')
   }
 
   function doMask(__value: string | undefined) {
-    let tmpValue: string | undefined = '';
+    const valueType = typeof value
+    let tmpValue: string | undefined = ''
     if (mask || (type && [TTextEdit.CURRENCY, TTextEdit.PERCENT].includes(type))) {
-      let index = 0;
+      let index = 0
       if (mask) {
         for (let i = 0; i < mask?.length; i++) {
           if (index >= (__value?.length ?? 0)) {
-            break;
+            break
           }
           if (mask?.[i] == maskKey) {
-            tmpValue = `${tmpValue}${__value?.[index]}`;
-            index++;
+            tmpValue = `${tmpValue}${__value?.[index]}`
+            index++
           } else {
-            tmpValue = `${tmpValue}${mask?.[i]}`;
+            tmpValue = `${tmpValue}${mask?.[i]}`
           }
         }
         value = Array.from(tmpValue)
           .filter((char, index) => char != mask?.[index])
-          .join('');
+          .join('')
       } else if (type === TTextEdit.CURRENCY) {
-        value = Finances.toNumber(__value);
-        tmpValue = currency(Number(value));
+        value = Finances.toNumber(__value)
+        tmpValue = currency(Number(value))
       } else if (type === TTextEdit.PERCENT) {
-        value = Finances.toNumber(__value);
-        tmpValue = percent(Number(value));
+        value = Finances.toNumber(__value)
+        tmpValue = percent(Number(value))
       }
     } else {
-      value = __value;
-      tmpValue = value;
+      value = __value
+      tmpValue = value
     }
-    isValid = validate(String(value ?? ''));
+    isValid = validate(String(value ?? ''))
 
     if (type === TTextEdit.COLOR) {
-      value = `#${value}`;
+      value = `#${value}`
     }
 
-    if (upper && typeof value === 'string') {
-      value = String(value)?.toUpperCase();
-      tmpValue = tmpValue?.toUpperCase();
-    } else if (lower && typeof value === 'string') {
-      value = String(value)?.toLowerCase();
-      tmpValue = tmpValue?.toLowerCase();
+    if (upper && valueType === 'string') {
+      value = String(value)?.toUpperCase()
+      tmpValue = tmpValue?.toUpperCase()
+    } else if (lower && valueType === 'string') {
+      value = String(value)?.toLowerCase()
+      tmpValue = tmpValue?.toLowerCase()
     }
 
     if (type === TTextEdit.NAME && tmpValue?.trim()) {
-      tmpValue = formatAsName(tmpValue) ?? '';
+      tmpValue = formatAsName(tmpValue) ?? ''
     }
-    if (typeof value === 'number') {
-      value = Number(value);
+    if (valueType === 'number') {
+      value = Number(value)
     } else {
-      value = String(value)?.trim();
+      value = String(value)?.trim()
     }
-    tmpValue = tmpValue;
-    inputValue = tmpValue ?? '';
-    return tmpValue ?? '';
+    tmpValue = tmpValue
+    inputValue = tmpValue ?? ''
+    return tmpValue ?? ''
   }
 
   function showSecretCallBack() {
-    showSecret = !showSecret;
-    buttonIcon = showSecret ? faEye : faEyeSlash;
+    showSecret = !showSecret
+    buttonIcon = showSecret ? faEye : faEyeSlash
   }
 
   function validate(string: string) {
-    let _isValid = true;
+    let _isValid = true
     if (min && (string?.length ?? 0) < min) {
-      _isValid = false;
+      _isValid = false
     } else if (max && (string?.length ?? 0) > max) {
-      _isValid = false;
+      _isValid = false
     } else if (validation) {
-      _isValid = validation(string);
+      _isValid = validation(string)
     } else {
       switch (type) {
         case TTextEdit.CPF:
-          _isValid = Validations.validateCPF(string);
-          break;
+          _isValid = Validations.validateCPF(string)
+          break
         case TTextEdit.CNPJ:
-          _isValid = Validations.validateCNPJ(string);
-          break;
+          _isValid = Validations.validateCNPJ(string)
+          break
         case TTextEdit.PHONE:
-          _isValid = Validations.validatePhone(string);
-          break;
+          _isValid = Validations.validatePhone(string)
+          break
         case TTextEdit.EMAIL:
-          _isValid = Validations.validateEmail(string);
-          break;
+          _isValid = Validations.validateEmail(string)
+          break
         case TTextEdit.PASSWORD:
-          _isValid = Validations.validatePassword(string);
-          break;
+          _isValid = Validations.validatePassword(string)
+          break
         case TTextEdit.CEP:
-          _isValid = Validations.validateCEP(string);
-          break;
+          _isValid = Validations.validateCEP(string)
+          break
         case TTextEdit.DATE:
-          _isValid = Validations.validateDate(string);
-          break;
+          _isValid = Validations.validateDate(string)
+          break
       }
     }
-    return _isValid;
+    return _isValid
   }
 
   function getEventsAction(component: { $$: { callbacks: {} } }) {
     return (node: any) => {
-      const events = Object.keys(component.$$.callbacks);
-      const listeners: (() => void)[] = [];
-      events.forEach((event) => listeners.push(listen(node, event, (e) => bubble(component, e))));
+      const events = Object.keys(component.$$.callbacks)
+      const listeners: (() => void)[] = []
+      events.forEach(event => listeners.push(listen(node, event, e => bubble(component, e))))
       return {
         destroy: () => {
-          listeners.forEach((listener) => listener());
-        },
-      };
-    };
+          listeners.forEach(listener => listener())
+        }
+      }
+    }
   }
 
   function openPickerInput() {
-    pickerInput?.showPicker();
+    pickerInput?.showPicker()
   }
 </script>
 
 <div
   class="form-cell"
-  style="--marginTop: {marginTop}px;--leftPadding: {leftPadding}px; --rightPadding: {rightPadding}; --height: {height}px;--leftPaddingPlaceHolder: {type ===
+  style="--sizeMultiplier: {sizeMultiplier};--sizeMultiplierPow:{(sizeMultiplier * 0.85).toFixed(
+    2
+  )};--marginTop: {marginTop}px;--leftPadding: {leftPadding}px; --rightPadding: {rightPadding}; --height: {height}px;--leftPaddingPlaceHolder: {type ===
   TTextEdit.COLOR
     ? 161 + leftPadding
     : 6.5 + leftPadding}px;--color:{$Layout?.button?.background ?? '#350101'};"
@@ -486,13 +491,13 @@
     display: flex;
   }
   div.form-cell > .name.placeHolder {
-    top: 16.5px;
+    top: calc(16.5px * var(--sizeMultiplierPow));
     left: calc(var(--leftPadding) + var(--leftPaddingPlaceHolder));
     color: #757575;
     font-size: 1em;
   }
   div.form-cell > .name.hasIcon {
-    left: calc(var(--leftPadding) + 56.5px);
+    left: calc(var(--leftPadding) + calc(56.5px * var(--sizeMultiplier)));
   }
   div.form-cell > div:not(.error) {
     display: flex;
@@ -515,7 +520,7 @@
     background-color: #f2f2f2;
     height: var(--height);
     max-height: var(--height);
-    border-radius: 4px;
+    border-radius: calc(4px * var(--sizeMultiplier));
     border: 0;
     margin: 0;
     -webkit-touch-callout: all;
@@ -539,7 +544,7 @@
     background-color: #f2f2f2;
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
-    width: 50px;
+    width: calc(50px * var(--sizeMultiplier));
     margin: 0;
     place-content: center;
     place-items: center;
