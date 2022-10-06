@@ -9,7 +9,6 @@
   export let options: any[] = []
 
   function change(option: any) {
-    console.log(option.target.value)
     const currentOption = options.filter(item => item?.id === option.target.value)?.[0]
     selected = currentOption
   }
