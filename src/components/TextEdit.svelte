@@ -23,6 +23,8 @@
   import TTextEdit from '../Types/TTextEdit'
   import { Layout as LayoutStore } from '../Stores'
   import { Objects } from '../Utils'
+  import Image from './Image.svelte'
+
   let Layout = LayoutStore.instance.store
 
   export let type: TTextEdit = TTextEdit.GENERIC
@@ -370,7 +372,7 @@
     {#if icon}
       <div class="icon">
         {#if typeof icon === 'string'}
-          <img src={icon} alt="" />
+          <Image source={icon} name={placeHolder ?? undefined} />
         {:else}
           <Fa style="font-size: 1.3em; color: {$Layout?.button?.background ?? '#350101'};" {icon} />
         {/if}
@@ -563,7 +565,7 @@
     place-items: center;
     justify-items: center;
   }
-  .icon > img {
+  .icon > :global(img) {
     object-fit: fill;
     max-height: 100%;
     overflow: hidden;

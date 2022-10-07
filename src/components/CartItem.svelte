@@ -1,35 +1,30 @@
 <script lang="ts">
-  import { currency } from '../Utils/Strings';
-  import Fa from 'svelte-fa';
-  import { faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons';
-  import Button from './Button.svelte';
-  import FloatRemove from './FloatRemove.svelte';
-  import { Finances } from '@ikomida/shared-logics';
-  import type CCart from '../Types/CCart';
+  import { currency } from '../Utils/Strings'
+  import Fa from 'svelte-fa'
+  import { faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
+  import Button from './Button.svelte'
+  import FloatRemove from './FloatRemove.svelte'
+  import { Finances } from '@ikomida/shared-logics'
+  import type CCart from '../Types/CCart'
+  import Image from './Image.svelte'
 
-  type ICallback = ((id?: string) => void) | ((id?: string) => Promise<void>) | null;
+  type ICallback = ((id?: string) => void) | ((id?: string) => Promise<void>) | null
 
-  export let product: CCart;
-  export let onRemoveClick: ICallback = null;
-  export let onPlusClick: ICallback = null;
-  export let onMinosClick: ICallback = null;
-
-  let showImage = true;
-
-  function dontShowImage() {
-    showImage = false;
-  }
+  export let product: CCart
+  export let onRemoveClick: ICallback = null
+  export let onPlusClick: ICallback = null
+  export let onMinosClick: ICallback = null
 
   function minos() {
     if (product.quantity > 1) {
-      onMinosClick?.(product.id);
+      onMinosClick?.(product.id)
     } else {
-      onRemoveClick?.(product.id);
+      onRemoveClick?.(product.id)
     }
   }
 
   function plus() {
-    onPlusClick?.(product.id);
+    onPlusClick?.(product.id)
   }
 </script>
 
@@ -37,16 +32,16 @@
   <FloatRemove callback={() => onRemoveClick?.(product.id)} />
   <h3>{product.title}</h3>
   <div>
-    {#if product.image && showImage}
+    {#if product.image}
       <div class="image">
-        <img on:error={dontShowImage} src={product.image} alt={product.title} />
+        <Image source={product.image} name={product.title} />
       </div>
     {/if}
     <div class="body">
       <h4>
         <span
           >{product.quantity} x {currency(
-            product.price - Finances.calcDiscount(product.price, product.discount, product.discountType),
+            product.price - Finances.calcDiscount(product.price, product.discount, product.discountType)
           )}</span
         >
       </h4>
@@ -61,7 +56,7 @@
       <h3>
         {currency(
           product.quantity *
-            (product.price - Finances.calcDiscount(product.price, product.discount, product.discountType)),
+            (product.price - Finances.calcDiscount(product.price, product.discount, product.discountType))
         )}
       </h3>
     </div>
@@ -118,7 +113,7 @@
     margin-top: 8px;
     font-weight: lighter;
   }
-  .product > div > .image > img {
+  .product > div > .image > :global(img) {
     width: 100%;
     max-width: 100%;
   }

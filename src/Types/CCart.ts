@@ -1,6 +1,11 @@
 import { Classes, Decorators, Types } from '@ikomida/shared-types'
+import { FromJSON } from '@ikomida/shared-types/lib/Decorators/FromJSON'
+import CCartProductOption from './CCartProductOption'
 
 export default class CCart extends Classes.CProduct {
+  @Decorators.Property.Property
+  @FromJSON(CCartProductOption)
+  options: CCartProductOption[] = []
   @Decorators.Property.Property
   @Decorators.Nullable
   leftQuantity!: number
@@ -15,7 +20,7 @@ export default class CCart extends Classes.CProduct {
     leftQuantity: number,
     image?: string,
     optionsCategories?: Classes.CProductOptionsCategory[],
-    options?: Classes.CProductOption[]
+    options?: CCartProductOption[]
   ): CCart {
     return this.createInitObject(arguments)
   }
