@@ -1,10 +1,9 @@
 import { Classes, Decorators, Types } from '@ikomida/shared-types'
-import { FromJSON } from '@ikomida/shared-types/lib/Decorators/FromJSON'
 import CCartProductOption from './CCartProductOption'
 
 export default class CCart extends Classes.CProduct {
   @Decorators.Property.Property
-  @FromJSON(CCartProductOption)
+  @Decorators.FromJSON.FromJSON(CCartProductOption)
   options: CCartProductOption[] = []
   @Decorators.Property.Property
   @Decorators.Nullable

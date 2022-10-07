@@ -370,7 +370,7 @@
     padding: 10px 20px;
     place-content: center;
   }
-  #menuHamburger > ul > li.logo > img {
+  #menuHamburger > ul > li.logo > :global(img) {
     width: 100%;
     max-width: 500px;
     border-radius: 40px;
