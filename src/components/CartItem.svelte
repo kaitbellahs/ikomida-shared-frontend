@@ -45,7 +45,7 @@
 </script>
 
 <div class="product">
-  <FloatRemove callback={() => onRemoveClick?.(product.id)} />
+  <FloatRemove callback={() => onRemoveClick?.(product.id)} top={-6} right={-6} />
   <h3>{product.title}</h3>
   <div>
     {#if product.image}
@@ -79,10 +79,11 @@
     </div>
   </div>
   {#if (product.options?.length ?? 0) > 0}
+    <h3>Personalização</h3>
     {#each product.options ?? [] as option (option.id)}
       <Divider />
       <div class="option">
-        <FloatRemove callback={() => onRemoveClick?.(product.id, option.id)} />
+        <FloatRemove callback={() => onRemoveClick?.(product.id, option.id)} top={-6} right={-6} />
         <Image source={option.image} name={option.name} height="45px" width="45px" />
         <div>
           <h3>{option.name}</h3>
@@ -122,7 +123,7 @@
       </div>
     {/each}
   {/if}
-  <Button type={TButton.TRANSPARENT} on:click={() => addOptions?.(product)} sizeMultiplier={0.9}
+  <Button type={TButton.TRANSPARENT} on:click={() => addOptions?.(product)} sizeMultiplier={0.7}
     >Adicionar mais opções</Button
   >
 </div>
@@ -137,11 +138,12 @@
   .product {
     position: relative;
     width: 100%;
-    margin-top: 30px;
+    margin-top: 20px;
     background-color: #d6d6d657;
     border: #ccd;
     border-radius: 5px;
     padding: 10px;
+    padding-bottom: 0;
   }
   .product > h3 {
     padding: 0;
@@ -205,8 +207,6 @@
     border-radius: 5px;
     padding: 10px;
     position: relative;
-  }
-  .product > .option {
     display: flex;
     flex-direction: row;
   }
