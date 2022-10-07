@@ -104,15 +104,12 @@
   dependencies:
     "@fortawesome/fontawesome-common-types" "6.2.0"
 
-"@ikomida/shared-logics@^0.2.1":
-  version "0.2.1"
-  resolved "https://us-central1-npm.pkg.dev/ikomida-dev/node/@ikomida/shared-logics/-/@ikomida/shared-logics-0.2.1.tgz#12a0fde820deafa2a3a118faff8c21329ac37ef6"
-  integrity sha512-/GG425QpV/YDbMjdO5OYm0NvgQqq170YRWwnPtXUjzkLci3x+VYm+3QI/al+t90uKhezhPWp4yNkHVMwzHn23A==
+"@ikomida/shared-logics@^0.2.3":
+  version "0.2.3"
+  resolved "https://us-central1-npm.pkg.dev/ikomida-dev/node/@ikomida/shared-logics/-/@ikomida/shared-logics-0.2.3.tgz#084b2c6a3165b2f518b0cba715b1df7ab431c9b9"
+  integrity sha512-kpaSHvf/cbG7bsmJyLkBxtpmSfN0gir3ZuoC0Q4z0kV8L8DyKNU0YdFdd2tuAqzozh3AW8y9njkhULvw/9ldmg==
   dependencies:
-    "@ikomida/shared-types" "^1.1.1"
-    "@types/uuid" "^8.3.4"
     luxon "^3.0.4"
-    uuid "^9.0.0"
 
 "@ikomida/shared-types@^1.1.1":
   version "1.1.1"
