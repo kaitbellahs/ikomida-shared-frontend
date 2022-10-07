@@ -12,7 +12,7 @@
   export let upperCased = true
   export let leftPadding = 0
   export let rightPadding = 0
-  export let margin = '10px'
+  export let margin = '5px'
 
   let width = 'none'
 
