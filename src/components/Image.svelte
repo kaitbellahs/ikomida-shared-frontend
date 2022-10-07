@@ -12,6 +12,7 @@
 
 {#if showImage && source}
   <img
+    on:click
     on:error={() => erroLoadImage()}
     src={source}
     alt={name}
