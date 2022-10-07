@@ -124,7 +124,7 @@
     {/each}
   {/if}
   <Button type={TButton.TRANSPARENT} on:click={() => addOptions?.(product)} sizeMultiplier={0.7}
-    >Adicionar mais opções</Button
+    >Editar as opções</Button
   >
 </div>
 
