@@ -2,6 +2,7 @@ import { Classes, Decorators, Types } from '@ikomida/shared-types'
 
 export default class CCartProductOption extends Classes.CProductOption {
   @Decorators.Property.Property
+  @Decorators.FromJSON.FromJSON
   maxUnits!: number
 
   static initCartProductOption(
