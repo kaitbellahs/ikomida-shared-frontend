@@ -1,30 +1,46 @@
 <script lang="ts">
-  import { currency } from '../Utils/Strings'
-  import Fa from 'svelte-fa'
   import { faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
+  import { Finances } from '@ikomida/shared-logics'
+  import Fa from 'svelte-fa'
+  import { currency } from '../Utils/Strings'
   import Button from './Button.svelte'
   import FloatRemove from './FloatRemove.svelte'
-  import { Finances } from '@ikomida/shared-logics'
   import type CCart from '../Types/CCart'
   import Image from './Image.svelte'
+  import Divider from './Divider.svelte'
+  import { TButton } from '../Types'
 
-  type ICallback = ((id?: string) => void) | ((id?: string) => Promise<void>) | null
+  type ICallback =
+    | ((id?: string, optionId?: string) => void)
+    | ((id?: string, optionId?: string) => Promise<void>)
+    | null
+  type ICallbackProduct = ((cartProduct?: CCart) => void) | ((cartProduct?: CCart) => Promise<void>) | null
 
   export let product: CCart
   export let onRemoveClick: ICallback = null
   export let onPlusClick: ICallback = null
   export let onMinosClick: ICallback = null
+  export let addOptions: ICallbackProduct = null
 
-  function minos() {
-    if (product.quantity > 1) {
-      onMinosClick?.(product.id)
+  $: optionsTotal = () => {
+    let calcTotal = 0
+    for (const option of product?.options ?? []) {
+      calcTotal +=
+        option.units * (option.price - Finances.calcDiscount(option.price, product.discount, product.discountType))
+    }
+    return calcTotal
+  }
+
+  function minos(optionId?: string) {
+    if (product.quantity > 1 || optionId) {
+      onMinosClick?.(product.id, optionId)
     } else {
-      onRemoveClick?.(product.id)
+      onRemoveClick?.(product.id, optionId)
     }
   }
 
-  function plus() {
-    onPlusClick?.(product.id)
+  function plus(optionId?: string) {
+    onPlusClick?.(product.id, optionId)
   }
 </script>
 
@@ -47,20 +63,68 @@
       </h4>
 
       <div class="quantity">
-        <Button type="transparent" size="none" on:click={minos}>
+        <Button type={TButton.TRANSPARENT} size="none" on:click={() => minos()}>
           <Fa icon={faMinusSquare} />
         </Button>
         <span>{product.quantity}</span>
-        <Button type="transparent" size="none" on:click={plus}><Fa icon={faPlusSquare} /></Button>
+        <Button type={TButton.TRANSPARENT} size="none" on:click={() => plus()}><Fa icon={faPlusSquare} /></Button>
       </div>
       <h3>
         {currency(
-          product.quantity *
-            (product.price - Finances.calcDiscount(product.price, product.discount, product.discountType))
+          optionsTotal() +
+            product.quantity *
+              (product.price - Finances.calcDiscount(product.price, product.discount, product.discountType))
         )}
       </h3>
     </div>
   </div>
+  {#if (product.options?.length ?? 0) > 0}
+    {#each product.options ?? [] as option (option.id)}
+      <Divider />
+      <div class="option">
+        <FloatRemove callback={() => onRemoveClick?.(product.id, option.id)} />
+        <Image source={option.image} name={option.name} height="45px" width="45px" />
+        <div>
+          <h3>{option.name}</h3>
+          <div>
+            <div class="units">
+              <Button
+                type={TButton.TRANSPARENT}
+                size="none"
+                height="16px"
+                sizeMultiplier={1.3}
+                margin="0"
+                on:click={() => minos(option.id)}
+              >
+                <Fa icon={faMinusSquare} /></Button
+              ><span>{option.units}</span><Button
+                type={TButton.TRANSPARENT}
+                size="none"
+                height="16px"
+                margin="0"
+                sizeMultiplier={1.3}
+                on:click={() => plus(option.id)}><Fa icon={faPlusSquare} /></Button
+              >
+            </div>
+            {#if option.price > 0}
+              <div class="price">
+                {currency(
+                  product.quantity *
+                    option.units *
+                    (option.price - Finances.calcDiscount(option.price, product.discount, product.discountType))
+                )}
+              </div>
+            {:else}
+              <span class="current">Gratuito</span>
+            {/if}
+          </div>
+        </div>
+      </div>
+    {/each}
+  {/if}
+  <Button type={TButton.TRANSPARENT} on:click={() => addOptions?.(product)} sizeMultiplier={0.9}
+    >Adicionar mais opções</Button
+  >
 </div>
 
 <style>
@@ -73,9 +137,11 @@
   .product {
     position: relative;
     width: 100%;
-    border-bottom: 1px solid #ccc;
-    padding: 10px;
     margin-top: 30px;
+    background-color: #d6d6d657;
+    border: #ccd;
+    border-radius: 5px;
+    padding: 10px;
   }
   .product > h3 {
     padding: 0;
@@ -132,5 +198,53 @@
     background: transparent;
     margin-right: 10px;
     margin-left: 10px;
+  }
+  .product > .option {
+    background-color: #d6d6d657;
+    border: #ccd;
+    border-radius: 5px;
+    padding: 10px;
+    position: relative;
+  }
+  .product > .option {
+    display: flex;
+    flex-direction: row;
+  }
+  .product > .option > div {
+    width: calc(100% - 42px);
+    margin-left: 10px;
+  }
+  .product > .option > div > div {
+    display: flex;
+    flex-direction: row;
+  }
+  .product > .option > div > div > * {
+    font-size: 0.9em;
+  }
+  .product > .option > div > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .product > .option > div > div > .units {
+    margin-top: 5px;
+    align-items: center;
+    font-size: 0.9em;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+  }
+  .product > .option > div > div > .units > span {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    margin-right: 6px;
+    margin-left: 6px;
+  }
+  .product > .option > div > div > .price {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 </style>

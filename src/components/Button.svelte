@@ -1,9 +1,10 @@
 <script lang="ts">
   import { Layout as LayoutStore } from '../Stores'
+  import TButton from '../Types/TButton'
   let Layout = LayoutStore.instance.store
 
   export let bottomPadding = 0
-  export let type = 'default'
+  export let type = TButton.PRIMARY
   export let isFloat = false
   export let size = 'full'
   export let height = ''
@@ -22,11 +23,11 @@
   let color = $Layout?.button?.color ?? '#ffffff'
 
   switch (type) {
-    case 'transparent':
+    case TButton.TRANSPARENT:
       background = 'transparent'
       color = $Layout?.button?.background ?? '#4c0708'
       break
-    case 'secondary':
+    case TButton.SECONDARY:
       background = 'gray'
       color = 'black'
       break
@@ -53,7 +54,7 @@
     : '40px'};--leftPadding: {leftPadding}px; --rightPadding: {rightPadding}px; text-transform: {upperCased
     ? 'uppercase'
     : 'full-width'}; --multiplier: {sizeMultiplier};--background:{background};--color:{color};--width:{width};{float}"
-  class={type !== 'transparent' ? 'leftShadow' : 'transparent'}
+  class={type !== TButton.TRANSPARENT ? 'leftShadow' : 'transparent'}
   on:click><slot /></button
 >
 
