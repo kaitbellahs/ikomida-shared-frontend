@@ -1,42 +1,42 @@
 <script lang="ts">
-  import Item from './Item.svelte';
-  import FloatRemove from './FloatRemove.svelte';
-  import FloatEdit from './FloatEdit.svelte';
-  import ShiftUpDownButtons from './ShiftUpDownButtons.svelte';
-  import Navigation from '../Stores/Navigation';
-  import type { Classes } from '@ikomida/shared-types';
-  import { Layout as LayoutStore } from '../Stores';
-  let Layout = LayoutStore.instance.store;
+  import Item from './Item.svelte'
+  import FloatRemove from './FloatRemove.svelte'
+  import FloatEdit from './FloatEdit.svelte'
+  import ShiftUpDownButtons from './ShiftUpDownButtons.svelte'
+  import Navigation from '../Stores/Navigation'
+  import type { Classes } from '@ikomida/shared-types'
+  import { Layout as LayoutStore } from '../Stores'
+  let Layout = LayoutStore.instance.store
 
-  export let categoriesAndProducts: Classes.CCategoryProducts[] = [];
-  export let productPage: Symbol | null = null;
-  export let removeProduct: ((product: Classes.CProduct) => Promise<void>) | null = null;
-  export let removeCategory: ((id?: string) => Promise<void>) | null = null;
-  export let editCategory: ((category: Classes.CCategoryProducts) => void) | null = null;
-  export let categoryUp: ((id?: string) => void) | null = null;
-  export let categoryDown: ((id?: string) => void) | null = null;
-  export let itemUp: ((categoryId?: string, id?: string) => void) | null = null;
-  export let itemDown: ((categoryId?: string, id?: string) => void) | null = null;
+  export let categoriesAndProducts: Classes.CCategoryProducts[] = []
+  export let productPage: Symbol | null = null
+  export let removeProduct: ((product: Classes.CProduct) => Promise<void>) | null = null
+  export let removeCategory: ((id?: string) => Promise<void>) | null = null
+  export let editCategory: ((category: Classes.CCategoryProducts) => void) | null = null
+  export let categoryUp: ((id?: string) => void) | null = null
+  export let categoryDown: ((id?: string) => void) | null = null
+  export let itemUp: ((categoryId?: string, id?: string) => void) | null = null
+  export let itemDown: ((categoryId?: string, id?: string) => void) | null = null
 
   function goToProduct(options: Classes.CProduct) {
-    Navigation.instance?.goTo(productPage, options);
+    Navigation.instance?.goTo(productPage, options)
   }
 
   function onRemoveCategoryClick(id?: string) {
-    removeCategory?.(id);
+    removeCategory?.(id)
   }
 
   function onEditCategoryClick(category: Classes.CCategoryProducts) {
-    editCategory?.(category);
+    editCategory?.(category)
   }
 
   let categoryDownClick = (id?: string) => {
-    categoryDown?.(id);
-  };
+    categoryDown?.(id)
+  }
 
   let categoryUpClick = (id?: string) => {
-    categoryUp?.(id);
-  };
+    categoryUp?.(id)
+  }
 </script>
 
 <div
