@@ -24,6 +24,11 @@ export default class TTextEdit extends Types.TBaseType {
 
   isNumeric() {
     switch (this) {
+      case TTextEdit.CEP:
+      case TTextEdit.PHONE:
+      case TTextEdit.CEP:
+      case TTextEdit.CPF:
+      case TTextEdit.CNPJ:
       case TTextEdit.NUMBER:
       case TTextEdit.CURRENCY:
       case TTextEdit.PERCENT:

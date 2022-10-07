@@ -1,41 +1,42 @@
 <script lang="ts" context="module">
-  import type { IconDefinition } from '@fortawesome/free-solid-svg-icons';
+  import type { IconDefinition } from '@fortawesome/free-solid-svg-icons'
   export interface IAlertButton {
-    name: string;
-    callback?: (() => void) | (() => Promise<void>) | null;
-    principal?: boolean;
-    disabled?: boolean;
-    icon?: IconDefinition;
+    name: string
+    callback?: (() => void) | (() => Promise<void>) | null
+    principal?: boolean
+    disabled?: boolean
+    icon?: IconDefinition
   }
 </script>
 
 <script lang="ts">
-  import Fa from 'svelte-fa';
-  import Button from './Button.svelte';
-  import { Layout as LayoutStore } from '../Stores';
-  let Layout = LayoutStore.instance.store;
+  import Fa from 'svelte-fa'
+  import Button from './Button.svelte'
+  import { Layout as LayoutStore } from '../Stores'
+  import { TButton } from '../Types'
+  let Layout = LayoutStore.instance.store
 
-  export let title: string;
-  export let message: string | null = null;
-  export let buttons: IAlertButton[] = [];
-  export let closeCallBack: null | (() => void) | (() => Promise<void>) = null;
-  export let type = 'medium';
-  let height = '40%';
+  export let title: string
+  export let message: string | null = null
+  export let buttons: IAlertButton[] = []
+  export let closeCallBack: null | (() => void) | (() => Promise<void>) = null
+  export let type = 'medium'
+  let height = '40%'
   const handle_keydown = (e: any) => {
     if (e.key === 'Escape') {
-      closeCallBack?.();
-      return;
+      closeCallBack?.()
+      return
     }
-  };
+  }
   $: switch (type) {
     case 'small':
-      height = '20%';
-      break;
+      height = '20%'
+      break
     case 'big':
-      height = '80%';
-      break;
+      height = '80%'
+      break
     default:
-      break;
+      break
   }
 </script>
 
@@ -61,7 +62,7 @@
       {#each buttons as { name, icon, callback, principal, disabled }, index (name)}
         <Button
           size="half"
-          type={principal ? 'default' : 'secondary'}
+          type={principal ? TButton.PRIMARY : TButton.SECONDARY}
           on:click={() => callback?.()}
           {disabled}
           leftPadding={index !== 0 ? 2 : 0}

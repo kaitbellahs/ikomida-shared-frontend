@@ -1,34 +1,38 @@
 <script lang="ts">
-  import Fa from 'svelte-fa';
-  import Types from '../Types/Status';
-  import { faXmark, faCheck, faTriangleExclamation, faInfo } from '@fortawesome/free-solid-svg-icons';
-  import type { IconDefinition } from '@fortawesome/free-solid-svg-icons';
-  export let type = Types.INFO;
-  export let circle = false;
-  export let showIcon = true;
-  export let icon: IconDefinition | null = null;
-  import { Layout as LayoutStore } from '../Stores';
-  let Layout = LayoutStore.instance.store;
+  import Fa from 'svelte-fa'
+  import Types from '../Types/Status'
+  import { faXmark, faCheck, faTriangleExclamation, faInfo } from '@fortawesome/free-solid-svg-icons'
+  import type { IconDefinition } from '@fortawesome/free-solid-svg-icons'
+  export let type = Types.INFO
+  export let circle = false
+  export let showIcon = true
+  export let alignCenter = true
+  export let icon: IconDefinition | null = null
+  import { Layout as LayoutStore } from '../Stores'
+  let Layout = LayoutStore.instance.store
 
-  let style = `--color:${$Layout?.color ?? '#4c0708'};--backGroundColor:transparent;`;
+  let style = `--color:${$Layout?.color ?? '#4c0708'};--backGroundColor:transparent;`
 
-  $: switch (type) {
-    case Types.INFO:
-      icon = icon ? icon : faInfo;
-      style = '--color:#4c0708;--backGroundColor:#fff5ca;';
-      break;
-    case Types.SUCCESS:
-      icon = icon ? icon : faCheck;
-      style = '--color:white;--backGroundColor:green;';
-      break;
-    case Types.WARNING:
-      icon = icon ? icon : faTriangleExclamation;
-      style = '--color: green;--backGroundColor: yellow;';
-      break;
-    case Types.ERROR:
-      icon = icon ? icon : faXmark;
-      style = '--color:white;--backGroundColor:red;';
-      break;
+  $: if (type) {
+    switch (type) {
+      case Types.INFO:
+        icon = icon ? icon : faInfo
+        style = '--color:#4c0708;--backGroundColor:#fff5ca;'
+        break
+      case Types.SUCCESS:
+        icon = icon ? icon : faCheck
+        style = '--color:white;--backGroundColor:green;'
+        break
+      case Types.WARNING:
+        icon = icon ? icon : faTriangleExclamation
+        style = '--color: green;--backGroundColor: yellow;'
+        break
+      case Types.ERROR:
+        icon = icon ? icon : faXmark
+        style = '--color:white;--backGroundColor:red;'
+        break
+    }
+    style += `${alignCenter ? 'text-align:center;' : ''}`
   }
 </script>
 

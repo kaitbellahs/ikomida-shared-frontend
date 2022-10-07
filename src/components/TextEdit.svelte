@@ -431,6 +431,18 @@
         <input bind:this={colorInput} on:input={onKeyPress} autocomplete="off" type="color" {disabled} />
         <input on:input={onKeyPress} bind:this={input} use:events autocomplete="off" id={uuid} type="text" {disabled} />
       </div>
+    {:else if type.isNumeric()}
+      <input
+        bind:this={input}
+        use:events
+        on:input={onKeyPress}
+        class:hasIcon={icon}
+        class:hasButton={buttonName || buttonIcon}
+        autocomplete="off"
+        id={uuid}
+        type="number"
+        {disabled}
+      />
     {:else}
       <input
         bind:this={input}
