@@ -1,38 +1,34 @@
 <script lang="ts">
-  import { currency } from '../Utils/Strings';
-  import { Classes, Types } from '@ikomida/shared-types';
-  import FloatRemove from './FloatRemove.svelte';
-  import ShiftUpDownButtons from './ShiftUpDownButtons.svelte';
-  import { Finances } from '@ikomida/shared-logics';
-  import { Layout as LayoutStore } from '../Stores';
-  let Layout = LayoutStore.instance.store;
+  import { currency } from '../Utils/Strings'
+  import { Classes, Types } from '@ikomida/shared-types'
+  import FloatRemove from './FloatRemove.svelte'
+  import ShiftUpDownButtons from './ShiftUpDownButtons.svelte'
+  import { Finances } from '@ikomida/shared-logics'
+  import { Layout as LayoutStore } from '../Stores'
+  import Image from './Image.svelte'
+  let Layout = LayoutStore.instance.store
 
-  export let product: Classes.CProduct;
-  export let goToProduct: ((product: Classes.CProduct) => void) | null = null;
-  export let removeProduct: ((product: Classes.CProduct) => Promise<void>) | null = null;
-  export let showImage = true;
-  export let itemUp: ((categoryId?: string, id?: string) => void) | null = null;
-  export let itemDown: ((categoryId?: string, id?: string) => void) | null = null;
+  export let product: Classes.CProduct
+  export let goToProduct: ((product: Classes.CProduct) => void) | null = null
+  export let removeProduct: ((product: Classes.CProduct) => Promise<void>) | null = null
+  export let itemUp: ((categoryId?: string, id?: string) => void) | null = null
+  export let itemDown: ((categoryId?: string, id?: string) => void) | null = null
 
-  $: servesPersons = (product?.serves ?? 0) > 1 ? product?.serves + ' pessoas' : (product?.serves ?? 0) + ' pessoa';
+  $: servesPersons = (product?.serves ?? 0) > 1 ? product?.serves + ' pessoas' : (product?.serves ?? 0) + ' pessoa'
 
   function onClick() {
-    goToProduct?.(product);
+    goToProduct?.(product)
   }
 
   async function onRemoveClick() {
-    await removeProduct?.(product);
+    await removeProduct?.(product)
   }
 
   let itemUpClick = () => {
-    itemUp?.(product?.id);
-  };
+    itemUp?.(product?.id)
+  }
   let itemDownClick = () => {
-    itemDown?.(product?.id);
-  };
-
-  function erroLoadImage() {
-    showImage = false;
+    itemDown?.(product?.id)
   }
 </script>
 
@@ -48,9 +44,9 @@
   <div on:click={onClick}>
     <h3>{product?.title}</h3>
     <div>
-      {#if product?.image && showImage}
+      {#if product?.image}
         <div class="image">
-          <img on:error={erroLoadImage} src={product?.image} alt={product?.title} />
+          <Image source={product?.image} name={product?.title} />
         </div>
       {/if}
       <div class="body">
@@ -58,7 +54,7 @@
           <span class="current"
             >{currency(
               (product?.price ?? 0) -
-                Finances.calcDiscount(product?.price ?? 0, product?.discount ?? 0, product?.discountType),
+                Finances.calcDiscount(product?.price ?? 0, product?.discount ?? 0, product?.discountType)
             )}</span
           >
           {#if product?.discountType && [Types.TDiscount.PERCENT, Types.TDiscount.VALUE].includes(product?.discountType)}
@@ -155,7 +151,7 @@
   .item > div > div > .body > .serves {
     font-size: 0.8rem;
   }
-  .item > div > div > .image > img {
+  .item > div > div > .image > :global(img) {
     width: 100%;
     max-width: 100%;
     object-fit: contain;
