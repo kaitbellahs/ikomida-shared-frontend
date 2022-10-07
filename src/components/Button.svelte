@@ -12,7 +12,7 @@
   export let upperCased = true
   export let leftPadding = 0
   export let rightPadding = 0
-  // export let click: () => void;
+  export let margin = '10px'
 
   let width = 'none'
 
@@ -48,7 +48,7 @@
 
 <button
   {disabled}
-  style="--height:{height
+  style="--margin:{margin};--height:{height
     ? height
     : '40px'};--leftPadding: {leftPadding}px; --rightPadding: {rightPadding}px; text-transform: {upperCased
     ? 'uppercase'
@@ -59,7 +59,7 @@
 
 <style>
   button {
-    margin: 0;
+    margin: var(--margin);
     padding: 0;
     margin-left: var(--leftPadding);
     margin-right: var(--rightPadding);
