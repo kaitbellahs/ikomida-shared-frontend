@@ -1,53 +1,56 @@
 <script lang="ts">
-  import { Layout as LayoutStore } from '../Stores';
-  let Layout = LayoutStore.instance.store;
+  import { Layout as LayoutStore } from '../Stores'
+  let Layout = LayoutStore.instance.store
 
-  export let bottomPadding = 0;
-  export let type = 'default';
-  export let isFloat = false;
-  export let size = 'full';
-  export let disabled = false;
-  export let sizeMultiplier = 1;
-  export let upperCased = true;
-  export let leftPadding = 0;
-  export let rightPadding = 0;
+  export let bottomPadding = 0
+  export let type = 'default'
+  export let isFloat = false
+  export let size = 'full'
+  export let height = ''
+  export let disabled = false
+  export let sizeMultiplier = 1
+  export let upperCased = true
+  export let leftPadding = 0
+  export let rightPadding = 0
   // export let click: () => void;
 
-  let width = 'none';
+  let width = 'none'
 
-  $: float = isFloat ? `position: fixed; left: 5px; right: 5px; bottom: ${(bottomPadding ?? 0) + 52}px;` : '';
+  $: float = isFloat ? `position: fixed; left: 5px; right: 5px; bottom: ${(bottomPadding ?? 0) + 52}px;` : ''
 
-  let background = $Layout?.button?.background ?? '#4c0708';
-  let color = $Layout?.button?.color ?? '#ffffff';
+  let background = $Layout?.button?.background ?? '#4c0708'
+  let color = $Layout?.button?.color ?? '#ffffff'
 
   switch (type) {
     case 'transparent':
-      background = 'transparent';
-      color = $Layout?.button?.background ?? '#4c0708';
-      break;
+      background = 'transparent'
+      color = $Layout?.button?.background ?? '#4c0708'
+      break
     case 'secondary':
-      background = 'gray';
-      color = 'black';
-      break;
+      background = 'gray'
+      color = 'black'
+      break
     default:
-      break;
+      break
   }
 
   switch (size) {
     case 'half':
-      width = `50%`;
-      break;
+      width = `50%`
+      break
     case 'none':
-      break;
+      break
     default:
-      width = isFloat ? 'none' : `100%`;
-      break;
+      width = isFloat ? 'none' : `100%`
+      break
   }
 </script>
 
 <button
   {disabled}
-  style="--leftPadding: {leftPadding}px; --rightPadding: {rightPadding}px; text-transform: {upperCased
+  style="--height:{height
+    ? height
+    : '40px'};--leftPadding: {leftPadding}px; --rightPadding: {rightPadding}px; text-transform: {upperCased
     ? 'uppercase'
     : 'full-width'}; --multiplier: {sizeMultiplier};--background:{background};--color:{color};--width:{width};{float}"
   class={type !== 'transparent' ? 'leftShadow' : 'transparent'}
@@ -56,9 +59,11 @@
 
 <style>
   button {
+    margin: 0;
+    padding: 0;
     margin-left: var(--leftPadding);
     margin-right: var(--rightPadding);
-    min-height: calc(40px * var(--multiplier));
+    min-height: calc(var(--height) * var(--multiplier));
     color: var(--color);
     width: var(--width);
     background: var(--background);
