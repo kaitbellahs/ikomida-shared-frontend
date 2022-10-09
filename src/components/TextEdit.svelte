@@ -200,21 +200,25 @@
   function onKeyPress<E extends Event = Event, T extends EventTarget = Element>(
     event: E & { currentTarget: EventTarget & T }
   ) {
-    event.preventDefault()
-    const newValue = removeMask((event?.target as any)?.value)
-    if (max && (newValue?.length ?? 0) > max) {
-      input.value = inputValue
-      return
-    }
-    if (type === TTextEdit.DATE && pickerInput) {
-      const date = new Date(doMask(newValue))
-      value = date
-      input.value = isValid ? `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}` : ''
-    } else {
-      input.value = doMask(newValue)
-    }
-    if (type === TTextEdit.COLOR && colorInput) {
-      colorInput.value = input.value
+    try {
+      event.preventDefault()
+      const newValue = removeMask((event?.target as any)?.value)
+      if (max && (newValue?.length ?? 0) > max) {
+        input.value = inputValue
+        return
+      }
+      if (type === TTextEdit.DATE && pickerInput) {
+        const date = new Date(doMask(newValue))
+        value = date
+        input.value = isValid ? `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}` : ''
+      } else {
+        input.value = doMask(newValue)
+      }
+      if (type === TTextEdit.COLOR && colorInput) {
+        colorInput.value = input.value
+      }
+    } catch (error: any) {
+      //TODO: -- Report errors
     }
   }
 
@@ -234,61 +238,66 @@
   }
 
   function doMask(__value: string | undefined) {
-    const valueType = typeof value
-    let tmpValue: string | undefined = ''
-    if (mask || (type && [TTextEdit.CURRENCY, TTextEdit.PERCENT].includes(type))) {
-      let index = 0
-      if (mask) {
-        for (let i = 0; i < mask?.length; i++) {
-          if (index >= (__value?.length ?? 0)) {
-            break
+    try {
+      const valueType = typeof value
+      let tmpValue: string | undefined = ''
+      if (mask || (type && [TTextEdit.CURRENCY, TTextEdit.PERCENT].includes(type))) {
+        let index = 0
+        if (mask) {
+          for (let i = 0; i < mask?.length; i++) {
+            if (index >= (__value?.length ?? 0)) {
+              break
+            }
+            if (mask?.[i] == maskKey) {
+              tmpValue = `${tmpValue}${__value?.[index]}`
+              index++
+            } else {
+              tmpValue = `${tmpValue}${mask?.[i]}`
+            }
           }
-          if (mask?.[i] == maskKey) {
-            tmpValue = `${tmpValue}${__value?.[index]}`
-            index++
-          } else {
-            tmpValue = `${tmpValue}${mask?.[i]}`
-          }
+          value = Array.from(tmpValue)
+            .filter((char, index) => char != mask?.[index])
+            .join('')
+        } else if (type === TTextEdit.CURRENCY) {
+          value = Finances.toNumber(__value)
+          tmpValue = currency(Number(value))
+        } else if (type === TTextEdit.PERCENT) {
+          value = Finances.toNumber(__value)
+          tmpValue = percent(Number(value))
         }
-        value = Array.from(tmpValue)
-          .filter((char, index) => char != mask?.[index])
-          .join('')
-      } else if (type === TTextEdit.CURRENCY) {
-        value = Finances.toNumber(__value)
-        tmpValue = currency(Number(value))
-      } else if (type === TTextEdit.PERCENT) {
-        value = Finances.toNumber(__value)
-        tmpValue = percent(Number(value))
+      } else {
+        value = __value
+        tmpValue = value
       }
-    } else {
-      value = __value
-      tmpValue = value
-    }
-    isValid = validate(String(value ?? ''))
+      isValid = validate(String(value ?? ''))
 
-    if (type === TTextEdit.COLOR) {
-      value = `#${value}`
-    }
+      if (type === TTextEdit.COLOR) {
+        value = `#${value}`
+      }
 
-    if (upper && valueType === 'string') {
-      value = String(value)?.toUpperCase()
-      tmpValue = tmpValue?.toUpperCase()
-    } else if (lower && valueType === 'string') {
-      value = String(value)?.toLowerCase()
-      tmpValue = tmpValue?.toLowerCase()
-    }
+      if (upper && valueType === 'string') {
+        value = String(value)?.toUpperCase()
+        tmpValue = tmpValue?.toUpperCase()
+      } else if (lower && valueType === 'string') {
+        value = String(value)?.toLowerCase()
+        tmpValue = tmpValue?.toLowerCase()
+      }
 
-    if (type === TTextEdit.NAME && tmpValue?.trim()) {
-      tmpValue = formatAsName(tmpValue) ?? ''
+      if (type === TTextEdit.NAME && tmpValue?.trim()) {
+        tmpValue = formatAsName(tmpValue) ?? ''
+      }
+      if (valueType === 'number') {
+        value = Number(value)
+      } else {
+        value = String(value)?.trim()
+      }
+      tmpValue = tmpValue
+      inputValue = tmpValue ?? ''
+      return tmpValue ?? ''
+    } catch (error: any) {
+      //TODO: -- Report errors
+      return '-'
     }
-    if (valueType === 'number') {
-      value = Number(value)
-    } else {
-      value = String(value)?.trim()
-    }
-    tmpValue = tmpValue
-    inputValue = tmpValue ?? ''
-    return tmpValue ?? ''
   }
 
   function showSecretCallBack() {
@@ -431,18 +440,6 @@
         <input bind:this={colorInput} on:input={onKeyPress} autocomplete="off" type="color" {disabled} />
         <input on:input={onKeyPress} bind:this={input} use:events autocomplete="off" id={uuid} type="text" {disabled} />
       </div>
-    {:else if type.isNumeric()}
-      <input
-        bind:this={input}
-        use:events
-        on:input={onKeyPress}
-        class:hasIcon={icon}
-        class:hasButton={buttonName || buttonIcon}
-        autocomplete="off"
-        id={uuid}
-        type="number"
-        {disabled}
-      />
     {:else}
       <input
         bind:this={input}
@@ -452,7 +449,7 @@
         class:hasButton={buttonName || buttonIcon}
         autocomplete="off"
         id={uuid}
-        type="text"
+        type={type === TTextEdit.EMAIL ? 'email' : type.isNumeric() ? 'tel' : 'text'}
         {disabled}
       />
     {/if}

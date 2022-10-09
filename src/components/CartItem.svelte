@@ -8,19 +8,22 @@
   import type CCart from '../Types/CCart'
   import Image from './Image.svelte'
   import Divider from './Divider.svelte'
-  import { TButton } from '../Types'
+  import { CCartProductOption, Classes, TButton } from '../Types'
 
+  // type ICallback =
+  //   | ((id?: string, optionId?: string) => void)
+  //   | ((id?: string, optionId?: string) => Promise<void>)
+  //   | null
   type ICallback =
-    | ((id?: string, optionId?: string) => void)
-    | ((id?: string, optionId?: string) => Promise<void>)
+    | ((cartProduct?: CCart, option?: CCartProductOption) => void)
+    | ((cartProduct?: CCart, option?: CCartProductOption) => Promise<void>)
     | null
-  type ICallbackProduct = ((cartProduct?: CCart) => void) | ((cartProduct?: CCart) => Promise<void>) | null
 
   export let product: CCart
   export let onRemoveClick: ICallback = null
   export let onPlusClick: ICallback = null
   export let onMinosClick: ICallback = null
-  export let addOptions: ICallbackProduct = null
+  export let addOptions: ICallback = null
 
   $: optionsTotal = () => {
     let calcTotal = 0
@@ -31,21 +34,21 @@
     return calcTotal
   }
 
-  function minos(optionId?: string) {
-    if (product.quantity > 1 || optionId) {
-      onMinosClick?.(product.id, optionId)
+  function minos(option?: CCartProductOption) {
+    if (product.quantity > 1 || option) {
+      onMinosClick?.(product, option)
     } else {
-      onRemoveClick?.(product.id, optionId)
+      onRemoveClick?.(product, option)
     }
   }
 
-  function plus(optionId?: string) {
-    onPlusClick?.(product.id, optionId)
+  function plus(option?: CCartProductOption) {
+    onPlusClick?.(product, option)
   }
 </script>
 
 <div class="product">
-  <FloatRemove callback={() => onRemoveClick?.(product.id)} top={-6} right={-6} />
+  <FloatRemove callback={() => onRemoveClick?.(product)} top={-6} right={-6} />
   <h3>{product.title}</h3>
   <div>
     {#if product.image}
@@ -83,7 +86,7 @@
     {#each product.options ?? [] as option (option.id)}
       <Divider />
       <div class="option">
-        <FloatRemove callback={() => onRemoveClick?.(product.id, option.id)} top={-6} right={-6} />
+        <FloatRemove callback={() => onRemoveClick?.(product, option)} top={-6} right={-6} />
         <Image source={option.image} name={option.name} height="45px" width="45px" />
         <div>
           <h3>{option.name}</h3>
@@ -95,7 +98,7 @@
                 height="16px"
                 sizeMultiplier={1.3}
                 margin="0"
-                on:click={() => minos(option.id)}
+                on:click={() => minos(option)}
               >
                 <Fa icon={faMinusSquare} /></Button
               ><span>{option.units}</span><Button
@@ -104,7 +107,7 @@
                 height="16px"
                 margin="0"
                 sizeMultiplier={1.3}
-                on:click={() => plus(option.id)}><Fa icon={faPlusSquare} /></Button
+                on:click={() => plus(option)}><Fa icon={faPlusSquare} /></Button
               >
             </div>
             {#if option.price > 0}
