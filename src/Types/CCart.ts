@@ -3,9 +3,6 @@ import CCartProductOption from './CCartProductOption'
 
 export default class CCart extends Classes.CProduct {
   @Decorators.Property.Property
-  @Decorators.FromJSON.FromJSON(CCartProductOption)
-  options: CCartProductOption[] = []
-  @Decorators.Property.Property
   @Decorators.Nullable
   leftQuantity!: number
 
@@ -19,7 +16,6 @@ export default class CCart extends Classes.CProduct {
     leftQuantity: number,
     image?: string,
     optionsCategories?: Classes.CProductOptionsCategory[],
-    options?: CCartProductOption[],
     observation?: string
   ): CCart {
     return this.createInitObject(arguments, [
@@ -32,7 +28,6 @@ export default class CCart extends Classes.CProduct {
       'leftQuantity',
       'image',
       'optionsCategories',
-      'options',
       'observation'
     ])
   }

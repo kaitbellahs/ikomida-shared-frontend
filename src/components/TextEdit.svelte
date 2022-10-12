@@ -28,27 +28,27 @@
   let Layout = LayoutStore.instance.store
 
   export let type: TTextEdit = TTextEdit.GENERIC
-  export let placeHolder: string | null = null
-  export let initialValue: string | number | null = null
-  export let value: string | Date | number | null | undefined = null
-  export let buttonName: string | null = null
-  export let buttonIcon: IconDefinition | null = null
+  export let placeHolder: string | undefined = undefined
+  export let initialValue: string | number | undefined = undefined
+  export let value: string | Date | number | undefined | undefined = undefined
+  export let buttonName: string | undefined = undefined
+  export let buttonIcon: IconDefinition | undefined = undefined
   export let buttonDisabled: boolean = false
-  export let callback: any | null = null
-  export let icon: IconDefinition | string | null = null
-  export let mask: string | null = null
+  export let callback: any | undefined = undefined
+  export let icon: IconDefinition | string | undefined = undefined
+  export let mask: string | undefined = undefined
   export let maskKey = '_'
-  export let filter: RegExp | null = null
+  export let filter: RegExp | undefined = undefined
   export let disabled = false
   export let isValid = true
-  export let validation: Function | null = null
+  export let validation: Function | undefined = undefined
   export let leftPadding = 0
   export let rightPadding = 0
   export let marginTop = 30
-  export let element: HTMLDivElement | null = null
-  export let error: string | null = null
-  export let min: number | null = null
-  export let max: number | null = null
+  export let element: HTMLDivElement | undefined = undefined
+  export let error: string | undefined = undefined
+  export let min: number | undefined = undefined
+  export let max: number | undefined = undefined
   export let sizeMultiplier = 1
   export let focus = false
   export let empty = true
@@ -222,13 +222,14 @@
     }
   }
 
-  function removeMask(__value: string | string[] | null) {
+  function removeMask(__value: string | string[] | undefined) {
     __value = `${__value ?? ''}`
     if (type && [TTextEdit.CURRENCY, TTextEdit.PERCENT].includes(type)) {
       __value = `${Finances.toNumber(__value)}`
     }
-    __value = mask != null ? Array.from(__value).filter((char, index) => char != mask?.[index]) : Array.from(__value)
-    const matches = filter ? __value.join('').match(filter) : null
+    __value =
+      mask != undefined ? Array.from(__value).filter((char, index) => char != mask?.[index]) : Array.from(__value)
+    const matches = filter ? __value.join('').match(filter) : undefined
     if (matches) {
       __value = matches
     } else if (filter && !matches) {
