@@ -18,9 +18,9 @@ export default class CCart extends Classes.CProduct {
     quantity: number,
     leftQuantity: number,
     image?: string,
-    observation?: string,
     optionsCategories?: Classes.CProductOptionsCategory[],
-    options?: CCartProductOption[]
+    options?: CCartProductOption[],
+    observation?: string
   ): CCart {
     return this.createInitObject(arguments, [
       'id',
@@ -31,9 +31,9 @@ export default class CCart extends Classes.CProduct {
       'quantity',
       'leftQuantity',
       'image',
-      'observation',
       'optionsCategories',
-      'options'
+      'options',
+      'observation'
     ])
   }
 }
