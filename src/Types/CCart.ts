@@ -19,8 +19,21 @@ export default class CCart extends Classes.CProduct {
     leftQuantity: number,
     image?: string,
     optionsCategories?: Classes.CProductOptionsCategory[],
-    options?: CCartProductOption[]
+    options?: CCartProductOption[],
+    observation?: string
   ): CCart {
-    return this.createInitObject(arguments, ['id', 'title', 'price', 'discount', 'discountType', 'quantity', 'leftQuantity', 'image', 'optionsCategories', 'options'])
+    return this.createInitObject(arguments, [
+      'id',
+      'title',
+      'price',
+      'discount',
+      'discountType',
+      'quantity',
+      'leftQuantity',
+      'image',
+      'optionsCategories',
+      'options',
+      'observation'
+    ])
   }
 }

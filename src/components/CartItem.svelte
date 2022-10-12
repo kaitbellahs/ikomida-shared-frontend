@@ -8,12 +8,9 @@
   import type CCart from '../Types/CCart'
   import Image from './Image.svelte'
   import Divider from './Divider.svelte'
-  import { CCartProductOption, Classes, TButton } from '../Types'
+  import { CCartProductOption, Classes, TButton, TTextEdit } from '../Types'
+  import TextEdit from './TextEdit.svelte'
 
-  // type ICallback =
-  //   | ((id?: string, optionId?: string) => void)
-  //   | ((id?: string, optionId?: string) => Promise<void>)
-  //   | null
   type ICallback =
     | ((cartProduct?: CCart, option?: CCartProductOption) => void)
     | ((cartProduct?: CCart, option?: CCartProductOption) => Promise<void>)
@@ -129,6 +126,13 @@
   <Button type={TButton.TRANSPARENT} on:click={() => addOptions?.(product)} sizeMultiplier={0.7}
     >Editar as opções</Button
   >
+  <TextEdit
+    type={TTextEdit.TEXT}
+    placeHolder="Observação"
+    bind:initialValue={product.observation}
+    bind:value={product.observation}
+    max={255}
+  />
 </div>
 
 <style>
