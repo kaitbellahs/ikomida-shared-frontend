@@ -85,6 +85,6 @@ export default class Navigation extends BaseStore<INavigation[]> {
 
   get router() {
     const store = this.store
-    return derived(store, $store => $store?.[$store.length - 1])
+    return derived(store, $store => $store?.at(-1))
   }
 }

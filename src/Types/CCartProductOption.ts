@@ -16,6 +16,16 @@ export default class CCartProductOption extends Classes.CProductOption {
     id?: string,
     timestamp?: number
   ): CCartProductOption {
-    return this.createInitObject(arguments, ['name', 'highlighted', 'price', 'units', 'maxUnits', 'order', 'image', 'id', 'timestamp'])
+    return this.createInitObject(arguments, [
+      'name',
+      'highlighted',
+      'price',
+      'units',
+      'maxUnits',
+      'order',
+      'image',
+      'id',
+      'timestamp'
+    ])
   }
 }
