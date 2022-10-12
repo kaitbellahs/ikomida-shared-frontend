@@ -18,6 +18,7 @@ export default class CCart extends Classes.CProduct {
     quantity: number,
     leftQuantity: number,
     image?: string,
+    observation?: string,
     optionsCategories?: Classes.CProductOptionsCategory[],
     options?: CCartProductOption[]
   ): CCart {
@@ -30,6 +31,7 @@ export default class CCart extends Classes.CProduct {
       'quantity',
       'leftQuantity',
       'image',
+      'observation',
       'optionsCategories',
       'options'
     ])
