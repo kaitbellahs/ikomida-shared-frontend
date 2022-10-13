@@ -36,7 +36,7 @@ export default class Network {
   grecaptchaKey
   deviceId: string | undefined
   auth
-  cache
+  cache: Cache
   version
   canGetMore: any = {}
   items: Interfaces.IRecord<string, any | null> = {}
@@ -49,7 +49,7 @@ export default class Network {
     this.version = version
     this.setDeviceId().then()
     this.auth = Auth.instance
-    this.cache = Cache.instance as Cache
+    this.cache = Cache.instance
   }
 
   async setDeviceId() {
@@ -81,7 +81,7 @@ export default class Network {
     if (response?.success) {
       itens = response?.data ?? []
     } else {
-      ;(MessageAlert.instance as MessageAlert)?.show(response?.data as string)
+      ; (MessageAlert.instance as MessageAlert)?.show(response?.data as string)
     }
     return itens
   }
@@ -106,8 +106,8 @@ export default class Network {
       this.items[name] = refresh
         ? newitems
         : this.items?.[name]
-        ? [...(this.items?.[name] ?? []), ...(newitems as any)]
-        : newitems
+          ? [...(this.items?.[name] ?? []), ...(newitems as any)]
+          : newitems
       this.items?.[name]?.sort(
         (item1: Classes.BaseJSON, item2: Classes.BaseJSON) => (item2?.timestamp ?? 0) - (item1?.timestamp ?? 0)
       )
