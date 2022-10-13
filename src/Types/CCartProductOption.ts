@@ -1,4 +1,4 @@
-import { Classes, Decorators, Types } from '@ikomida/shared-types'
+import { Classes, Decorators } from '@ikomida/shared-types'
 
 export default class CCartProductOption extends Classes.CProductOption {
   @Decorators.Property.Property
