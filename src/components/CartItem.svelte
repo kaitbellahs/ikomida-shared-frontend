@@ -8,7 +8,7 @@
   import type CCart from '../Types/CCart'
   import Image from './Image.svelte'
   import Divider from './Divider.svelte'
-  import { CCartProductOption, TButton, TTextEdit } from '../Types'
+  import { CCartProductOption, Classes, TButton, TTextEdit } from '../Types'
   import TextEdit from './TextEdit.svelte'
 
   type ICallback =
@@ -16,50 +16,48 @@
     | ((cartProduct?: CCart, option?: CCartProductOption) => Promise<void>)
     | null
 
-  export let cartProduct: CCart
+  export let product: CCart
   export let onRemoveClick: ICallback = null
   export let onPlusClick: ICallback = null
   export let onMinosClick: ICallback = null
   export let addOptions: ICallback = null
 
-  $: options = cartProduct?.cartOptionsCategories?.flatMap(optionsCategory => optionsCategory.cartOptions)
   $: optionsTotal = () => {
     let calcTotal = 0
-    for (const option of options ?? []) {
+    for (const option of product?.options ?? []) {
       calcTotal +=
-        option.units *
-        (option.price - Finances.calcDiscount(option.price, cartProduct.discount, cartProduct.discountType))
+        option.units * (option.price - Finances.calcDiscount(option.price, product.discount, product.discountType))
     }
     return calcTotal
   }
 
   function minos(option?: CCartProductOption) {
-    if (cartProduct.quantity > 1 || option) {
-      onMinosClick?.(cartProduct, option)
+    if (product.quantity > 1 || option) {
+      onMinosClick?.(product, option)
     } else {
-      onRemoveClick?.(cartProduct, option)
+      onRemoveClick?.(product, option)
     }
   }
 
   function plus(option?: CCartProductOption) {
-    onPlusClick?.(cartProduct, option)
+    onPlusClick?.(product, option)
   }
 </script>
 
-<div class="cartProduct">
-  <FloatRemove callback={() => onRemoveClick?.(cartProduct)} top={-6} right={-6} />
-  <h3>{cartProduct.title}</h3>
+<div class="product">
+  <FloatRemove callback={() => onRemoveClick?.(product)} top={-6} right={-6} />
+  <h3>{product.title}</h3>
   <div>
-    {#if cartProduct.image}
+    {#if product.image}
       <div class="image">
-        <Image source={cartProduct.image} name={cartProduct.title} />
+        <Image source={product.image} name={product.title} />
       </div>
     {/if}
     <div class="body">
       <h4>
         <span
-          >{cartProduct.quantity} x {currency(
-            cartProduct.price - Finances.calcDiscount(cartProduct.price, cartProduct.discount, cartProduct.discountType)
+          >{product.quantity} x {currency(
+            product.price - Finances.calcDiscount(product.price, product.discount, product.discountType)
           )}</span
         >
       </h4>
@@ -68,25 +66,24 @@
         <Button type={TButton.TRANSPARENT} size="none" on:click={() => minos()}>
           <Fa icon={faMinusSquare} />
         </Button>
-        <span>{cartProduct.quantity}</span>
+        <span>{product.quantity}</span>
         <Button type={TButton.TRANSPARENT} size="none" on:click={() => plus()}><Fa icon={faPlusSquare} /></Button>
       </div>
       <h3>
         {currency(
           optionsTotal() +
-            cartProduct.quantity *
-              (cartProduct.price -
-                Finances.calcDiscount(cartProduct.price, cartProduct.discount, cartProduct.discountType))
+            product.quantity *
+              (product.price - Finances.calcDiscount(product.price, product.discount, product.discountType))
         )}
       </h3>
     </div>
   </div>
-  {#if (options?.length ?? 0) > 0}
+  {#if (product.options?.length ?? 0) > 0}
     <h3>Personalização</h3>
-    {#each options ?? [] as option (option.id)}
+    {#each product.options ?? [] as option (option.id)}
       <Divider />
       <div class="option">
-        <FloatRemove callback={() => onRemoveClick?.(cartProduct, option)} top={-6} right={-6} />
+        <FloatRemove callback={() => onRemoveClick?.(product, option)} top={-6} right={-6} />
         <Image source={option.image} name={option.name} height="45px" width="45px" />
         <div>
           <h3>{option.name}</h3>
@@ -113,9 +110,9 @@
             {#if option.price > 0}
               <div class="price">
                 {currency(
-                  cartProduct.quantity *
+                  product.quantity *
                     option.units *
-                    (option.price - Finances.calcDiscount(option.price, cartProduct.discount, cartProduct.discountType))
+                    (option.price - Finances.calcDiscount(option.price, product.discount, product.discountType))
                 )}
               </div>
             {:else}
@@ -126,14 +123,14 @@
       </div>
     {/each}
   {/if}
-  <Button type={TButton.TRANSPARENT} on:click={() => addOptions?.(cartProduct)} sizeMultiplier={0.7}
+  <Button type={TButton.TRANSPARENT} on:click={() => addOptions?.(product)} sizeMultiplier={0.7}
     >Editar as opções</Button
   >
   <TextEdit
     type={TTextEdit.TEXT}
     placeHolder="Observação"
-    bind:initialValue={cartProduct.observation}
-    bind:value={cartProduct.observation}
+    bind:initialValue={product.observation}
+    bind:value={product.observation}
     max={255}
   />
 </div>
@@ -145,7 +142,7 @@
     padding: 0;
     margin: 0;
   }
-  .cartProduct {
+  .product {
     position: relative;
     width: 100%;
     margin-top: 20px;
@@ -155,43 +152,43 @@
     padding: 10px;
     padding-bottom: 0;
   }
-  .cartProduct > h3 {
+  .product > h3 {
     padding: 0;
     margin: 0;
   }
-  .cartProduct > div {
+  .product > div {
     display: flex;
     flex-direction: row-reverse;
     justify-content: center;
     padding: 0;
     margin: 0;
   }
-  .cartProduct > div > div {
+  .product > div > div {
     width: 100%;
     min-height: 1px;
     display: flex;
     -o-flex-wrap: wrap;
     flex-wrap: wrap;
   }
-  .cartProduct > div > .image {
+  .product > div > .image {
     flex: 1 45%;
     width: 45%;
     max-width: 45%;
   }
-  .cartProduct > div > .body {
+  .product > div > .body {
     flex: 1 55%;
     width: 55%;
     max-width: 55%;
   }
-  .cartProduct > div > .body > * {
+  .product > div > .body > * {
     width: 100%;
     min-width: 100%;
   }
-  .cartProduct > div > .body > h4 {
+  .product > div > .body > h4 {
     margin-top: 8px;
     font-weight: lighter;
   }
-  .cartProduct > div > .image > :global(img) {
+  .product > div > .image > :global(img) {
     width: 100%;
     max-width: 100%;
   }
@@ -211,7 +208,7 @@
     margin-right: 10px;
     margin-left: 10px;
   }
-  .cartProduct > .option {
+  .product > .option {
     background-color: #d6d6d657;
     border: #ccd;
     border-radius: 5px;
@@ -220,24 +217,24 @@
     display: flex;
     flex-direction: row;
   }
-  .cartProduct > .option > div {
+  .product > .option > div {
     width: calc(100% - 42px);
     margin-left: 10px;
   }
-  .cartProduct > .option > div > div {
+  .product > .option > div > div {
     display: flex;
     flex-direction: row;
   }
-  .cartProduct > .option > div > div > * {
+  .product > .option > div > div > * {
     font-size: 0.9em;
   }
-  .cartProduct > .option > div > div {
+  .product > .option > div > div {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
   }
-  .cartProduct > .option > div > div > .units {
+  .product > .option > div > div > .units {
     margin-top: 5px;
     align-items: center;
     font-size: 0.9em;
@@ -245,14 +242,14 @@
     display: flex;
     flex-direction: row;
   }
-  .cartProduct > .option > div > div > .units > span {
+  .product > .option > div > div > .units > span {
     padding: 0;
     border: 0;
     background: transparent;
     margin-right: 6px;
     margin-left: 6px;
   }
-  .cartProduct > .option > div > div > .price {
+  .product > .option > div > div > .price {
     display: flex;
     flex-direction: column;
     align-items: center;

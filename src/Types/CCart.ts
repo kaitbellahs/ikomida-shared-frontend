@@ -1,14 +1,13 @@
 import { Classes, Decorators, Types } from '@ikomida/shared-types'
-import CCartProductOptionsCategory from './CCartProductOptionsCategory'
+import CCartProductOption from './CCartProductOption'
 
 export default class CCart extends Classes.CProduct {
   @Decorators.Property.Property
+  @Decorators.FromJSON.FromJSON(CCartProductOption)
+  options: CCartProductOption[] = []
+  @Decorators.Property.Property
   @Decorators.Nullable
   leftQuantity!: number
-  @Decorators.Property.Property
-  @Decorators.FromJSON.FromJSON(CCartProductOptionsCategory)
-  @Decorators.Nullable
-  cartOptionsCategories?: CCartProductOptionsCategory[]
 
   static initCart(
     id: string,
@@ -19,8 +18,8 @@ export default class CCart extends Classes.CProduct {
     quantity: number,
     leftQuantity: number,
     image?: string,
-    cartOptionsCategories?: CCartProductOptionsCategory[],
-    observation?: string
+    optionsCategories?: Classes.CProductOptionsCategory[],
+    options?: CCartProductOption[]
   ): CCart {
     return this.createInitObject(arguments, [
       'id',
@@ -31,8 +30,8 @@ export default class CCart extends Classes.CProduct {
       'quantity',
       'leftQuantity',
       'image',
-      'cartOptionsCategories',
-      'observation'
+      'optionsCategories',
+      'options'
     ])
   }
 }
