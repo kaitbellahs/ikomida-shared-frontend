@@ -28,16 +28,18 @@ export default class PushNotification {
       await this.hasRegisteredCallBack(token.value, platform)
     })
 
-    await PushNotifications.addListener('registrationError', error => {
-      this.errorCallBack(error)
+    await PushNotifications.addListener('registrationError', async error => {
+      await this.errorCallBack(error)
     })
 
-    await PushNotifications.addListener('pushNotificationReceived', notification => {
-      this.receivedCallBack(notification)
+    await PushNotifications.addListener('pushNotificationReceived', async notification => {
+      console.log('pushNotificationAction:pushNotificationReceived')
+      await this.receivedCallBack(notification)
     })
 
-    await PushNotifications.addListener('pushNotificationActionPerformed', notification => {
-      this.actionPerformedCallBack(notification)
+    await PushNotifications.addListener('pushNotificationActionPerformed', async notification => {
+      console.log('pushNotificationAction:pushNotificationActionPerformed')
+      await this.actionPerformedCallBack(notification)
     })
     let permissionStatus = await PushNotifications.checkPermissions()
 
@@ -47,8 +49,9 @@ export default class PushNotification {
 
     if (permissionStatus.receive !== 'granted') {
       //TODO: -- report error
+      console.log('pushNotificationAction:permissionStatus.receive!==granted')
     }
-    this.permissionCallBack(permissionStatus)
+    await this.permissionCallBack(permissionStatus)
 
     await PushNotifications.register()
   }

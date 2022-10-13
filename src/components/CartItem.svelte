@@ -81,7 +81,7 @@
   {#if (product.options?.length ?? 0) > 0}
     <h3>Personalização</h3>
     {#each product.options ?? [] as option (option.id)}
-      <Divider />
+      <Divider height={10} />
       <div class="option">
         <FloatRemove callback={() => onRemoveClick?.(product, option)} top={-6} right={-6} />
         <Image source={option.image} name={option.name} height="45px" width="45px" />
