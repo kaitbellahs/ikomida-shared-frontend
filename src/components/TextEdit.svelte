@@ -260,10 +260,10 @@
             .filter((char, index) => char != mask?.[index])
             .join('')
         } else if (type === TTextEdit.CURRENCY) {
-          value = Finances.toNumber(__value)
+          value = Finances.toNumber(__value) ?? undefined
           tmpValue = currency(Number(value))
         } else if (type === TTextEdit.PERCENT) {
-          value = Finances.toNumber(__value)
+          value = Finances.toNumber(__value) ?? undefined
           tmpValue = percent(Number(value))
         }
       } else {
@@ -457,6 +457,7 @@
     {#if buttonName}
       <button class="button" on:click={callback} disabled={buttonDisabled}>{buttonName}</button>
     {:else if buttonIcon}
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
       <div class="button icon" on:click={callback}>
         <Fa style="font-size: 1.3em; color: {$Layout?.button?.background ?? '#350101'};" icon={buttonIcon} />
       </div>
