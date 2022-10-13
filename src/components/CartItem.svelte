@@ -127,12 +127,14 @@
     >Editar as opções</Button
   >
   <TextEdit
+    marginTop={5}
     type={TTextEdit.TEXT}
     placeHolder="Observação"
     bind:initialValue={product.observation}
     bind:value={product.observation}
     max={255}
   />
+  <Divider height={5} />
 </div>
 
 <style>
@@ -146,7 +148,7 @@
     position: relative;
     width: 100%;
     margin-top: 20px;
-    background-color: #d6d6d657;
+    background-color: #ccccccfa;
     border: #ccd;
     border-radius: 5px;
     padding: 10px;
@@ -209,7 +211,7 @@
     margin-left: 10px;
   }
   .product > .option {
-    background-color: #d6d6d657;
+    background-color: #ffffff26;
     border: #ccd;
     border-radius: 5px;
     padding: 10px;

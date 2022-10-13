@@ -161,7 +161,7 @@
     callback = showSecretCallBack
     input.value = inputValue
   }
-  $: height = (type === TTextEdit.TEXT ? 88 : 44) * sizeMultiplier
+  $: height = (type === TTextEdit.TEXT ? 54 : 44) * sizeMultiplier
   function update() {
     if (type === TTextEdit.COLOR && colorInput) {
       colorInput.value = input.value
