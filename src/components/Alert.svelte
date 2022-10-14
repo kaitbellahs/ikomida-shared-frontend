@@ -83,7 +83,6 @@
   p {
     max-width: 100%;
     max-height: 100%;
-    overflow: scroll;
   }
   div > div > header {
     border-bottom: 1px solid #ccc;
@@ -126,8 +125,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-width: 300px;
     max-width: 100%;
     max-height: calc(100% - 100px);
     overflow: hidden;
+  }
+  @media (max-width: 640px) {
+    .alert > div {
+      min-width: 90%;
+    }
   }
 </style>

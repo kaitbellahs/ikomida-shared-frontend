@@ -13,7 +13,7 @@
   import { Capacitor } from '@capacitor/core'
   import { Clipboard } from '@capacitor/clipboard'
 
-  import { Layout as LayoutStore } from '../Stores'
+  import { Layout as LayoutStore, Loading } from '../Stores'
   import Image from './Image.svelte'
   let Layout = LayoutStore.instance.store
 
@@ -71,6 +71,7 @@
   }
 
   function goBack() {
+    Loading.instance.reset()
     showMenuHamburger = false
     showMenu = false
     if (Navigation.instance?.callBack) {
