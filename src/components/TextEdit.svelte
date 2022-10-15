@@ -168,7 +168,9 @@
       colorInput.value = input.value
     } else if (type === TTextEdit.DATE) {
       const date = value as Date
-      input.value = isValid ? `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}` : ''
+      input.value = isValid
+        ? `${Finances.pad(date.getDate() + 1, 2)}/${Finances.pad(date.getMonth() + 1, 2)}/${date.getFullYear()}`
+        : ''
     } else {
       input.value = doMask(removeMask(String(initialValue ?? '')))
     }
@@ -211,7 +213,9 @@
       if (type === TTextEdit.DATE && pickerInput) {
         const date = new Date(doMask(newValue))
         value = date
-        input.value = isValid ? `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}` : ''
+        input.value = isValid
+          ? `${Finances.pad(date.getDate() + 1, 2)}/${Finances.pad(date.getMonth() + 1, 2)}/${date.getFullYear()}`
+          : ''
       } else {
         input.value = doMask(newValue)
       }

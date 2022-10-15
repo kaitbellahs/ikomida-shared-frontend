@@ -53,6 +53,7 @@ const articles = [
   'pra',
   'para'
 ]
+export const dayMiliseconds = 24 * 60 * 60 * 1000
 export function currency(value?: number | string) {
   let newValue = Number(`${value}`.match(/\d/gi)?.join('') ?? 0) * 0.01
   const formatter = new Intl.NumberFormat('pt-BR', {
@@ -72,36 +73,33 @@ export function formatNumber(value?: number) {
 
 export function timestampToString(timestamp?: number | Date) {
   const date = timestamp instanceof Date ? timestamp : new Date(timestamp ?? 0)
-  return (
-    date.getDate() +
-    '/' +
-    (date.getMonth() + 1) +
-    '/' +
-    date.getFullYear() +
-    ' ' +
-    date.getHours() +
-    ':' +
-    date.getMinutes() +
-    ':' +
-    date.getSeconds()
-  )
+  return `${Finances.pad(date.getDate(), 2)}/${Finances.pad(
+    date.getMonth() + 1,
+    2
+  )}/${date.getFullYear()} ${Finances.pad(date.getHours(), 2)}:${Finances.pad(date.getMinutes(), 2)}:${Finances.pad(
+    date.getSeconds(),
+    2
+  )}`
 }
 
 export function dateToString(dateTime?: string | Date, showSeconds = false) {
   const date = dateTime instanceof Date ? dateTime : new Date(dateTime ?? '')
   const nowDate = new Date()
-  let dateString = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
+  let dateString = `${Finances.pad(date.getDate(), 2)} de ${months[date.getMonth()].substring(
+    0,
+    3
+  )} de ${date.getFullYear()}`
   if (date.getFullYear() === nowDate.getFullYear() && date.getMonth() === nowDate.getMonth()) {
-    if (date.getDay() === nowDate.getDay()) {
-      dateString = 'Hoje às'
+    if (date.getDate() === nowDate.getDate()) {
+      dateString = 'Hoje'
     } else {
-      nowDate.setDate(nowDate.getDay() + 2)
-      if (date.getDay() === nowDate.getDay()) {
-        dateString = 'Amanhã às'
+      nowDate.setDate(nowDate.getDate() + 1)
+      if (date.getDate() === nowDate.getDate()) {
+        dateString = 'Amanhã'
       } else {
-        nowDate.setDate(nowDate.getDay() - 2)
-        if (date.getDay() === nowDate.getDay()) {
-          dateString = 'Ontem às'
+        nowDate.setDate(nowDate.getDate() - 2)
+        if (date.getDate() === nowDate.getDate()) {
+          dateString = 'Ontem'
         }
       }
     }
@@ -110,7 +108,10 @@ export function dateToString(dateTime?: string | Date, showSeconds = false) {
   if (showSeconds) {
     seconds = `:${Finances.pad(date.getSeconds(), 2)}`
   }
-  return `${dateString} ${Finances.pad(date.getHours(), 2)}:${Finances.pad(date.getMinutes(), 2)}${seconds}`
+  if (date.getTime() > nowDate.getTime() - 2 * dayMiliseconds) {
+    dateString += ` às ${Finances.pad(date.getHours(), 2)}:${Finances.pad(date.getMinutes(), 2)}${seconds}`
+  }
+  return dateString
 }
 
 export function timeToString(input?: number) {
@@ -130,11 +131,18 @@ export function timeToString(input?: number) {
   return string
 }
 
-export function dateToDateString(dateTime?: string | Date) {
+export function dateToDateString(dateTime?: string | Date, showTime = false) {
   if (!dateTime) {
     return '-'
   }
   const date = dateTime instanceof Date ? dateTime : new Date(dateTime)
+  let time = ``
+  if (showTime) {
+    time = `às ${Finances.pad(date.getHours(), 2)}h e ${Finances.pad(date.getMinutes(), 2)}m e ${Finances.pad(
+      date.getSeconds(),
+      2
+    )}s`
+  }
   return date.getDate() + ' de ' + months[date.getMonth()] + ' de ' + date.getFullYear()
 }
 
