@@ -11,6 +11,7 @@
 </script>
 
 {#if showImage && source}
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
   <img
     on:click
     on:error={() => erroLoadImage()}

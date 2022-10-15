@@ -41,7 +41,7 @@
 </script>
 
 <svelte:window on:keydown={handle_keydown} />
-<div
+<button
   class="alert"
   on:click|self={closeCallBack}
   style="--height: {height};--dialogBackground:{$Layout?.dialog?.background || '#ffffffdf'};--dialogColor:{$Layout
@@ -76,7 +76,7 @@
       {/each}
     </footer>
   </div>
-</div>
+</button>
 
 <style>
   section,
@@ -84,21 +84,25 @@
     max-width: 100%;
     max-height: 100%;
   }
-  div > div > header {
+  button {
+    border: 0;
+    background-color: transparent;
+  }
+  button > div > header {
     border-bottom: 1px solid #ccc;
     margin-bottom: 20px;
   }
-  div > div > header > h2 {
+  button > div > header > h2 {
     margin: 0;
     text-align: center;
   }
-  div > div > footer {
+  button > div > footer {
     width: calc(100% - 40px);
     display: flex;
     justify-content: space-around;
     margin-top: 20px;
   }
-  div > div > p {
+  button > div > p {
     margin-top: 20px;
   }
   .alert {

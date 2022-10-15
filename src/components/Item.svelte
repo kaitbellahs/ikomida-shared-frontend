@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { currency } from '../Utils/Strings'
+  import { currency, percent } from '../Utils/Strings'
   import { Classes, Types } from '@ikomida/shared-types'
   import FloatRemove from './FloatRemove.svelte'
   import ShiftUpDownButtons from './ShiftUpDownButtons.svelte'
@@ -41,7 +41,14 @@
   {#if removeProduct}
     <FloatRemove callback={onRemoveClick} />
   {/if}
-  <div on:click={onClick}>
+  <button on:click={onClick}>
+    {#if !removeProduct && [Types.TDiscount.PERCENT, Types.TDiscount.VALUE].includes(product.discountType)}
+      <span class="discount"
+        >-{Types.TDiscount.VALUE === product.discountType
+          ? currency(product.discount)
+          : percent(product.discount)}</span
+      >
+    {/if}
     <h3>{product?.title}</h3>
     <div>
       {#if product?.image}
@@ -67,7 +74,7 @@
         >
       </div>
     </div>
-  </div>
+  </button>
 </div>
 
 <style>
@@ -88,55 +95,73 @@
     background: var(--background);
     position: relative;
   }
-  .item > div > h3 {
+  .item > button {
+    background-color: transparent;
+    border: 0;
+  }
+  .item > button > .discount {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    border-radius: 20.5px;
+    min-width: 60px;
+    border: 1px solid #4c0708;
+    background: #4c0708;
+    color: white;
+    line-height: 21px;
+    padding: 0px 8px;
+    text-shadow: 0.5px 1px #00000055;
+    box-shadow: 2px 3px #00000099;
+  }
+  .item > button > h3 {
     padding: 0;
     margin: 0;
     font-size: 1.5em;
     text-align: center;
     margin-bottom: 20px;
   }
-  .item > div > div {
+  .item > button > div {
     display: flex;
     flex-direction: row-reverse;
     justify-content: center;
     padding: 0;
     margin: 0;
   }
-  .item > div > div > div {
+  .item > button > div > div {
     width: 100%;
     min-height: 1px;
     display: flex;
     -o-flex-wrap: wrap;
     flex-wrap: wrap;
   }
-  .item > div > div > .image {
+  .item > button > div > .image {
     flex: 1 45%;
     width: 45%;
   }
-  .item > div > div > .body {
+  .item > button > div > .body {
     flex: 1 55%;
     width: 55%;
   }
-  .item > div > div > .body > * {
+  .item > button > div > .body > * {
     width: 100%;
     min-width: 100%;
   }
-  .item > div > div > .body > h4 {
+  .item > button > div > .body > h4 {
     display: flex;
     flex-direction: column;
     margin-top: 8px;
     font-weight: lighter;
   }
-  .item > div > div > .body > h4 > .current {
+  .item > button > div > .body > h4 > .current {
     color: green;
     font-size: 1.2em;
   }
-  .item > div > div > .body > h4 > .oldPrice {
+  .item > button > div > .body > h4 > .oldPrice {
     text-decoration: line-through;
     color: #717171;
     font-size: 0.9rem;
   }
-  .item > div > div > .body > p {
+  .item > button > div > .body > p {
     font-size: 0.9rem;
     font-weight: lighter;
     margin: 10px 0;
@@ -148,10 +173,10 @@
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
   }
-  .item > div > div > .body > .serves {
+  .item > button > div > .body > .serves {
     font-size: 0.8rem;
   }
-  .item > div > div > .image > :global(img) {
+  .item > button > div > .image > :global(img) {
     width: 100%;
     max-width: 100%;
     object-fit: contain;

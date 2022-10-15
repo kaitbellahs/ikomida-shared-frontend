@@ -464,10 +464,9 @@
     {#if buttonName}
       <button class="button" on:click={callback} disabled={buttonDisabled}>{buttonName}</button>
     {:else if buttonIcon}
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <div class="button icon" on:click={callback}>
+      <button class="button icon" on:click={callback}>
         <Fa style="font-size: 1.3em; color: {$Layout?.button?.background ?? '#350101'};" icon={buttonIcon} />
-      </div>
+      </button>
     {/if}
   </div>
   {#if (error || min || max) && ((!isValid && value) || (!empty && !value))}
@@ -484,6 +483,10 @@
 </div>
 
 <style>
+  button {
+    border: 0;
+    background-color: transparent;
+  }
   input[type='date'],
   input[type='time'] {
     display: none;
