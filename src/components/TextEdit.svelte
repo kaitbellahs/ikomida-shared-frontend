@@ -144,6 +144,7 @@
     case TTextEdit.DATE:
       filter = forceUpdate || !filter ? /[0-9-]/gi : filter
       icon = forceUpdate || icon ? icon : faCalendar
+      break
     case TTextEdit.TIME:
       mask = '__:__'
       filter = forceUpdate || !filter ? /[0-9-]/gi : filter
