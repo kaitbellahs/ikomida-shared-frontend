@@ -176,18 +176,19 @@
     ?.menuHamburger ?? '#ffffff'};"
 >
   {#if ($stack?.length ?? 0) > 1}
-    <div id="backButton" on:click={goBack}>
+    <button id="backButton" on:click={goBack}>
       <div>
         <Fa style="margin-right: 15px;font-size: 1.7em;" icon={faChevronLeft} />
       </div>
-    </div>
+    </button>
   {:else if ($menuHamburger?.length ?? 0) > 0}
-    <div class="menuHamburger" on:click={toggleMenuHamburger}>
+    <button class="menuHamburger" on:click={toggleMenuHamburger}>
       <div />
       <div />
       <div />
-    </div>
+    </button>
     {#if showMenuHamburger}
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
       <div
         in:easeIn={{ duration: 300 }}
         out:easeOut={{ duration: 300 }}
@@ -219,13 +220,14 @@
   {/if}
   <h1>{$title}</h1>
   {#if ($menu?.length ?? 0) > 0}
-    <div class="menu" on:click={toggleMenu}>
+    <button class="menu" on:click={toggleMenu}>
       <div />
       <div />
       <div />
-    </div>
+    </button>
     <ul class="menu" class:showMenu>
       {#each $menu as { icon, name, callback }}
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
         <li on:click={() => callCallback(callback)}>
           {#if icon}
             <Fa style="font-size: 1.5em; margin-right: 10px;" {icon} />
@@ -262,7 +264,11 @@
 {/if}
 
 <style>
-  div.menu {
+  button {
+    border: 0;
+    background-color: transparent;
+  }
+  button.menu {
     flex-direction: column;
     height: 32px;
     padding: 0;
@@ -275,7 +281,7 @@
     flex-grow: 0;
     flex-shrink: 0;
   }
-  div.menu > div {
+  button.menu > div {
     background: var(--menuHamburger);
     display: block;
     width: 6px;
@@ -308,7 +314,7 @@
     background: transparent;
     border: 0;
   }
-  div.menuHamburger {
+  button.menuHamburger {
     flex-direction: column;
     height: 32px;
     padding: 0;
@@ -321,7 +327,7 @@
     flex-grow: 0;
     flex-shrink: 0;
   }
-  div.menuHamburger > div {
+  button.menuHamburger > div {
     background: var(--menuHamburger);
     display: block;
     height: 4px;

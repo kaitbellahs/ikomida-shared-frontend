@@ -9,16 +9,18 @@
   export let right = 0
 </script>
 
-<div
+<button
   style="--top: {top}px; --right:{right}px;--color: {color ?? '#fff'};--background: {background ?? '#4c0708'};"
   on:click={callback}
   class="flatButton"
 >
   <Fa {icon} />
-</div>
+</button>
 
 <style>
   .flatButton {
+    border: 0;
+    background-color: transparent;
     position: absolute;
     top: var(--top);
     right: var(--right);
