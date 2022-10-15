@@ -54,17 +54,16 @@ const articles = [
   'para'
 ]
 export function currency(value?: number | string) {
-  let newValue = Number(value) * 0.01
+  let newValue = Number(`${value}`.match(/\d/gi)?.join('') ?? 0) * 0.01
   const formatter = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',
     minimumFractionDigits: 2
   })
-  newValue = Finances.toFinanceNumber(newValue.toFixed(2)) ?? 0
   return formatter.format(newValue)
 }
 export function percent(value?: number | string) {
-  return `% ${currency(value).replace('R$ ', '')}`
+  return currency(value).replace('R$ ', '% ')
 }
 export function formatNumber(value?: number) {
   const formatter = new Intl.NumberFormat('pt-BR')
