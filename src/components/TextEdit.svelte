@@ -363,7 +363,9 @@
 
 <div
   class="form-cell"
-  style="--sizeMultiplier: {sizeMultiplier};--sizeMultiplierPow:{(sizeMultiplier * 0.85).toFixed(
+  style="--sizeMultiplier: {sizeMultiplier};--sizeMultiplierPow:{(
+    sizeMultiplier * (sizeMultiplier !== 1 ? 0.85 : 1)
+  ).toFixed(
     2
   )};--marginTop: {marginTop}px;--leftPadding: {leftPadding}px; --rightPadding: {rightPadding}; --height: {height}px;--leftPaddingPlaceHolder: {type ===
   TTextEdit.COLOR
