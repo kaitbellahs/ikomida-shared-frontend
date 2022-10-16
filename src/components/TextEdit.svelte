@@ -25,6 +25,7 @@
   import * as Objects from '../Utils/Objects.js'
   import Image from './Image.svelte'
   import * as Browsers from '../Utils/Browsers.js'
+    import { Capacitor } from '@capacitor/core'
 
   let Layout = LayoutStore.instance.store
 
@@ -446,7 +447,7 @@
     {:else if type === TTextEdit.TEXT}
       <textarea on:input={onKeyPress} bind:this={input} use:events autocomplete="off" id={uuid} {disabled} />
     {:else if [TTextEdit.DATE, TTextEdit.TIME].includes(type)}
-      {#if !Browsers.isSafari && !Browsers.isIE}
+      {#if !Browsers.isSafari && !Browsers.isIE && Capacitor.getPlatform() !== 'ios'}
         <input
           bind:this={pickerInput}
           on:input={onKeyPress}
@@ -475,7 +476,7 @@
           class:hasButton={buttonName || buttonIcon}
           autocomplete="off"
           id={uuid}
-          type="text"
+          type="tel"
           {disabled}
         />
       {/if}
