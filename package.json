@@ -55,7 +55,7 @@
     "@capacitor/push-notifications": "^4.1.0",
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@ikomida/shared-logics": "^0.2.3",
-    "@ikomida/shared-types": "^1.2.8",
+    "@ikomida/shared-types": "^1.2.9",
     "jose": "^4.10.0",
     "react-image-file-resizer": "^0.4.8",
     "reflect-metadata": "^0.1.13",
