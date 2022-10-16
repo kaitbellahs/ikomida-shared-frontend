@@ -111,10 +111,10 @@
   dependencies:
     luxon "^3.0.4"
 
-"@ikomida/shared-types@^1.2.8":
-  version "1.2.8"
-  resolved "https://us-central1-npm.pkg.dev/ikomida-dev/node/@ikomida/shared-types/-/@ikomida/shared-types-1.2.8.tgz#584f77b04285683002b0f21a2a042b03c3d81b23"
-  integrity sha512-LFDhG6IhvcYT0K+1ubKKi1YXkOSC68DstqOACpgO0klZb1aY8vcGAkiFHpDMOiOzhcz1dbuMuVPQfexIa7wzaA==
+"@ikomida/shared-types@^1.2.9":
+  version "1.2.9"
+  resolved "https://us-central1-npm.pkg.dev/ikomida-dev/node/@ikomida/shared-types/-/@ikomida/shared-types-1.2.9.tgz#832e226b08d091c784d48b7c70f29328bc69a5ca"
+  integrity sha512-QEwNXAsJ8eRwVj3d+HCB1KwveAQTnahhE1YMVkzZYMQr8NZxPn/jmuv9VEDNsLHnEZ24Z/s6C1HDtUldgg6x4Q==
 
 "@jridgewell/resolve-uri@^3.0.3":
   version "3.1.0"
