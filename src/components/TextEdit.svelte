@@ -22,8 +22,10 @@
   import type { IconDefinition } from '@fortawesome/free-solid-svg-icons'
   import TTextEdit from '../Types/TTextEdit'
   import { Layout as LayoutStore } from '../Stores'
-  import { Objects } from '../Utils'
+  import * as Objects from '../Utils/Objects.js'
   import Image from './Image.svelte'
+  import * as Browsers from '../Utils/Browsers.js'
+    import { Capacitor } from '@capacitor/core'
 
   let Layout = LayoutStore.instance.store
 
@@ -142,11 +144,12 @@
       filter = forceUpdate || !filter ? /[A-Za-z0-9-]/gi : filter
       break
     case TTextEdit.DATE:
-      filter = forceUpdate || !filter ? /[0-9-]/gi : filter
+      mask = mask ? mask : '__/__/____'
+      filter = forceUpdate || !filter ? /[0-9/]/gi : filter
       icon = forceUpdate || icon ? icon : faCalendar
       break
     case TTextEdit.TIME:
-      mask = '__:__'
+      mask = mask ? mask : '__:__'
       filter = forceUpdate || !filter ? /[0-9-]/gi : filter
       icon = forceUpdate || icon ? icon : faHourglass
       break
@@ -210,12 +213,19 @@
         input.value = inputValue
         return
       }
-      if (type === TTextEdit.DATE && pickerInput) {
-        const date = new Date(doMask(newValue))
+      if (type === TTextEdit.DATE) {
+        let dateString = `${newValue.substring(4, 2)}/${newValue.substring(0, 2)}/${newValue.substring(8, 4)}`
+        if (pickerInput) {
+          isValid = validate(newValue)
+          dateString = `${newValue.substring(6, 4)}/${newValue.substring(8, 6)}/${newValue.substring(0, 4)}`
+        }
+        const date = new Date(dateString)
+        input.value = !pickerInput
+        ? doMask(newValue)
+        : isValid
+        ? `${Finances.pad(date.getDate() + 1, 2)}/${Finances.pad(date.getMonth() + 1, 2)}/${date.getFullYear()}`
+        : ''
         value = date
-        input.value = isValid
-          ? `${Finances.pad(date.getDate() + 1, 2)}/${Finances.pad(date.getMonth() + 1, 2)}/${date.getFullYear()}`
-          : ''
       } else {
         input.value = doMask(newValue)
       }
@@ -340,7 +350,20 @@
           _isValid = Validations.validateCEP(string)
           break
         case TTextEdit.DATE:
-          _isValid = Validations.validateDate(string)
+          _isValid = false
+          if (pickerInput) {
+            string = `${string.substring(8, 6)}${string.substring(6, 4)}${string.substring(0, 4)}`
+          }
+          if (
+            string.length === 8 &&
+            Number(string.substring(0, 2)) <= 31 &&
+            Number(string.substring(4, 2)) <= 12 &&
+            Number(string.substring(8, 4)) <= 2100 &&
+            Number(string.substring(8, 4)) >= 1900
+          ) {
+            const dateString = `${string.substring(4, 2)}/${string.substring(0, 2)}/${string.substring(8, 4)}`
+            _isValid = Validations.validateDate(dateString)
+          }
           break
       }
     }
@@ -424,25 +447,39 @@
     {:else if type === TTextEdit.TEXT}
       <textarea on:input={onKeyPress} bind:this={input} use:events autocomplete="off" id={uuid} {disabled} />
     {:else if [TTextEdit.DATE, TTextEdit.TIME].includes(type)}
-      <input
-        bind:this={pickerInput}
-        on:input={onKeyPress}
-        autocomplete="off"
-        type={type === TTextEdit.DATE ? 'date' : 'time'}
-        {disabled}
-      />
-      <input
-        readonly
-        bind:this={input}
-        use:events
-        on:click={openPickerInput}
-        class:hasIcon={icon}
-        class:hasButton={buttonName || buttonIcon}
-        autocomplete="off"
-        id={uuid}
-        type="text"
-        {disabled}
-      />
+      {#if !Browsers.isSafari && !Browsers.isIE && Capacitor.getPlatform() !== 'ios'}
+        <input
+          bind:this={pickerInput}
+          on:input={onKeyPress}
+          autocomplete="off"
+          type={type === TTextEdit.DATE ? 'date' : 'time'}
+          {disabled}
+        />
+        <input
+          readonly
+          bind:this={input}
+          use:events
+          on:click={openPickerInput}
+          class:hasIcon={icon}
+          class:hasButton={buttonName || buttonIcon}
+          autocomplete="off"
+          id={uuid}
+          type="text"
+          {disabled}
+        />
+      {:else}
+        <input
+          bind:this={input}
+          use:events
+          on:input={onKeyPress}
+          class:hasIcon={icon}
+          class:hasButton={buttonName || buttonIcon}
+          autocomplete="off"
+          id={uuid}
+          type="tel"
+          {disabled}
+        />
+      {/if}
     {:else if type === TTextEdit.COLOR}
       <div class="input" class:hasIcon={icon} class:hasButton={buttonName || buttonIcon}>
         <input bind:this={colorInput} on:input={onKeyPress} autocomplete="off" type="color" {disabled} />
