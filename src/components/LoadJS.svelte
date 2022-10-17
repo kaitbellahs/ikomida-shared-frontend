@@ -10,7 +10,7 @@
       dispatch('loaded')
     })
 
-    script.addEventListener('error', (event: HTMLElementEventMap['error']) => {
+    script.addEventListener('error', (_: HTMLElementEventMap['error']) => {
       dispatch('error')
     })
   })
