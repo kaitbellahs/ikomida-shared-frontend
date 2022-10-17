@@ -8,7 +8,7 @@
   import type CCart from '../Types/CCart'
   import Image from './Image.svelte'
   import Divider from './Divider.svelte'
-  import { CCartProductOption, Classes, TButton, TTextEdit } from '../Types'
+  import { CCartProductOption, TButton, TTextEdit } from '../Types'
   import TextEdit from './TextEdit.svelte'
 
   type ICallback =

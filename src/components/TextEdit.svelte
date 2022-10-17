@@ -67,7 +67,6 @@
   let showSecret = false
   let input: HTMLInputElement | HTMLTextAreaElement
   let pickerInput: HTMLInputElement
-  let timeInput: HTMLInputElement
   let colorInput: HTMLInputElement
   let inputValue: string
   let secret = false

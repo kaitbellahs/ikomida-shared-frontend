@@ -22,7 +22,7 @@ export default class Navigation extends BaseStore<INavigation[]> {
     super()
     this.route = route
     this.loading = Loading.createInstance()
-    this.messageAlert = MessageAlert.instance
+    this.messageAlert = MessageAlert.createInstance()
   }
 
   createStore() {
