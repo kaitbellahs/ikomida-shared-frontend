@@ -16,11 +16,13 @@ export default class Navigation extends BaseStore<INavigation[]> {
   route
   callBack?: Function
   loading: Loading
+  messageAlert: MessageAlert
 
   constructor(route: Symbol) {
     super()
     this.route = route
     this.loading = Loading.createInstance()
+    this.messageAlert = MessageAlert.instance
   }
 
   createStore() {
@@ -38,7 +40,7 @@ export default class Navigation extends BaseStore<INavigation[]> {
   }
 
   goTo(route: Symbol, options?: any) {
-    ;(MessageAlert.instance as MessageAlert).hide()
+    this.messageAlert.hide()
     this.loading.reset()
     this.loading.start()
     Menu.instance.reset()
@@ -53,7 +55,7 @@ export default class Navigation extends BaseStore<INavigation[]> {
   }
 
   pop(count: number) {
-    ;(MessageAlert.instance as MessageAlert).hide()
+    this.messageAlert.hide()
     this.loading.reset()
     this.loading.start()
     Menu.instance.reset()
@@ -71,8 +73,8 @@ export default class Navigation extends BaseStore<INavigation[]> {
   }
 
   reset(route: Symbol): void {
-    ;(MessageAlert.instance as MessageAlert).hide()
-    ;(Loading.instance as Loading).start()
+    this.messageAlert.hide()
+    this.loading.start()
     Menu.instance.reset()
     return this.store.set([
       {
