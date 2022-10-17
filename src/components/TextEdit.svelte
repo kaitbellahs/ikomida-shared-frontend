@@ -24,9 +24,9 @@
   import { Layout as LayoutStore } from '../Stores'
   import * as Objects from '../Utils/Objects.js'
   import Image from './Image.svelte'
-  import * as Browsers from '../Utils/Browsers.js'
-    import { Capacitor } from '@capacitor/core'
+  import { DatePicker, DatePickerOptions } from '@capacitor-community/date-picker'
 
+  const datePicker = new DatePicker()
   let Layout = LayoutStore.instance.store
 
   export let type: TTextEdit = TTextEdit.GENERIC
@@ -214,17 +214,17 @@
         return
       }
       if (type === TTextEdit.DATE) {
-        let dateString = `${newValue.substring(4, 2)}/${newValue.substring(0, 2)}/${newValue.substring(8, 4)}`
-        if (pickerInput) {
+        // let dateString = `${newValue.substring(4, 2)}/${newValue.substring(0, 2)}/${newValue.substring(8, 4)}`
+        // if (pickerInput) {
           isValid = validate(newValue)
-          dateString = `${newValue.substring(6, 4)}/${newValue.substring(8, 6)}/${newValue.substring(0, 4)}`
-        }
+          const dateString = `${newValue.substring(6, 4)}/${newValue.substring(8, 6)}/${newValue.substring(0, 4)}`
+        // }
         const date = new Date(dateString)
         input.value = !pickerInput
-        ? doMask(newValue)
-        : isValid
-        ? `${Finances.pad(date.getDate() + 1, 2)}/${Finances.pad(date.getMonth() + 1, 2)}/${date.getFullYear()}`
-        : ''
+          ? doMask(newValue)
+          : isValid
+          ? `${Finances.pad(date.getDate() + 1, 2)}/${Finances.pad(date.getMonth() + 1, 2)}/${date.getFullYear()}`
+          : ''
         value = date
       } else {
         input.value = doMask(newValue)
@@ -351,9 +351,9 @@
           break
         case TTextEdit.DATE:
           _isValid = false
-          if (pickerInput) {
+          // if (pickerInput) {
             string = `${string.substring(8, 6)}${string.substring(6, 4)}${string.substring(0, 4)}`
-          }
+          // }
           if (
             string.length === 8 &&
             Number(string.substring(0, 2)) <= 31 &&
@@ -383,8 +383,14 @@
     }
   }
 
-  function openPickerInput() {
-    pickerInput?.showPicker()
+  async function openPicker() {
+    const options: DatePickerOptions = {
+      mode: TTextEdit.DATE ? 'date' : 'time',
+      locale: 'pt_BR',
+      format: TTextEdit.DATE ? 'dd/MM/yyyy' : 'HH:mm',
+      is24h: true
+    }
+    return datePicker.present(options)
   }
 </script>
 
@@ -447,39 +453,19 @@
     {:else if type === TTextEdit.TEXT}
       <textarea on:input={onKeyPress} bind:this={input} use:events autocomplete="off" id={uuid} {disabled} />
     {:else if [TTextEdit.DATE, TTextEdit.TIME].includes(type)}
-      {#if !Browsers.isSafari && !Browsers.isIE && Capacitor.getPlatform() !== 'ios'}
-        <input
-          bind:this={pickerInput}
-          on:input={onKeyPress}
-          autocomplete="off"
-          type={type === TTextEdit.DATE ? 'date' : 'time'}
-          {disabled}
-        />
-        <input
-          readonly
-          bind:this={input}
-          use:events
-          on:click={openPickerInput}
-          class:hasIcon={icon}
-          class:hasButton={buttonName || buttonIcon}
-          autocomplete="off"
-          id={uuid}
-          type="text"
-          {disabled}
-        />
-      {:else}
-        <input
-          bind:this={input}
-          use:events
-          on:input={onKeyPress}
-          class:hasIcon={icon}
-          class:hasButton={buttonName || buttonIcon}
-          autocomplete="off"
-          id={uuid}
-          type="tel"
-          {disabled}
-        />
-      {/if}
+      <input
+        readonly
+        on:input={onKeyPress}
+        bind:this={input}
+        use:events
+        on:click={openPicker}
+        class:hasIcon={icon}
+        class:hasButton={buttonName || buttonIcon}
+        autocomplete="off"
+        id={uuid}
+        type="tel"
+        {disabled}
+      />
     {:else if type === TTextEdit.COLOR}
       <div class="input" class:hasIcon={icon} class:hasButton={buttonName || buttonIcon}>
         <input bind:this={colorInput} on:input={onKeyPress} autocomplete="off" type="color" {disabled} />
