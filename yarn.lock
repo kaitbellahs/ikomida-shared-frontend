@@ -104,17 +104,17 @@
   dependencies:
     "@fortawesome/fontawesome-common-types" "6.2.0"
 
-"@ikomida/shared-logics@^0.2.3":
-  version "0.2.3"
-  resolved "https://us-central1-npm.pkg.dev/ikomida-dev/node/@ikomida/shared-logics/-/@ikomida/shared-logics-0.2.3.tgz#084b2c6a3165b2f518b0cba715b1df7ab431c9b9"
-  integrity sha512-kpaSHvf/cbG7bsmJyLkBxtpmSfN0gir3ZuoC0Q4z0kV8L8DyKNU0YdFdd2tuAqzozh3AW8y9njkhULvw/9ldmg==
+"@ikomida/shared-logics@^1.0.0":
+  version "1.0.0"
+  resolved "https://us-central1-npm.pkg.dev/ikomida-dev/node/@ikomida/shared-logics/-/@ikomida/shared-logics-1.0.0.tgz#72edb3058d4c2e2a561b22565803bd93addbd2e7"
+  integrity sha512-K4l4TOEn6Gz8tGITxitbsW3kQ7Z3pOu5Vqr+BRQGHbSCQwKh1/VfiNRJNC87uYs5PAl5jMuktV1sH8jovopRMg==
   dependencies:
     luxon "^3.0.4"
 
-"@ikomida/shared-types@^1.2.8":
-  version "1.2.8"
-  resolved "https://us-central1-npm.pkg.dev/ikomida-dev/node/@ikomida/shared-types/-/@ikomida/shared-types-1.2.8.tgz#584f77b04285683002b0f21a2a042b03c3d81b23"
-  integrity sha512-LFDhG6IhvcYT0K+1ubKKi1YXkOSC68DstqOACpgO0klZb1aY8vcGAkiFHpDMOiOzhcz1dbuMuVPQfexIa7wzaA==
+"@ikomida/shared-types@^1.3.2":
+  version "1.3.2"
+  resolved "https://us-central1-npm.pkg.dev/ikomida-dev/node/@ikomida/shared-types/-/@ikomida/shared-types-1.3.2.tgz#073a5d81149288f800f390988d06bf267e828bd0"
+  integrity sha512-YWTTJ3pyguWq31PrH5UdVjutqmIgfl7qAVWz7CYAkPtFtRDaI4Gbe47vlIZxLnBL/NHKDVhApMGaZ7jl3GxMRA==
 
 "@jridgewell/resolve-uri@^3.0.3":
   version "3.1.0"

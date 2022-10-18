@@ -28,7 +28,7 @@
     ],
     "outDir": "lib",
     "declarationDir": "lib",
-    "target": "ESNext",
+    "target": "ES2021",
     "plugins": [
       {
         "name": "typescript-svelte-plugin"

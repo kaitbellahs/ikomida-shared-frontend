@@ -50,7 +50,7 @@
     showAlert = false
   }
 
-  function easeIn(node: HTMLDivElement, { duration }: { duration: number }) {
+  function easeIn(_: HTMLDivElement, { duration }: { duration: number }) {
     return {
       duration,
       css: (t: number) => `
@@ -60,7 +60,7 @@
     }
   }
 
-  function easeOut(node: HTMLDivElement, { duration }: { duration: number }) {
+  function easeOut(_: HTMLDivElement, { duration }: { duration: number }) {
     return {
       duration,
       css: (t: number) => `

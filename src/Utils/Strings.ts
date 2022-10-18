@@ -143,7 +143,7 @@ export function dateToDateString(dateTime?: string | Date, showTime = false) {
       2
     )}s`
   }
-  return date.getDate() + ' de ' + months[date.getMonth()] + ' de ' + date.getFullYear()
+  return date.getDate() + ' de ' + months[date.getMonth()] + ' de ' + date.getFullYear() + time
 }
 
 export function formatString(filter: RegExp, mask?: string | null, maskKey?: string | null, value?: string | null) {

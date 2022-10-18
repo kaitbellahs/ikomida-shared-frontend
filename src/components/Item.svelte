@@ -14,7 +14,7 @@
   export let itemUp: ((categoryId?: string, id?: string) => void) | null = null
   export let itemDown: ((categoryId?: string, id?: string) => void) | null = null
 
-  $: servesPersons = (product?.serves ?? 0) > 1 ? product?.serves + ' pessoas' : (product?.serves ?? 0) + ' pessoa'
+  $: servesPersons = (product.serves ?? 0) > 1 ? product.serves + ' pessoas' : (product.serves ?? 0) + ' pessoa'
 
   function onClick() {
     goToProduct?.(product)
@@ -25,10 +25,10 @@
   }
 
   let itemUpClick = () => {
-    itemUp?.(product?.id)
+    itemUp?.(product.id)
   }
   let itemDownClick = () => {
-    itemDown?.(product?.id)
+    itemDown?.(product.id)
   }
 </script>
 
@@ -49,28 +49,30 @@
           : percent(product.discount)}</span
       >
     {/if}
-    <h3>{product?.title}</h3>
+    <h3>{product.title}</h3>
     <div>
-      {#if product?.image}
+      {#if product.image}
         <div class="image">
-          <Image source={product?.image} name={product?.title} />
+          <Image source={product.image} name={product.title} />
         </div>
       {/if}
       <div class="body">
         <h4>
           <span class="current"
             >{currency(
-              (product?.price ?? 0) -
-                Finances.calcDiscount(product?.price ?? 0, product?.discount ?? 0, product?.discountType)
+              (product.price ?? 0) -
+                Finances.calcDiscount(product.price ?? 0, product.discount ?? 0, product.discountType)
             )}</span
           >
-          {#if product?.discountType && [Types.TDiscount.PERCENT, Types.TDiscount.VALUE].includes(product?.discountType)}
-            <span class="oldPrice">{currency(product?.price)}</span>
+          {#if product.discountType && [Types.TDiscount.PERCENT, Types.TDiscount.VALUE].includes(product.discountType)}
+            <span class="oldPrice">{currency(product.price)}</span>
           {/if}
         </h4>
-        <p>{product?.description}</p>
-        <span class:serves={product?.serves !== null}
-          >Serve até {servesPersons} (≈ {Finances.formatWeight(product?.weight ?? 0)})</span
+        <p>{product.description}</p>
+        <span class:serves={product.serves !== null}
+          >Serve até {servesPersons} (~≈ {product.measureUnit && product.measure
+            ? Finances.formatMeasure(product.measure ?? 0, product.measureUnit)
+            : '-'})</span
         >
       </div>
     </div>
