@@ -161,7 +161,9 @@
   }
   .imageContainer > img {
     background: #ccc;
-    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    object-fit: contain;
   }
   .imageContainer > img.show {
     display: flex;
