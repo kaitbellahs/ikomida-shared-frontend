@@ -54,7 +54,6 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Prepare and validate code
         run: |
-          yarn format
-          yarn svelte-check
+          yarn sveltecheck
       - name: Build code
         run: yarn build

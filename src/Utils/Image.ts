@@ -80,19 +80,19 @@ export class Resizer {
     return canvas.toDataURL(`image/${compressFormat}`, qualityDecimal)
   }
 
-  static b64toByteArrays(b64Data: { toString: () => string }, contentType: string) {
+  static b64toByteArrays(b64Data: string, contentType: string) {
     contentType = contentType || 'image/jpeg'
     const sliceSize = 512
 
-    const byteCharacters = atob(b64Data.toString().replace(/^data:image\/(png|jpeg|jpg|webp);base64,/, ''))
+    const byteCharacters = Buffer.from(b64Data.replace(/^data:image\/(png|jpeg|jpg|webp);base64,/, ''), 'base64')
     const byteArrays = []
 
     for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-      const slice = byteCharacters.slice(offset, offset + sliceSize)
+      const slice = byteCharacters.subarray(offset, offset + sliceSize)
 
       const byteNumbers = new Array(slice.length)
       for (let i = 0; i < slice.length; i++) {
-        byteNumbers[i] = slice.charCodeAt(i)
+        byteNumbers[i] = slice.at(i)
       }
 
       const byteArray = new Uint8Array(byteNumbers)
