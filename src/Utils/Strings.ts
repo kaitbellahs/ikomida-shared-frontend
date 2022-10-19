@@ -1,8 +1,8 @@
 import { Finances } from '@ikomida/shared-logics'
 const months = [
-  'janeiro',
+  'Janeiro',
   'Fevereiro',
-  'março',
+  'Março',
   'Abril',
   'Maio',
   'Junho',
@@ -10,7 +10,7 @@ const months = [
   'Agosto',
   'Setembro',
   'Novembro',
-  'Desembro'
+  'Dezembro'
 ]
 const articles = [
   'o',
