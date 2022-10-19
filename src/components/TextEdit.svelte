@@ -399,7 +399,7 @@
       const pickerResult = await datePicker.present(options)
       if (pickerResult?.value) {
         console.log('pickerResult.value:', pickerResult.value)
-        isValid = validate(pickerResult.value)
+        isValid = validate(removeMask(pickerResult.value))
         const date = new Date(pickerResult.value)
         input.value = pickerResult.value
         value = date
