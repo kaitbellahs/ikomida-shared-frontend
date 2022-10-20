@@ -75,8 +75,10 @@
         {product}
         {goToProduct}
         {removeProduct}
-        itemUp={productIndex > 0 ? itemUpClick(category.id) : undefined}
-        itemDown={(category.products?.length ?? 0) - 1 > productIndex ? itemDownClick(category.id) : undefined}
+        itemUp={itemUp && productIndex > 0 ? itemUpClick(category.id) : undefined}
+        itemDown={itemDown && (category.products?.length ?? 0) - 1 > productIndex
+          ? itemDownClick(category.id)
+          : undefined}
       />
     {/each}
   {/each}
