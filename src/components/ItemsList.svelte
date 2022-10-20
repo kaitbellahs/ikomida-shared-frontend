@@ -9,14 +9,14 @@
   let Layout = LayoutStore.instance.store
 
   export let categoriesAndProducts: Classes.CCategoryProducts[] = []
-  export let productPage: Symbol | null = null
-  export let removeProduct: ((product: Classes.CProduct) => Promise<void>) | null = null
-  export let removeCategory: ((id?: string) => Promise<void>) | null = null
-  export let editCategory: ((category: Classes.CCategoryProducts) => void) | null = null
-  export let categoryUp: ((id?: string) => void) | null = null
-  export let categoryDown: ((id?: string) => void) | null = null
-  export let itemUp: ((categoryId?: string, id?: string) => void) | null = null
-  export let itemDown: ((categoryId?: string, id?: string) => void) | null = null
+  export let productPage: Symbol | undefined = undefined
+  export let removeProduct: ((product: Classes.CProduct) => Promise<void>) | undefined = undefined
+  export let removeCategory: ((id?: string) => Promise<void>) | undefined = undefined
+  export let editCategory: ((category: Classes.CCategoryProducts) => void) | undefined = undefined
+  export let categoryUp: ((id?: string) => void) | undefined = undefined
+  export let categoryDown: ((id?: string) => void) | undefined = undefined
+  export let itemUp: ((categoryId?: string, id?: string) => void) | undefined = undefined
+  export let itemDown: ((categoryId?: string, id?: string) => void) | undefined = undefined
 
   function goToProduct(options: Classes.CProduct) {
     Navigation.instance?.goTo(productPage, options)
@@ -28,6 +28,18 @@
 
   function onEditCategoryClick(category: Classes.CCategoryProducts) {
     editCategory?.(category)
+  }
+
+  let itemDownClick = (categoryId?: string) => {
+    return (id?: string) => {
+      itemDown?.(categoryId, id)
+    }
+  }
+
+  let itemUpClick = (categoryId?: string) => {
+    return (id?: string) => {
+      itemUp?.(categoryId, id)
+    }
   }
 
   let categoryDownClick = (id?: string) => {
@@ -51,10 +63,10 @@
         <FloatEdit right={45} callback={() => onEditCategoryClick(category)} />
       {/if}
       <ShiftUpDownButtons
-        hasUp={index > 0}
-        hasDown={categoriesAndProducts.length - 1 > index}
-        on:up={() => categoryUpClick(category.id)}
-        on:down={() => categoryDownClick(category.id)}
+        hasUp={categoryUp && index > 0}
+        hasDown={categoryUp && categoriesAndProducts.length - 1 > index}
+        up={() => categoryUpClick(category.id)}
+        down={() => categoryDownClick(category.id)}
       />
       {category.title}
     </h2>
@@ -63,8 +75,8 @@
         {product}
         {goToProduct}
         {removeProduct}
-        itemUp={productIndex > 0 ? itemUp : null}
-        itemDown={(category.products?.length ?? 0) - 1 > productIndex ? itemDown : null}
+        itemUp={productIndex > 0 ? itemUpClick(category.id) : undefined}
+        itemDown={(category.products?.length ?? 0) - 1 > productIndex ? itemDownClick(category.id) : undefined}
       />
     {/each}
   {/each}

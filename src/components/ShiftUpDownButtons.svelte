@@ -1,29 +1,21 @@
 <script lang="ts">
   import Fa from 'svelte-fa'
   import { faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons'
-  import { createEventDispatcher } from 'svelte'
 
-  const dispatch = createEventDispatcher()
   export let hasUp = false
   export let hasDown = false
-
-  function onUpClick() {
-    dispatch('up')
-  }
-
-  function onDownClick() {
-    dispatch('down')
-  }
+  export let up: () => void
+  export let down: () => void
 </script>
 
 <shiftUpDownButtons>
   {#if hasUp}
-    <button class="up" on:click={() => onUpClick}>
+    <button class="up" on:click={up}>
       <Fa style="font-size: 1em; color: #350101;" icon={faSortUp} />
     </button>
   {/if}
   {#if hasDown}
-    <button class="down" on:click={() => onDownClick}>
+    <button class="down" on:click={down}>
       <Fa style="font-size: 1em; color:#350101;" icon={faSortDown} />
     </button>
   {/if}

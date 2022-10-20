@@ -9,10 +9,10 @@
   let Layout = LayoutStore.instance.store
 
   export let product: Classes.CProduct
-  export let goToProduct: ((product: Classes.CProduct) => void) | null = null
-  export let removeProduct: ((product: Classes.CProduct) => Promise<void>) | null = null
-  export let itemUp: ((categoryId?: string, id?: string) => void) | null = null
-  export let itemDown: ((categoryId?: string, id?: string) => void) | null = null
+  export let goToProduct: ((product: Classes.CProduct) => void) | undefined = undefined
+  export let removeProduct: ((product: Classes.CProduct) => Promise<void>) | undefined = undefined
+  export let itemUp: ((id?: string) => void) | undefined = undefined
+  export let itemDown: ((id?: string) => void) | undefined = undefined
 
   $: servesPersons = (product.serves ?? 0) > 1 ? product.serves + ' pessoas' : (product.serves ?? 0) + ' pessoa'
 
@@ -37,7 +37,12 @@
   style="--background: {$Layout?.background || '#eeeeee33'};--buttonBackground: {$Layout?.button?.background ||
     'red'};--buttonColor: {$Layout?.button?.color || '#fff'};"
 >
-  <ShiftUpDownButtons hasUp={itemUp !== null} hasDown={itemDown !== null} on:up={itemUpClick} on:down={itemDownClick} />
+  <ShiftUpDownButtons
+    hasUp={itemUp !== undefined}
+    hasDown={itemDown !== undefined}
+    up={itemUpClick}
+    down={itemDownClick}
+  />
   {#if removeProduct}
     <FloatRemove callback={onRemoveClick} />
   {/if}
@@ -69,7 +74,7 @@
           {/if}
         </h4>
         <p>{product.description}</p>
-        <span class:serves={product.serves !== null}
+        <span class:serves={product.serves !== undefined}
           >Serve até {servesPersons} (~≈ {product.measureUnit && product.measure
             ? Finances.formatMeasure(product.measure ?? 0, product.measureUnit)
             : '-'})</span
