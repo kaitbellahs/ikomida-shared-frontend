@@ -1,24 +1,28 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher } from 'svelte'
 
-  const dispatch = createEventDispatcher();
-  export let checked: boolean = false;
-  export let name: string | null = null;
+  const dispatch = createEventDispatcher()
+  export let checked: boolean = false
+  export let name: string | null = null
 
   function onClick() {
-    dispatch('checked', { checked });
+    dispatch('checked', { checked })
   }
 </script>
 
-<div class="switchContainer" on:click={onClick}>
+<button class="switchContainer" on:click={onClick}>
   <span class="title">{name || ''}</span>
   <label class="switch">
     <input type="checkbox" bind:checked />
     <span class="slider round" />
   </label>
-</div>
+</button>
 
 <style>
+  button {
+    border: 0;
+    background-color: transparent;
+  }
   .switchContainer {
     display: flex;
     margin-top: 20px;

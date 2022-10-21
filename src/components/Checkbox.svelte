@@ -1,27 +1,31 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-  import { v4 as uuidV4 } from 'uuid';
+  import { createEventDispatcher } from 'svelte'
+  import { v4 as uuidV4 } from 'uuid'
 
-  export let checked = false;
-  export let label: string | null = null;
-  export let marginTop = 20;
+  export let checked = false
+  export let label: string | null = null
+  export let marginTop = 20
 
-  const dispatch = createEventDispatcher();
-  const id = uuidV4();
+  const dispatch = createEventDispatcher()
+  const id = uuidV4()
 
   function onClick() {
-    dispatch('check', { checked });
+    dispatch('check', { checked })
   }
 </script>
 
-<div class="switchContainer" style="--marginTop: {marginTop}px;" on:click={onClick}>
+<button class="switchContainer" style="--marginTop: {marginTop}px;" on:click={onClick}>
   <input {id} type="checkbox" bind:checked />
   {#if label}
     <label for={id}>{label}</label>
   {/if}
-</div>
+</button>
 
 <style>
+  button {
+    border: 0;
+    background-color: transparent;
+  }
   .switchContainer {
     display: flex;
     margin-top: var(--marginTop);
