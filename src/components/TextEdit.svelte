@@ -399,12 +399,17 @@
       const pickerResult = await datePicker.present(options)
       if (pickerResult?.value) {
         console.log('pickerResult.value:', pickerResult.value)
-        isValid = validate(removeMask(pickerResult.value))
+        const dateWithoutMask = removeMask(pickerResult.value)
+        isValid = validate(dateWithoutMask)
         input.value = pickerResult.value
-        if(type === TTextEdit.DATE){
-        const date = new Date(pickerResult.value)
-        value = date
-        }else{
+        if (type === TTextEdit.DATE) {
+          const dateString = `${dateWithoutMask.substring(4, 8)}-${dateWithoutMask.substring(
+            2,
+            4
+          )}-${dateWithoutMask.substring(0, 2)}`
+          const date = new Date(dateString)
+          value = date
+        } else {
           value = removeMask(pickerResult.value)
         }
       }
