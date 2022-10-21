@@ -400,9 +400,13 @@
       if (pickerResult?.value) {
         console.log('pickerResult.value:', pickerResult.value)
         isValid = validate(removeMask(pickerResult.value))
-        const date = new Date(pickerResult.value)
         input.value = pickerResult.value
+        if(type === TTextEdit.DATE){
+        const date = new Date(pickerResult.value)
         value = date
+        }else{
+          value = removeMask(pickerResult.value)
+        }
       }
     } catch (error: any) {
       //TODO: -- Report errors
