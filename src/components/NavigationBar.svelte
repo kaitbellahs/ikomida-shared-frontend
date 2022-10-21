@@ -171,7 +171,7 @@
 
 <header
   class="shadow"
-  style="--topMargin: {topMargin}px;padding-top: {paddingTop}px;--paddingBottom: {paddingBottom}px;--background:{$Layout
+  style="--topMargin: {topMargin}px;--paddingTop: {paddingTop}px;--paddingBottom: {paddingBottom}px;--background:{$Layout
     ?.header?.background ?? '#4c0708'};--color:{$Layout?.header?.color || '#ffffff'};--menuHamburger:{$Layout?.header
     ?.menuHamburger ?? '#ffffff'};"
 >
@@ -407,9 +407,9 @@
     color: var(--color);
     display: flex;
     width: 100%;
-    height: calc(50px + var(--topMargin));
+    height: calc(50px + var(--paddingTop) + var(--topMargin));
     padding: 0;
-    padding-top: var(--topMargin);
+    padding-top: calc(var(--paddingTop) + var(--topMargin));
     box-shadow: 1px 2px rgba(var(--background), 0.3);
     align-items: center;
     z-index: 99999999;
