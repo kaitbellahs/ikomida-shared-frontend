@@ -32,25 +32,20 @@ export class Auth {
   constructor(name: string) {
     this.name = `AuthToken:${name}`
   }
-  setter(setter: Subscriber<string>): void | Unsubscriber {
-    let token = null
-    Preferences.get({
-      key: this.name
-    })
-      .then(ret => {
-        token = ret.value
-        if (token === '' || token === null) token = ''
-        setter(token)
-      })
-      .catch((error: any) => {
-        token = ''
-        setter(token)
-        //TODO: -- report errors
-      })
+  async setter() {
+    let token = ''
+    try {
+      token = (await Preferences.get({
+        key: this.name
+      })).value ?? ''
+    } catch (_) { }
+    return (setter: Subscriber<string>): void | Unsubscriber => {
+      setter(token)
+    }
   }
 
   async createStore() {
-    const { subscribe, set } = writable('', this.setter.bind(this))
+    const { subscribe, set } = writable('', (await this.setter()).bind(this))
 
     return {
       subscribe,
