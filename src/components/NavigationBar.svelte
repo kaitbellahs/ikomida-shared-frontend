@@ -1,191 +1,194 @@
 <script lang="ts">
-  import { v4 as uuidV4 } from 'uuid';
-  import Fa from 'svelte-fa';
-  import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-  import { AppLauncher } from '@capacitor/app-launcher';
-  import { onDestroy, onMount } from 'svelte';
-  import Alert from './Alert.svelte';
-  import Navigation from '../Stores/Navigation';
-  import MenuHamburger from '../Stores/MenuHamburger';
-  import Title from '../Stores/Title';
-  import Menu from '../Stores/Menu';
-  import MessageAlert from '../Stores/MessageAlert';
-  import { Capacitor } from '@capacitor/core';
-  import { Clipboard } from '@capacitor/clipboard';
+  import { v4 as uuidV4 } from 'uuid'
+  import Fa from 'svelte-fa'
+  import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
+  import { AppLauncher } from '@capacitor/app-launcher'
+  import { onDestroy, onMount } from 'svelte'
+  import Alert from './Alert.svelte'
+  import Navigation from '../Stores/Navigation'
+  import MenuHamburger from '../Stores/MenuHamburger'
+  import Title from '../Stores/Title'
+  import Menu from '../Stores/Menu'
+  import MessageAlert from '../Stores/MessageAlert'
+  import { Capacitor } from '@capacitor/core'
+  import { Clipboard } from '@capacitor/clipboard'
 
-  import { Layout as LayoutStore } from '../Stores';
-  let Layout = LayoutStore.instance.store;
+  import { Layout as LayoutStore, Loading } from '../Stores'
+  import Image from './Image.svelte'
+  let Layout = LayoutStore.instance.store
 
-  export let logo = '';
-  export let paddingTop = 0;
-  export let topMargin = 0;
-  export let paddingBottom = 0;
+  export let logo = ''
+  export let paddingTop = 0
+  export let topMargin = 0
+  export let paddingBottom = 0
 
-  let swipeGoBack: boolean = false;
-  let showMenu = false;
-  let showMenuHamburger = false;
-  let showAlert = false;
-  let App: any;
-  let stack = Navigation.instance?.store;
-  let menuHamburger = MenuHamburger.instance?.store;
-  let menu = Menu.instance?.store;
-  let title = Title.instance?.store;
+  let swipeGoBack: boolean = false
+  let showMenu = false
+  let showMenuHamburger = false
+  let showAlert = false
+  let App: any
+  let stack = Navigation.instance?.store
+  let menuHamburger = MenuHamburger.instance?.store
+  let menu = Menu.instance?.store
+  let title = Title.instance?.store
 
   let swipe = {
     x: 0,
     y: 0,
     t: 0,
-    c: 600,
-  };
+    c: 600
+  }
 
   $: if (swipeGoBack) {
-    swipeGoBack = false;
-    goBack();
+    swipeGoBack = false
+    goBack()
   }
 
   $: if ($stack) {
-    showMenu = false;
-    showMenuHamburger = false;
-    showAlert = false;
+    showMenu = false
+    showMenuHamburger = false
+    showAlert = false
   }
 
-  function easeIn(node: HTMLDivElement, { duration }: { duration: number }) {
+  function easeIn(_: HTMLDivElement, { duration }: { duration: number }) {
     return {
       duration,
       css: (t: number) => `
         transform: translateX(-${100 - t * 100}%);
     left: -${100 - t * 100}%;
-    `,
-    };
+    `
+    }
   }
 
-  function easeOut(node: HTMLDivElement, { duration }: { duration: number }) {
+  function easeOut(_: HTMLDivElement, { duration }: { duration: number }) {
     return {
       duration,
       css: (t: number) => `
         transform: translateX(-${100 - t * 100}%);
     left: -${100 - t * 100}%;
-    `,
-    };
+    `
+    }
   }
 
   function goBack() {
-    showMenuHamburger = false;
-    showMenu = false;
+    Loading.instance.reset()
+    showMenuHamburger = false
+    showMenu = false
     if (Navigation.instance?.callBack) {
-      Navigation.instance?.callBack?.();
+      Navigation.instance?.callBack?.()
     } else {
       if ($stack.length > 1 || Capacitor.getPlatform() !== 'android') {
-        Navigation.instance.pop();
+        Navigation.instance.pop()
       } else {
-        toggleAlert();
+        toggleAlert()
       }
     }
   }
 
   function toggleMenu() {
-    showMenu = !showMenu;
+    showMenu = !showMenu
   }
 
   function toggleAlert() {
-    showAlert = !showAlert;
+    showAlert = !showAlert
   }
 
   function toggleMenuHamburger() {
-    showMenuHamburger = !showMenuHamburger;
+    showMenuHamburger = !showMenuHamburger
   }
 
   function callHamburgerCallback(callback: () => void) {
-    callback?.();
-    toggleMenuHamburger();
+    callback?.()
+    toggleMenuHamburger()
   }
 
   function callCallback(callback: () => void) {
-    toggleMenu();
-    callback?.();
+    toggleMenu()
+    callback?.()
   }
 
   async function openIkomida() {
-    const url = 'https://ikomida.com';
-    const { value } = await AppLauncher.canOpenUrl({ url });
-    await AppLauncher.openUrl({ url });
+    const url = 'https://ikomida.com'
+    const { value } = await AppLauncher.canOpenUrl({ url })
+    await AppLauncher.openUrl({ url })
     if (!value) {
-      await Clipboard.write({ string: url });
+      await Clipboard.write({ string: url })
       MessageAlert.instance.show(
-        `Se o navigador externo nao abriu: abra o e digitar essa URL: ${url}, também foi copiado para sua área de transferência para colar-lo!`,
-      );
+        `Se o navigador externo nao abriu: abra o e digitar essa URL: ${url}, também foi copiado para sua área de transferência para colar-lo!`
+      )
     }
   }
 
   function StartSwipe(e: any) {
-    swipe.x = e?.changedTouches?.[0]?.screenX ?? 0;
-    swipe.y = e?.changedTouches?.[0]?.screenY ?? 0;
-    swipe.t = new Date().getTime();
+    swipe.x = e?.changedTouches?.[0]?.screenX ?? 0
+    swipe.y = e?.changedTouches?.[0]?.screenY ?? 0
+    swipe.t = new Date().getTime()
   }
 
   function EndSwipe(e: any) {
-    const time = new Date().getTime() - swipe.c;
+    const time = new Date().getTime() - swipe.c
     if (time > 0 && time < swipe.t) {
-      const swipex = swipe.x - (e?.changedTouches?.[0]?.screenX ?? 0);
-      const swipey = swipe.y - (e?.changedTouches?.[0]?.screenY ?? 0);
-      swipeGoBack = swipex > 90 && swipey < swipex;
+      const swipex = swipe.x - (e?.changedTouches?.[0]?.screenX ?? 0)
+      const swipey = swipe.y - (e?.changedTouches?.[0]?.screenY ?? 0)
+      swipeGoBack = swipex > 90 && swipey < swipex
     }
   }
   function addStartEventListener(source: Window & typeof globalThis, cb: (e: any) => void) {
-    source.addEventListener('mousedown', cb);
-    source.addEventListener('touchstart', cb, { passive: true });
+    source.addEventListener('mousedown', cb)
+    source.addEventListener('touchstart', cb, { passive: true })
   }
 
   function removeStartEventListener(source: Window & typeof globalThis, cb: (e: any) => void) {
-    source.removeEventListener('mousedown', cb);
-    source.removeEventListener('touchstart', cb);
+    source.removeEventListener('mousedown', cb)
+    source.removeEventListener('touchstart', cb)
   }
 
   function addEndEventListener(source: Window & typeof globalThis, cb: (e: any) => void) {
-    source.addEventListener('mouseup', cb);
-    source.addEventListener('touchend', cb);
+    source.addEventListener('mouseup', cb)
+    source.addEventListener('touchend', cb)
   }
 
   function removeEndEventListener(source: Window & typeof globalThis, cb: (e: any) => void) {
-    source.removeEventListener('mouseup', cb);
-    source.removeEventListener('touchend', cb);
+    source.removeEventListener('mouseup', cb)
+    source.removeEventListener('touchend', cb)
   }
 
   onMount(async () => {
     try {
-      const capacitor = await import('@capacitor/app');
-      App = capacitor?.App;
-      App?.addListener('backButton', goBack);
+      const capacitor = await import('@capacitor/app')
+      App = capacitor?.App
+      App?.addListener('backButton', goBack)
     } catch (_) {}
-    addStartEventListener(window, StartSwipe);
-    addEndEventListener(window, EndSwipe);
-  });
+    addStartEventListener(window, StartSwipe)
+    addEndEventListener(window, EndSwipe)
+  })
 
   onDestroy(() => {
-    removeStartEventListener(window, StartSwipe);
-    removeEndEventListener(window, EndSwipe);
-  });
+    removeStartEventListener(window, StartSwipe)
+    removeEndEventListener(window, EndSwipe)
+  })
 </script>
 
 <header
   class="shadow"
-  style="--topMargin: {topMargin}px;padding-top: {paddingTop}px;--paddingBottom: {paddingBottom}px;--background:{$Layout
+  style="--topMargin: {topMargin}px;--paddingTop: {paddingTop}px;--paddingBottom: {paddingBottom}px;--background:{$Layout
     ?.header?.background ?? '#4c0708'};--color:{$Layout?.header?.color || '#ffffff'};--menuHamburger:{$Layout?.header
     ?.menuHamburger ?? '#ffffff'};"
 >
   {#if ($stack?.length ?? 0) > 1}
-    <div id="backButton" on:click={goBack}>
+    <button id="backButton" on:click={goBack}>
       <div>
         <Fa style="margin-right: 15px;font-size: 1.7em;" icon={faChevronLeft} />
       </div>
-    </div>
+    </button>
   {:else if ($menuHamburger?.length ?? 0) > 0}
-    <div class="menuHamburger" on:click={toggleMenuHamburger}>
+    <button class="menuHamburger" on:click={toggleMenuHamburger}>
       <div />
       <div />
       <div />
-    </div>
+    </button>
     {#if showMenuHamburger}
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
       <div
         in:easeIn={{ duration: 300 }}
         out:easeOut={{ duration: 300 }}
@@ -194,7 +197,7 @@
       >
         <ul>
           {#if logo}
-            <li class="logo"><img src={logo} alt="" /></li>
+            <li class="logo"><Image source={logo} name="iKomida" /></li>
           {/if}
           {#each $menuHamburger as menu (menu?.uuid ?? uuidV4())}
             {#if menu}
@@ -217,13 +220,14 @@
   {/if}
   <h1>{$title}</h1>
   {#if ($menu?.length ?? 0) > 0}
-    <div class="menu" on:click={toggleMenu}>
+    <button class="menu" on:click={toggleMenu}>
       <div />
       <div />
       <div />
-    </div>
+    </button>
     <ul class="menu" class:showMenu>
       {#each $menu as { icon, name, callback }}
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
         <li on:click={() => callCallback(callback)}>
           {#if icon}
             <Fa style="font-size: 1.5em; margin-right: 10px;" {icon} />
@@ -247,20 +251,24 @@
       {
         name: 'Sim',
         callback: () => {
-          App?.exitApp();
-        },
+          App?.exitApp()
+        }
       },
       {
         name: 'Não quero',
         callback: toggleAlert,
-        principal: true,
-      },
+        principal: true
+      }
     ]}
   />
 {/if}
 
 <style>
-  div.menu {
+  button {
+    border: 0;
+    background-color: transparent;
+  }
+  button.menu {
     flex-direction: column;
     height: 32px;
     padding: 0;
@@ -273,7 +281,7 @@
     flex-grow: 0;
     flex-shrink: 0;
   }
-  div.menu > div {
+  button.menu > div {
     background: var(--menuHamburger);
     display: block;
     width: 6px;
@@ -306,7 +314,7 @@
     background: transparent;
     border: 0;
   }
-  div.menuHamburger {
+  button.menuHamburger {
     flex-direction: column;
     height: 32px;
     padding: 0;
@@ -319,7 +327,7 @@
     flex-grow: 0;
     flex-shrink: 0;
   }
-  div.menuHamburger > div {
+  button.menuHamburger > div {
     background: var(--menuHamburger);
     display: block;
     height: 4px;
@@ -369,7 +377,7 @@
     padding: 10px 20px;
     place-content: center;
   }
-  #menuHamburger > ul > li.logo > img {
+  #menuHamburger > ul > li.logo > :global(img) {
     width: 100%;
     max-width: 500px;
     border-radius: 40px;
@@ -399,9 +407,9 @@
     color: var(--color);
     display: flex;
     width: 100%;
-    height: calc(50px + var(--topMargin));
+    height: calc(50px + var(--paddingTop) + var(--topMargin));
     padding: 0;
-    padding-top: var(--topMargin);
+    padding-top: calc(var(--paddingTop) + var(--topMargin));
     box-shadow: 1px 2px rgba(var(--background), 0.3);
     align-items: center;
     z-index: 99999999;

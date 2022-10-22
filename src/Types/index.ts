@@ -1,5 +1,8 @@
-export { default as Status } from './Status';
-export { default as SelectorOptions } from './SelectorOptions';
-export { default as TTextEdit } from './TTextEdit';
-export { default as CCart } from './CCart';
-export * from '@ikomida/shared-types';
+export { default as Status } from './Status.js'
+export { default as SelectorOptions } from './SelectorOptions.js'
+export { default as TTextEdit } from './TTextEdit.js'
+export { default as CCart } from './CCart.js'
+export { default as CCartProductOption } from './CCartProductOption.js'
+export { default as TUploadablePhoto } from './TUploadablePhoto.js'
+export { default as TButton } from './TButton.js'
+export * from '@ikomida/shared-types'

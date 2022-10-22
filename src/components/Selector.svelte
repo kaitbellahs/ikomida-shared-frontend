@@ -1,19 +1,16 @@
 <script lang="ts">
-  import type { Classes, Types } from '@ikomida/shared-types';
-  import type { ISelectorOptions } from '../Types/SelectorOptions';
+  import type { Classes, Types } from '@ikomida/shared-types'
+  import type { ISelectorOptions } from '../Types/SelectorOptions'
 
-  type SelectorType = ISelectorOptions | Classes.BaseJSON | undefined | Types.TBaseType;
-  export let name: string;
-  export let marginTop = 20;
-  export let selected: SelectorType;
-  export let options: any[] = [];
+  type SelectorType = ISelectorOptions | Classes.BaseJSON | undefined | Types.TBaseType
+  export let name: string
+  export let marginTop = 20
+  export let selected: SelectorType
+  export let options: any[] = []
 
   function change(option: any) {
-    console.log(option.target.value);
-    const currentOption = options.filter((item) => item?.id === option.target.value)?.[0];
-    if (currentOption) {
-      selected = currentOption;
-    }
+    const currentOption = options.filter(item => item?.id === option.target.value)?.[0]
+    selected = currentOption
   }
 </script>
 

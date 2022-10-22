@@ -1,35 +1,31 @@
 <script lang="ts">
-  import Fa from 'svelte-fa';
-  import { faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
-  import { createEventDispatcher } from 'svelte';
+  import Fa from 'svelte-fa'
+  import { faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons'
 
-  const dispatch = createEventDispatcher();
-  export let hasUp = false;
-  export let hasDown = false;
-
-  function onUpClick() {
-    dispatch('up');
-  }
-
-  function onDownClick() {
-    dispatch('down');
-  }
+  export let hasUp = false
+  export let hasDown = false
+  export let up: () => void
+  export let down: () => void
 </script>
 
 <shiftUpDownButtons>
   {#if hasUp}
-    <div class="up" on:click={() => onUpClick}>
+    <button class="up" on:click={up}>
       <Fa style="font-size: 1em; color: #350101;" icon={faSortUp} />
-    </div>
+    </button>
   {/if}
   {#if hasDown}
-    <div class="down" on:click={() => onDownClick}>
+    <button class="down" on:click={down}>
       <Fa style="font-size: 1em; color:#350101;" icon={faSortDown} />
-    </div>
+    </button>
   {/if}
 </shiftUpDownButtons>
 
 <style>
+  button {
+    border: 0;
+    background-color: transparent;
+  }
   shiftUpDownButtons {
     display: flex;
     flex-direction: column;
@@ -37,7 +33,7 @@
     overflow: hidden;
     font-size: 18px;
   }
-  shiftUpDownButtons > div {
+  shiftUpDownButtons > button {
     margin: 0;
     padding: 0;
     height: 18px;
@@ -49,12 +45,12 @@
     box-shadow: 1px 2px #ccc;
     border-radius: 9px;
   }
-  shiftUpDownButtons > div.up {
+  shiftUpDownButtons > button.up {
     align-items: flex-start;
     place-content: center;
     padding-top: 3px;
   }
-  shiftUpDownButtons > div.down {
+  shiftUpDownButtons > button.down {
     margin-top: 2px;
     align-items: flex-end;
     place-content: center;

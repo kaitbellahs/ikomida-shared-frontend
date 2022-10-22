@@ -1,9 +1,9 @@
 import {
   importSPKI,
-  compactVerify,
+  compactVerify
   // CompactEncrypt
-} from 'jose';
-const algorithm = 'PS256';
+} from 'jose'
+const algorithm = 'PS256'
 //TODO: configure as environemnt list
 const spki: any = {
   production: `-----BEGIN PUBLIC KEY-----
@@ -33,15 +33,15 @@ Ohck9fb34QSBuUzLwNOR8Q43NIk7HMEo1UpBVhCEIWCsqCK0A7egSjbLvRxSYnDf
 pvDJMGr/0FOcvd6hlHKyh7tgyj53aPKAW0ebj7LFxdzZxJj6Qdc5CoThUcKyGxk9
 WQIDAQAB
 -----END PUBLIC KEY-----`
-};
+}
 export async function extractToken(token: string) {
-  if (token == null || token === null || token === 'null') return null;
+  if (token == null || token === null || token === 'null') return null
   try {
-    const ecPublicKey = await importSPKI(spki[window.environment], algorithm);
-    const { payload } = await compactVerify(token, ecPublicKey);
-    return JSON.parse(new TextDecoder().decode(payload));
+    const ecPublicKey = await importSPKI(spki[window.environment], algorithm)
+    const { payload } = await compactVerify(token, ecPublicKey)
+    return JSON.parse(new TextDecoder().decode(payload))
   } catch (error: any) {
-    return null;
+    return null
   }
 }
 

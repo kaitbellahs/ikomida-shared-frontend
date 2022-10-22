@@ -1,19 +1,21 @@
 <script lang="ts">
-  import type { IconDefinition } from '@fortawesome/free-solid-svg-icons';
-  import Fa from 'svelte-fa';
-  import Navigation from '../Stores/Navigation';
-  import { Layout as LayoutStore } from '../Stores';
-  let Layout = LayoutStore.instance.store;
+  import type { IconDefinition } from '@fortawesome/free-solid-svg-icons'
+  import Fa from 'svelte-fa'
+  import Navigation from '../Stores/Navigation'
+  import { Layout as LayoutStore, Loading, MessageAlert } from '../Stores'
+  let Layout = LayoutStore.instance.store
 
-  export let tabs: { name: string; route: Symbol; icon?: IconDefinition }[];
-  export let bottomPadding = 0;
-  let stack = Navigation.instance?.store;
+  export let tabs: { name: string; route: Symbol; icon?: IconDefinition }[]
+  export let bottomPadding = 0
+  let stack = Navigation.instance?.store
 
-  $: baseRoute = $stack[0].route;
-  $: size = Math.round(100 / tabs.length) + '%';
+  $: baseRoute = $stack[0].route
+  $: size = Math.round(100 / tabs.length) + '%'
 
   function onClick(route: Symbol) {
-    Navigation.instance.reset(route);
+    Loading.instance.reset()
+    MessageAlert.instance.reset()
+    Navigation.instance.reset(route)
   }
 </script>
 
