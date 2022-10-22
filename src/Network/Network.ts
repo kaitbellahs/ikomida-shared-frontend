@@ -36,7 +36,7 @@ export default class Network {
   agent
   grecaptchaKey
   deviceId: string | undefined
-  auth: Auth
+  auth?: Auth
   cache: Cache
   version
   canGetMore: any = {}
@@ -126,7 +126,7 @@ export default class Network {
     const response = await this.remove('/logout', true, null, 'logout', false)
     if ((response.data as Classes.Return<boolean>)?.success || response.status === 401) {
       await Network.instance?.clearAllCache()
-      await this.auth.setToken('')
+      await this.auth?.setToken('')
     }
     return response
   }
@@ -176,7 +176,7 @@ export default class Network {
         data instanceof Classes.BaseJSON || new data.constructor() instanceof Classes.BaseJSON ? data.toJSON() : data
     }
     if (params) options.params = params
-    if (auth && options.headers) options.headers.authorization = `Bearer ${await this.auth.data()}`
+    if (auth && options.headers) options.headers.authorization = `Bearer ${await this.auth?.data()}`
     if (action && options.headers) {
       options.headers.challenge = await this.getRecaptcha(action)
     }
