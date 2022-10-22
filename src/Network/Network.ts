@@ -5,6 +5,7 @@ import { Auth } from '../Stores/Auth.js'
 import Cache from '../Stores/Cache.js'
 import MessageAlert from '../Stores/MessageAlert.js'
 import { capitalizeFirstLeter } from '../Utils/Strings.js'
+import _ from "lodash"
 
 export default class Network {
   //MARK: -- static region
@@ -35,7 +36,7 @@ export default class Network {
   agent
   grecaptchaKey
   deviceId: string | undefined
-  auth
+  auth?: Auth
   cache: Cache
   version
   canGetMore: any = {}
@@ -81,7 +82,7 @@ export default class Network {
     if (response?.success) {
       itens = response?.data ?? []
     } else {
-      ;(MessageAlert.instance as MessageAlert)?.show(response?.data as string)
+      ; (MessageAlert.instance as MessageAlert)?.show(response?.data as string)
     }
     return itens
   }
@@ -106,11 +107,12 @@ export default class Network {
       this.items[name] = refresh
         ? newitems
         : this.items?.[name]
-        ? [...(this.items?.[name] ?? []), ...(newitems as any)]
-        : newitems
+          ? [...(this.items?.[name] ?? []), ...(newitems as any)]
+          : newitems
       this.items?.[name]?.sort(
         (item1: Classes.BaseJSON, item2: Classes.BaseJSON) => (item2?.timestamp ?? 0) - (item1?.timestamp ?? 0)
       )
+      this.items[name] = _.uniqBy(this.items?.[name], 'id')
       this.cache.setObject(name, this.items?.[name])
     }
     return [this.canGetMore?.[name], this.items?.[name]]
@@ -124,7 +126,7 @@ export default class Network {
     const response = await this.remove('/logout', true, null, 'logout', false)
     if ((response.data as Classes.Return<boolean>)?.success || response.status === 401) {
       await Network.instance?.clearAllCache()
-      await Auth.instance?.setToken('')
+      await this.auth?.setToken('')
     }
     return response
   }
@@ -174,7 +176,7 @@ export default class Network {
         data instanceof Classes.BaseJSON || new data.constructor() instanceof Classes.BaseJSON ? data.toJSON() : data
     }
     if (params) options.params = params
-    if (auth && options.headers) options.headers.authorization = `Bearer ${await Auth.instance?.data()}`
+    if (auth && options.headers) options.headers.authorization = `Bearer ${await this.auth?.data()}`
     if (action && options.headers) {
       options.headers.challenge = await this.getRecaptcha(action)
     }

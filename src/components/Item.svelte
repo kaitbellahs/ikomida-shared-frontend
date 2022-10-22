@@ -75,7 +75,7 @@
         </h4>
         <p>{product.description}</p>
         <span class:serves={product.serves !== undefined}
-          >Serve até {servesPersons} (~≈ {product.measureUnit && product.measure
+          >Serve até {servesPersons} (≈ {product.measureUnit && product.measure
             ? Finances.formatMeasure(product.measure ?? 0, product.measureUnit)
             : '-'})</span
         >
