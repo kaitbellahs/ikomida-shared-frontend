@@ -1,13 +1,23 @@
 <script lang="ts">
-  import type { Classes, Types } from '@ikomida/shared-types'
+  import { Classes, Types } from '@ikomida/shared-types'
   import type { ISelectorOptions } from '../Types/SelectorOptions'
-
-  type SelectorType = ISelectorOptions | Classes.BaseJSON | undefined | Types.TBaseType
+  interface ITitlesBaseJSON {
+    title: string
+  }
+  type SelectorType = ISelectorOptions | Types.TBaseType | (Classes.BaseJSON & ITitlesBaseJSON)
   export let name: string
   export let marginTop = 20
-  export let selected: SelectorType
-  export let options: any[] = []
+  export let selected: SelectorType | undefined
+  export let options: SelectorType[] = []
 
+  $: getText = (option: SelectorType) => {
+    if (option instanceof Classes.BaseJSON && 'title' in option) {
+      return option.title ?? '-'
+    } else if (option instanceof Types.TBaseType) {
+      return option.description ?? option.name ?? '-'
+    }
+    return '-'
+  }
   function change(option: any) {
     const currentOption = options.filter(item => item?.id === option.target.value)?.[0]
     selected = currentOption
@@ -18,8 +28,8 @@
   {#if name}
     <option value={null}>{name}</option>
   {/if}
-  {#each options as option, index (option?.id ?? index)}
-    <option value={option.id} selected={selected?.id === option?.id}>{option?.name ?? option?.title ?? ''}</option>
+  {#each options as option, index (option.id ?? index)}
+    <option value={option.id} selected={selected && selected.id === option.id}>{getText(option)}</option>
   {/each}
 </select>
 

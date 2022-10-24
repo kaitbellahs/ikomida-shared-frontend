@@ -35,10 +35,13 @@ export class Auth {
   async setter() {
     let token = ''
     try {
-      token = (await Preferences.get({
-        key: this.name
-      })).value ?? ''
-    } catch (_) { }
+      token =
+        (
+          await Preferences.get({
+            key: this.name
+          })
+        ).value ?? ''
+    } catch (_) {}
     return (setter: Subscriber<string>): void | Unsubscriber => {
       setter(token)
     }
