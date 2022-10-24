@@ -5,7 +5,7 @@ import { Auth } from '../Stores/Auth.js'
 import Cache from '../Stores/Cache.js'
 import MessageAlert from '../Stores/MessageAlert.js'
 import { capitalizeFirstLeter } from '../Utils/Strings.js'
-import _ from "lodash"
+import _ from 'lodash'
 
 export default class Network {
   //MARK: -- static region
@@ -55,10 +55,8 @@ export default class Network {
 
   async setDeviceId() {
     try {
-      if (this.agent === 'VENDOR') {
-        const { Device } = await import('@capacitor/device')
-        this.deviceId = (await Device.getId())?.uuid
-      }
+      const { Device } = await import('@capacitor/device')
+      this.deviceId = (await Device.getId())?.uuid
     } catch (error: any) {
       //TODO: --report error
     }
@@ -110,7 +108,8 @@ export default class Network {
           ? [...(this.items?.[name] ?? []), ...(newitems as any)]
           : newitems
       this.items?.[name]?.sort(
-        (item1: Classes.BaseJSON, item2: Classes.BaseJSON) => (item2?.timestamp ?? 0) - (item1?.timestamp ?? 0)
+        (item1: Classes.BaseJSON & { order: number }, item2: Classes.BaseJSON & { order: number }) =>
+          (item1?.order ?? item2?.timestamp ?? 0) - (item2?.order ?? item1?.timestamp ?? 0)
       )
       this.items[name] = _.uniqBy(this.items?.[name], 'id')
       this.cache.setObject(name, this.items?.[name])
@@ -167,7 +166,7 @@ export default class Network {
         'X-Requested-With': `iKomida-${capitalizeFirstLeter(this.agent)} V${this.version}`
       }
     } as HttpOptions
-    if (this.agent === 'VENDOR' && options.headers && this.deviceId) {
+    if (options.headers && this.deviceId) {
       options.headers['X-iKomida-DId'] = this.deviceId
     }
     if (data && options.headers) {
@@ -204,7 +203,7 @@ export default class Network {
       await this.logout()
       return data
     } else if (res?.status && res?.status >= 200 && res?.status < 300) {
-      return new Classes.Return(data.success, data.data, res?.status)
+      return new Classes.Return(data.success, Array.isArray(data.data) ? _.sortBy(data.data, 'order') : data.data, res?.status)
     } else if (res?.status && res?.status >= 400 && res?.status < 500) {
       return (
         data ?? {

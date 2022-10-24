@@ -6,7 +6,7 @@
   export let name: string | null = null
 
   function onClick() {
-    dispatch('checked', { checked })
+    dispatch('check', { checked: !checked })
   }
 </script>
 
