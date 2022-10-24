@@ -82,7 +82,7 @@ export default class Network {
     if (response?.success) {
       itens = response?.data ?? []
     } else {
-      ;(MessageAlert.instance as MessageAlert)?.show(response?.data as string)
+      ; (MessageAlert.instance as MessageAlert)?.show(response?.data as string)
     }
     return itens
   }
@@ -107,8 +107,8 @@ export default class Network {
       this.items[name] = refresh
         ? newitems
         : this.items?.[name]
-        ? [...(this.items?.[name] ?? []), ...(newitems as any)]
-        : newitems
+          ? [...(this.items?.[name] ?? []), ...(newitems as any)]
+          : newitems
       this.items?.[name]?.sort(
         (item1: Classes.BaseJSON & { order: number }, item2: Classes.BaseJSON & { order: number }) =>
           (item1?.order ?? item2?.timestamp ?? 0) - (item2?.order ?? item1?.timestamp ?? 0)
@@ -205,7 +205,7 @@ export default class Network {
       await this.logout()
       return data
     } else if (res?.status && res?.status >= 200 && res?.status < 300) {
-      return new Classes.Return(data.success, Array.isArray(data.data) ? _.sortBy('order') : data.data, res?.status)
+      return new Classes.Return(data.success, Array.isArray(data.data) ? _.sortBy(data.data, 'order') : data.data, res?.status)
     } else if (res?.status && res?.status >= 400 && res?.status < 500) {
       return (
         data ?? {
