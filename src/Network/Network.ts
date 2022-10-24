@@ -55,10 +55,8 @@ export default class Network {
 
   async setDeviceId() {
     try {
-      if (this.agent === 'VENDOR') {
-        const { Device } = await import('@capacitor/device')
-        this.deviceId = (await Device.getId())?.uuid
-      }
+      const { Device } = await import('@capacitor/device')
+      this.deviceId = (await Device.getId())?.uuid
     } catch (error: any) {
       //TODO: --report error
     }
@@ -168,7 +166,7 @@ export default class Network {
         'X-Requested-With': `iKomida-${capitalizeFirstLeter(this.agent)} V${this.version}`
       }
     } as HttpOptions
-    if (this.agent === 'VENDOR' && options.headers && this.deviceId) {
+    if (options.headers && this.deviceId) {
       options.headers['X-iKomida-DId'] = this.deviceId
     }
     if (data && options.headers) {
