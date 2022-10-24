@@ -7,7 +7,7 @@
   type SelectorType = ISelectorOptions | Types.TBaseType | (Classes.BaseJSON & ITitlesBaseJSON)
   export let name: string
   export let marginTop = 20
-  export let selected: SelectorType
+  export let selected: SelectorType | undefined
   export let options: SelectorType[] = []
 
   $: getText = (option: SelectorType) => {
@@ -29,7 +29,7 @@
     <option value={null}>{name}</option>
   {/if}
   {#each options as option, index (option.id ?? index)}
-    <option value={option.id} selected={selected.id === option.id}>{getText(option)}</option>
+    <option value={option.id} selected={selected && selected.id === option.id}>{getText(option)}</option>
   {/each}
 </select>
 
