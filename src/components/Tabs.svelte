@@ -7,15 +7,19 @@
 
   export let tabs: { name: string; route: Symbol; icon?: IconDefinition }[]
   export let bottomPadding = 0
-  let stack = Navigation.instance?.store
+  let navigation: Navigation = Navigation.instance
+  let stack = navigation?.store
+  let router = navigation.router
 
-  $: baseRoute = $stack[0].route
+  $: baseRoute = $stack?.[0].route
   $: size = Math.round(100 / tabs.length) + '%'
 
   function onClick(route: Symbol) {
-    Loading.instance.reset()
+    if (($stack?.length ?? 0) > 1 || $router?.route !== route) {
+      Loading.instance.reset()
+      Navigation.instance.reset(route)
+    }
     MessageAlert.instance.reset()
-    Navigation.instance.reset(route)
   }
 </script>
 

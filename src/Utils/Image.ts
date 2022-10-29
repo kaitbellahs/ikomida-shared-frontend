@@ -115,7 +115,7 @@ export class Resizer {
   }
 
   static createResizedImage(
-    file: Blob,
+    data: string,
     maxWidth: number,
     maxHeight: number,
     compressFormat: string,
@@ -125,41 +125,26 @@ export class Resizer {
     minWidth?: number,
     minHeight?: number
   ) {
-    const reader = new FileReader()
-    if (file) {
-      if (file.type && !file.type.includes('image')) {
-        throw Error('File Is NOT Image!')
-      } else {
-        reader.readAsDataURL(file)
-        reader.onload = () => {
-          const image = new Image()
-          image.src = String(reader.result)
-          image.onload = function () {
-            const resizedDataUrl: string = Resizer.resizeAndRotateImage(
-              image,
-              maxWidth,
-              maxHeight,
-              minWidth,
-              minHeight,
-              compressFormat,
-              quality,
-              rotation
-            )
-            responseUriFunc(resizedDataUrl)
-          }
-        }
-        reader.onerror = (error: any) => {
-          throw Error(error)
-        }
-      }
-    } else {
-      throw Error('File Not Found!')
+    const image = new Image()
+    image.src = data
+    image.onload = function () {
+      const resizedDataUrl: string = Resizer.resizeAndRotateImage(
+        image,
+        maxWidth,
+        maxHeight,
+        minWidth,
+        minHeight,
+        compressFormat,
+        quality,
+        rotation
+      )
+      responseUriFunc(resizedDataUrl)
     }
   }
 }
 
-export function resizeImage(file: any, maxWidth: any, maxHeight: any, imageType: any): Promise<string> {
+export function resizeImage(data: string, maxWidth: any, maxHeight: any, imageType: any): Promise<string> {
   return new Promise(resolve => {
-    Resizer.createResizedImage(file, maxWidth, maxHeight, imageType, 90, 0, (uri: string) => resolve(uri))
+    Resizer.createResizedImage(data, maxWidth, maxHeight, imageType, 90, 0, (uri: string) => resolve(uri))
   })
 }
