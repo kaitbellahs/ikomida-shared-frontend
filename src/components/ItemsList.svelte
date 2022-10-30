@@ -6,6 +6,8 @@
   import Navigation from '../Stores/Navigation'
   import type { Classes } from '@ikomida/shared-types'
   import { Layout as LayoutStore } from '../Stores'
+  import { DateTime } from '@ikomida/shared-logics'
+  import Status from './Status.svelte'
   let Layout = LayoutStore.instance.store
 
   export let categoriesAndProducts: Classes.CCategoryProducts[] = []
@@ -18,7 +20,25 @@
   export let itemUp: ((categoryId?: string, id?: string) => void) | undefined = undefined
   export let itemDown: ((categoryId?: string, id?: string) => void) | undefined = undefined
 
-  function goToProduct(options: Classes.CProduct) {
+  const days = [
+    { name: 'Domingo', checked: false },
+    { name: 'Segunda-feira', checked: false },
+    { name: 'Terça-feira', checked: false },
+    { name: 'Quarta-feira', checked: false },
+    { name: 'Quinta-feira', checked: false },
+    { name: 'Sexta-feira', checked: false },
+    { name: 'Sabado', checked: false }
+  ]
+
+  function isBusinessTime(business?: Classes.CBusinessTime) {
+    return !business || (!business.days && !business.hours) || DateTime.isBusinessTime(business!)
+  }
+
+  function numerToTime(object: string) {
+    return `${object?.substring(0, 2)}h${object?.substring(2, 4)}`
+  }
+
+  function goToProduct(options: { product: Classes.CProduct; active?: boolean }) {
     Navigation.instance?.goTo(productPage, options)
   }
 
@@ -55,23 +75,51 @@
   style="--buttonBackground: {$Layout?.button?.background || 'red'};--buttonColor: {$Layout?.button?.color || '#fff'};"
 >
   {#each categoriesAndProducts as category, index (category.id ?? index)}
-    <h2>
-      {#if removeCategory}
-        <FloatRemove callback={() => onRemoveCategoryClick(category.id)} />
+    <header>
+      <h2>
+        {#if removeCategory}
+          <FloatRemove callback={() => onRemoveCategoryClick(category.id)} />
+        {/if}
+        {#if editCategory}
+          <FloatEdit right={45} callback={() => onEditCategoryClick(category)} />
+        {/if}
+        <ShiftUpDownButtons
+          hasUp={categoryUp && index > 0}
+          hasDown={categoryUp && categoriesAndProducts.length - 1 > index}
+          up={() => categoryUpClick(category.id)}
+          down={() => categoryDownClick(category.id)}
+        />
+        {category.title}
+      </h2>
+      {#if category.description}
+        <h4>{category.description}</h4>
       {/if}
-      {#if editCategory}
-        <FloatEdit right={45} callback={() => onEditCategoryClick(category)} />
+      {#if !isBusinessTime(category.business)}
+        <Status showIcon={false}
+          >Horário de delivery nesta categoria é {#if category.business?.days?.length === 7}
+            7/7
+          {:else}
+            {#each category.business?.days ?? [] as day}
+              {days?.[day]?.name || '-'} ,
+            {/each}
+          {/if}
+
+          {#if (category.business?.hours?.filter(item => {
+            return item.start === '0000' && item.end === '2359'
+          }).length ?? 0) > 0}
+            <span>24h/dia</span>
+          {:else}
+            Nestes horários:
+            {#each category.business?.hours ?? [] as businessHour}
+              das {numerToTime(businessHour?.start ?? '')} até {numerToTime(businessHour?.end ?? '')},
+            {/each}
+          {/if}</Status
+        >
       {/if}
-      <ShiftUpDownButtons
-        hasUp={categoryUp && index > 0}
-        hasDown={categoryUp && categoriesAndProducts.length - 1 > index}
-        up={() => categoryUpClick(category.id)}
-        down={() => categoryDownClick(category.id)}
-      />
-      {category.title}
-    </h2>
+    </header>
     {#each category?.products ?? [] as product, productIndex (product?.id ?? productIndex)}
       <Item
+        active={isBusinessTime(category.business)}
         {product}
         {goToProduct}
         {removeProduct}
@@ -85,7 +133,7 @@
 </div>
 
 <style>
-  h2 {
+  header {
     text-align: center;
     padding: 0;
     margin: 0;
@@ -93,5 +141,10 @@
     border-bottom: 1px solid #ccc;
     margin-bottom: 15px;
     position: relative;
+  }
+  header > h2 {
+    text-align: center;
+    padding: 0;
+    margin: 0;
   }
 </style>
