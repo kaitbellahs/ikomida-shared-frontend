@@ -19,6 +19,8 @@
     hours: []
   })
   export let title: string | undefined = undefined
+  export let startTitle: string | undefined = undefined
+  export let endTitle: string | undefined = undefined
   export let mandatory = false
 
   const days: IDay[] = [
@@ -82,14 +84,14 @@
       <FloatRemove callback={() => onRemoveClick(businessHour.id)} />
       <div class="twoCells">
         <TextEdit
-          placeHolder="Abertura"
+          placeHolder={startTitle ? startTitle : 'Abertura'}
           initialValue={businessHour.start}
           bind:value={businessHour.start}
           type={TTextEdit.TIME}
           rightPadding={10}
         />
         <TextEdit
-          placeHolder="Fechamento"
+          placeHolder={endTitle ? endTitle : 'Fechamento'}
           bind:value={businessHour.end}
           initialValue={businessHour.end}
           type={TTextEdit.TIME}
