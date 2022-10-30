@@ -1,4 +1,4 @@
-import { derived } from 'svelte/store'
+import { derived, get } from 'svelte/store'
 import { v4 as uuidV4 } from 'uuid'
 import Menu from './Menu.js'
 import BaseStore from './BaseStore.js'
@@ -29,7 +29,7 @@ export default class Navigation extends BaseStore<INavigation[]> {
     return super.createStore([
       {
         route: this.route,
-        options: null,
+        options: undefined,
         uuid: uuidV4()
       }
     ])
@@ -41,20 +41,23 @@ export default class Navigation extends BaseStore<INavigation[]> {
 
   goTo(route: Symbol, options?: any) {
     this.messageAlert.hide()
-    this.loading.reset()
-    this.loading.start()
-    Menu.instance.reset()
-    return this.store.update(navigation => [
-      ...(navigation ?? []),
-      {
-        route,
-        options,
-        uuid: uuidV4()
-      } as INavigation
-    ])
+    const router = get(this.router)
+    if (route !== router?.route || options !== router?.options) {
+      this.loading.reset()
+      Menu.instance.reset()
+      this.loading.start()
+      return this.store.update(navigation => [
+        ...(navigation ?? []),
+        {
+          route,
+          options,
+          uuid: uuidV4()
+        } as INavigation
+      ])
+    }
   }
 
-  pop(count: number) {
+  pop(count?: number) {
     this.messageAlert.hide()
     this.loading.reset()
     this.loading.start()
@@ -62,7 +65,7 @@ export default class Navigation extends BaseStore<INavigation[]> {
     return this.store.update(navigation => {
       if ((navigation?.length ?? 0) > 1) {
         let itemsToRemove = 1
-        if (count != undefined && typeof count === 'number' && count > 1 && count < (navigation?.length ?? 0)) {
+        if (count && count > 1 && count < (navigation?.length ?? 0)) {
           itemsToRemove = count
         }
         return [...(navigation ?? []).slice(0, (navigation?.length ?? 0) - itemsToRemove)]
@@ -74,13 +77,17 @@ export default class Navigation extends BaseStore<INavigation[]> {
 
   reset(route: Symbol): void {
     this.messageAlert.hide()
-    this.loading.start()
-    Menu.instance.reset()
+    const router = get(this.router)
+    if (route !== router?.route) {
+      Menu.instance.reset()
+      this.loading.reset()
+      this.loading.start()
+    }
     return this.store.set([
       {
         route,
         uuid: uuidV4(),
-        options: null
+        options: undefined
       }
     ])
   }

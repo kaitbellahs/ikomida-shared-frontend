@@ -97,10 +97,10 @@
   dependencies:
     "@fortawesome/fontawesome-common-types" "6.2.0"
 
-"@ikomida/shared-logics@^1.0.7":
-  version "1.0.7"
-  resolved "https://us-central1-npm.pkg.dev/ikomida-dev/node/@ikomida/shared-logics/-/@ikomida/shared-logics-1.0.7.tgz#cf7ba40a0e7d5e20d1ff76bfdde31270fe389f3b"
-  integrity sha512-VrYKONfPEIQLn2kMYdc7tyiyZjKVV2o5P7U15uUzArPlkH7eNUHZ1ZHqL7lLzoTRHEx0o7haUfscH9lAsnyoGA==
+"@ikomida/shared-logics@^1.1.1":
+  version "1.1.1"
+  resolved "https://us-central1-npm.pkg.dev/ikomida-dev/node/@ikomida/shared-logics/-/@ikomida/shared-logics-1.1.1.tgz#687366228898e98be889375423172f5d0d01bbbc"
+  integrity sha512-5I0mMx8J276daQRwj15cbEFatQCAcdYTpvXoW30hucQhbNmtjHWzcTYwDlcSPkG6n5NcGe9CJJLTdIwCMOYYyQ==
   dependencies:
     luxon "^3.0.4"
 
@@ -453,10 +453,10 @@ is-number@^7.0.0:
   resolved "https://registry.yarnpkg.com/is-number/-/is-number-7.0.0.tgz#7535345b896734d5f80c4d06c50955527a14f12b"
   integrity sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==
 
-jose@^4.10.3:
-  version "4.10.3"
-  resolved "https://registry.yarnpkg.com/jose/-/jose-4.10.3.tgz#36ffeae395f14624a99961db6ada957476eccb19"
-  integrity sha512-3S4wQnaoJKSAx9uHSoyf8B/lxjs1qCntHWL6wNFszJazo+FtWe+qD0zVfY0BlqJ5HHK4jcnM98k3BQzVLbzE4g==
+jose@^4.10.4:
+  version "4.10.4"
+  resolved "https://registry.yarnpkg.com/jose/-/jose-4.10.4.tgz#5f934b2fcf2995776e8f671f7523c6ac52c138f7"
+  integrity sha512-eBH77Xs9Yc/oTDvukhAEDVMijhekPuNktXJL4tUlB22jqKP1k48v5nmsUmc8feoJPsxB3HsfEt2LbVSoz+1mng==
 
 lodash@^4.17.21:
   version "4.17.21"
