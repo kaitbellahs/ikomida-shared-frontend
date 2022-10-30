@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { Layout as LayoutStore } from '../Stores'
+  import { createEventDispatcher } from 'svelte'
+  import { Layout as LayoutStore, Navigation } from '../Stores'
   import TButton from '../Types/TButton'
-  let Layout = LayoutStore.instance.store
 
   export let bottomPadding = 0
   export let type = TButton.PRIMARY
@@ -14,18 +14,27 @@
   export let leftPadding = 0
   export let rightPadding = 0
   export let margin = '5px'
+  export let route: Symbol | undefined = undefined
 
+  const dispatch = createEventDispatcher()
+
+  let Layout: LayoutStore = LayoutStore.instance.store
+  let navigation: Navigation = Navigation.instance
   let width = 'none'
+  let background = $Layout?.button?.background ?? '#4c0708'
+  let color = $Layout?.button?.color ?? '#ffffff'
+  let minHeight = `min-height: calc(${height ? height : 40}px * ${sizeMultiplier});`
 
   $: float = isFloat ? `position: fixed; left: 5px; right: 5px; bottom: ${(bottomPadding ?? 0) + 52}px;` : ''
 
-  let background = $Layout?.button?.background ?? '#4c0708'
-  let color = $Layout?.button?.color ?? '#ffffff'
-
   switch (type) {
+    case TButton.CONTAINER:
     case TButton.TRANSPARENT:
       background = 'transparent'
       color = $Layout?.button?.background ?? '#4c0708'
+    case TButton.CONTAINER:
+      minHeight = ''
+      height = '100%'
       break
     case TButton.SECONDARY:
       background = 'gray'
@@ -45,6 +54,13 @@
       width = isFloat ? 'none' : `100%`
       break
   }
+  function click(event: MouseEvent) {
+    if (route) {
+      navigation.goTo(route)
+    } else {
+      dispatch('click', { event })
+    }
+  }
 </script>
 
 <button
@@ -53,9 +69,9 @@
     ? height
     : '40px'};--leftPadding: {leftPadding}px; --rightPadding: {rightPadding}px; text-transform: {upperCased
     ? 'uppercase'
-    : 'full-width'}; --multiplier: {sizeMultiplier};--background:{background};--color:{color};--width:{width};{float}"
+    : 'full-width'}; --multiplier: {sizeMultiplier};--background:{background};--color:{color};--width:{width};{minHeight}{float}"
   class={type !== TButton.TRANSPARENT ? 'leftShadow' : 'transparent'}
-  on:click><slot /></button
+  on:click={click}><slot /></button
 >
 
 <style>
@@ -64,7 +80,6 @@
     padding: 0;
     margin-left: var(--leftPadding);
     margin-right: var(--rightPadding);
-    min-height: calc(var(--height) * var(--multiplier));
     color: var(--color);
     width: var(--width);
     background: var(--background);
