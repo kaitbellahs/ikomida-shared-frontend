@@ -18,7 +18,9 @@
     days: [],
     hours: []
   })
-  export let title: string | undefined
+  export let title: string | undefined = undefined
+  export let startTitle: string | undefined = undefined
+  export let endTitle: string | undefined = undefined
   export let mandatory = false
 
   const days: IDay[] = [
@@ -31,15 +33,26 @@
     { name: 'Sabado', checked: false }
   ]
 
-  $: if (days) {
-    business.days = []
-    for (let index = 0; index < days.length; index++) {
-      if (days[index].checked) {
+  function check(index: number) {
+    if (!Array.isArray(business.days)) {
+      business.days = []
+    }
+    return (event: CustomEvent) => {
+      const indexOfDay = business.days?.indexOf(index) ?? -1
+      if (event.detail.checked && indexOfDay < 0) {
         business?.days?.push(index)
+      } else if (!event.detail.checked && indexOfDay >= 0) {
+        business?.days?.splice(indexOfDay, 1)
       }
+      business = business
     }
   }
 
+  $: if (business?.days) {
+    for (let index = 0; index < days.length; index++) {
+      days[index].checked = business.days.includes(index)
+    }
+  }
   const addHours = () => {
     if (business) {
       if (!business?.hours) {
@@ -48,12 +61,14 @@
       business.hours.push(Classes.CBusinessTimeHours.fromObject({ id: uuid(), start: '08:00', end: '23:59' }))
       business.hours = business?.hours
     }
+    business = business
   }
 
   function onRemoveClick(id?: string) {
     if (business) {
       business.hours = business?.hours?.filter(businessHour => businessHour.id !== id)
     }
+    business = business
   }
   onMount(() => {
     for (const index of business?.days ?? []) {
@@ -69,14 +84,14 @@
       <FloatRemove callback={() => onRemoveClick(businessHour.id)} />
       <div class="twoCells">
         <TextEdit
-          placeHolder="Abertura"
+          placeHolder={startTitle ? startTitle : 'Abertura'}
           initialValue={businessHour.start}
           bind:value={businessHour.start}
           type={TTextEdit.TIME}
           rightPadding={10}
         />
         <TextEdit
-          placeHolder="Fechamento"
+          placeHolder={endTitle ? endTitle : 'Fechamento'}
           bind:value={businessHour.end}
           initialValue={businessHour.end}
           type={TTextEdit.TIME}
@@ -92,9 +107,9 @@
 <Divider />
 <Button on:click={addHours}><Fa icon={faClock} /><span>Adicionar horários</span></Button>
 <div class="days">
-  {#each days as day}
+  {#each days as day, index}
     <div class="day">
-      <Checkbox marginTop={0} bind:checked={day.checked} label={day.name} />
+      <Checkbox marginTop={0} checked={day.checked} on:check={check(index)} label={day.name} />
     </div>
   {/each}
 </div>
@@ -120,5 +135,8 @@
     flex-basis: 40%;
     text-shadow: 0.5px 1px #18056b66;
     box-shadow: 1px 1.5px #00000099;
+  }
+  .twoCells {
+    display: flex;
   }
 </style>
