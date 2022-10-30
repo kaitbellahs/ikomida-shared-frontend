@@ -8,8 +8,9 @@
   import Image from './Image.svelte'
   let Layout = LayoutStore.instance.store
 
+  export let active = true
   export let product: Classes.CProduct
-  export let goToProduct: ((product: Classes.CProduct) => void) | undefined = undefined
+  export let goToProduct: ((options: { product: Classes.CProduct; active?: boolean }) => void) | undefined = undefined
   export let removeProduct: ((product: Classes.CProduct) => Promise<void>) | undefined = undefined
   export let itemUp: ((id?: string) => void) | undefined = undefined
   export let itemDown: ((id?: string) => void) | undefined = undefined
@@ -17,7 +18,7 @@
   $: servesPersons = (product.serves ?? 0) > 1 ? product.serves + ' pessoas' : (product.serves ?? 0) + ' pessoa'
 
   function onClick() {
-    goToProduct?.(product)
+    goToProduct?.({ product, active })
   }
 
   async function onRemoveClick() {
