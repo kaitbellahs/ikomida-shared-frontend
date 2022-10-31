@@ -35,7 +35,7 @@
   export let type: TTextEdit = TTextEdit.GENERIC
   export let placeHolder: string | undefined = undefined
   export let initialValue: string | number | undefined = undefined
-  export let value: string | Date | number | undefined | undefined = undefined
+  export let value: string | Date | number | undefined | undefined | null = undefined
   export let buttonName: string | undefined = undefined
   export let buttonIcon: IconDefinition | undefined = undefined
   export let buttonDisabled: boolean = false
@@ -73,6 +73,10 @@
 
   $: if (secret) {
     icon = icon ?? faUnlock
+  }
+
+  $: if (value === null) {
+    value = undefined
   }
 
   $: switch (type) {
