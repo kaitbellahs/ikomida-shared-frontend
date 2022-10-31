@@ -1,10 +1,8 @@
 <script lang="ts">
   import { Classes, Types } from '@ikomida/shared-types'
-  import type { ISelectorOptions } from '../Types/SelectorOptions'
-  interface ITitlesBaseJSON {
-    title: string
-  }
+  import type { ISelectorOptions, ITitlesBaseJSON } from '../Types/SelectorOptions'
   type SelectorType = ISelectorOptions | Types.TBaseType | (Classes.BaseJSON & ITitlesBaseJSON)
+
   export let name: string
   export let marginTop = 20
   export let selected: SelectorType | undefined
@@ -18,6 +16,7 @@
     }
     return '-'
   }
+
   function change(option: any) {
     const currentOption = options.filter(item => item?.id === option.target.value)?.[0]
     selected = currentOption
