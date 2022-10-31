@@ -5,6 +5,7 @@
   type SelectorType = ISelectorOptions | Types.TBaseType | (Classes.BaseJSON & ITitlesBaseJSON)
 
   export let title: string
+  export let marginTop = 0
   export let selected: SelectorType[] | undefined = []
   export let options: SelectorType[] = []
 
@@ -23,20 +24,20 @@
   {#each options as option (option?.id)}
     <div class="option">
       <Checkbox
-        marginTop={0}
+        {marginTop}
         checked={selected?.includes(option)}
         on:check={event => {
           if (!selected || selected === undefined) {
             selected = []
           }
           const index = selected?.indexOf(option)
-
           if ((index ?? -1) > -1) {
             selected?.splice(index, 1)
           }
-          if (!event?.detail?.checked) {
+          if (event.detail.checked) {
             selected?.push(option)
           }
+          selected = selected
         }}
         label={getText(option)}
       />
