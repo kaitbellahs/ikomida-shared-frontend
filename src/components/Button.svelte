@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { Classes } from '@ikomida/shared-types'
+  import type { Writable } from 'svelte/store'
   import { createEventDispatcher } from 'svelte'
   import { Layout as LayoutStore, Navigation } from '../Stores'
   import TButton from '../Types/TButton'
@@ -18,7 +20,7 @@
 
   const dispatch = createEventDispatcher()
 
-  let Layout: LayoutStore = LayoutStore.instance.store
+  let Layout: Writable<Classes.CLayout | undefined> = LayoutStore.instance.store
   let navigation: Navigation = Navigation.instance
   let width = 'none'
   let background = $Layout?.button?.background ?? '#4c0708'
