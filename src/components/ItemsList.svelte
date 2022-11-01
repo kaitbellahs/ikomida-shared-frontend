@@ -49,6 +49,10 @@
     removeCategory?.(id)
   }
 
+  function filterProducts(products?: Types.Classes.CProduct[]) {
+    return !removeProduct && products ? products.filter(product => product.active) : products ?? []
+  }
+
   function onEditCategoryClick(category: Classes.CCategoryProducts) {
     editCategory?.(category)
   }
@@ -121,7 +125,7 @@
       {/if}
     </header>
     {#if (category?.products ?? []).length > 0}
-      {#each category?.products ?? [] as product, productIndex (product?.id ?? productIndex)}
+      {#each filterProducts(category?.products) as product, productIndex (product?.id ?? productIndex)}
         <Item
           active={isBusinessTime(category.business)}
           {product}
