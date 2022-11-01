@@ -146,7 +146,7 @@
     padding: 0;
     margin: 0;
     padding-bottom: 15px;
-    border-bottom: 1px solid #ccc;
+    /* border-bottom: 1px solid #ccc; */
     margin-bottom: 15px;
     position: relative;
   }
