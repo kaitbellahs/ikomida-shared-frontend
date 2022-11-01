@@ -85,7 +85,7 @@
       </div>
     </div>
     {#if removeProduct && product.orderTypes}
-      <Divider height={10} />
+      <Divider height={7} />
       <div class="orderTypes">
         {#each product.orderTypes ?? [] as orderType (orderType.id)}
           <span>{orderType.name}</span>
@@ -110,6 +110,7 @@
     padding: 10px;
     background: var(--itemBackground);
     position: relative;
+    border-radius: 10px;
   }
   .item > button {
     background-color: transparent;
@@ -122,6 +123,7 @@
   .item > button > .orderTypes > span {
     padding: 2px;
     border-radius: 5px;
+    margin: 5px;
     font-size: 0.9em;
     border: var(--buttonBackground) solid 1px;
   }
