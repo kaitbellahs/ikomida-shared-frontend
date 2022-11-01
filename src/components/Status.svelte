@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { Classes } from '@ikomida/shared-types'
+  import type { Writable } from 'svelte/store'
   import Fa from 'svelte-fa'
   import Types from '../Types/Status'
   import { faXmark, faCheck, faTriangleExclamation, faInfo } from '@fortawesome/free-solid-svg-icons'
@@ -9,7 +11,7 @@
   export let alignCenter = true
   export let icon: IconDefinition | null = null
   import { Layout as LayoutStore } from '../Stores'
-  let Layout = LayoutStore.instance.store
+  let Layout: Writable<Classes.CLayout | undefined> = LayoutStore.instance.store
 
   let style = `--color:${$Layout?.color ?? '#4c0708'};--backGroundColor:transparent;`
 

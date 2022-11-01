@@ -16,7 +16,7 @@ export default abstract class BaseStore<T> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  constructor(...args: any[]) { }
+  constructor(...args: any[]) {}
 
   //MARK: -- instance region
   private storeValue?: Writable<T | undefined>

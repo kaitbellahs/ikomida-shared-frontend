@@ -1,9 +1,11 @@
 <script lang="ts">
+  import type { Classes } from '@ikomida/shared-types'
+  import type { Writable } from 'svelte/store'
   import type { IconDefinition } from '@fortawesome/free-solid-svg-icons'
   import Fa from 'svelte-fa'
   import Navigation from '../Stores/Navigation'
   import { Layout as LayoutStore, Loading, MessageAlert } from '../Stores'
-  let Layout = LayoutStore.instance.store
+  let Layout: Writable<Classes.CLayout | undefined> = LayoutStore.instance.store
 
   export let tabs: { name: string; route: Symbol; icon?: IconDefinition }[]
   export let bottomPadding = 0

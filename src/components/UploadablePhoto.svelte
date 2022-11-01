@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { Classes } from '@ikomida/shared-types'
+  import type { Writable } from 'svelte/store'
   import Cropper from './Cropper.svelte'
   import getCroppedImg from '../Utils/Canvas'
   import type { IPixelCrop } from '../Utils/Canvas'
@@ -17,7 +19,7 @@
   export let lastName: string | undefined = undefined
   export let type: TUploadablePhoto | undefined = undefined
 
-  let Layout = LayoutStore.instance.store
+  let Layout: Writable<Classes.CLayout | undefined> = LayoutStore.instance.store
   let rawImage: string | undefined
   let crop = { x: 0, y: 0 }
   let zoom = 1

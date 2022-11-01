@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { Classes } from '@ikomida/shared-types'
+  import type { Writable } from 'svelte/store'
   import { v4 as uuidV4 } from 'uuid'
   import Fa from 'svelte-fa'
   import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
@@ -15,7 +17,7 @@
 
   import { Layout as LayoutStore, Loading } from '../Stores'
   import Image from './Image.svelte'
-  let Layout = LayoutStore.instance.store
+  let Layout: Writable<Classes.CLayout | undefined> = LayoutStore.instance.store
 
   export let logo = ''
   export let paddingTop = 0

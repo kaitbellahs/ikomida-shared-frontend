@@ -20,7 +20,7 @@
   $: servesPersons = (product.serves ?? 0) > 1 ? product.serves + ' pessoas' : (product.serves ?? 0) + ' pessoa'
 
   function onClick() {
-    goToProduct?.({ product, active })
+    goToProduct?.({ product, active: active && product.active })
   }
 
   async function onRemoveClick() {

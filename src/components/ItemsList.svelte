@@ -1,17 +1,17 @@
 <script lang="ts">
+  import type { Classes } from '@ikomida/shared-types'
+  import type { Writable } from 'svelte/store'
   import Item from './Item.svelte'
   import FloatRemove from './FloatRemove.svelte'
   import FloatEdit from './FloatEdit.svelte'
   import ShiftUpDownButtons from './ShiftUpDownButtons.svelte'
   import Navigation from '../Stores/Navigation'
-  import type { Classes } from '@ikomida/shared-types'
   import { Layout as LayoutStore } from '../Stores'
   import { DateTime } from '@ikomida/shared-logics'
   import Status from './Status.svelte'
   import { Types } from '..'
-  import Alert from './Alert.svelte'
   import Divider from './Divider.svelte'
-  let Layout = LayoutStore.instance.store
+  let Layout: Writable<Classes.CLayout | undefined> = LayoutStore.instance.store
 
   export let categoriesAndProducts: Classes.CCategoryProducts[] = []
   export let productPage: Symbol | undefined = undefined
@@ -49,10 +49,6 @@
     removeCategory?.(id)
   }
 
-  function filterProducts(products?: Types.Classes.CProduct[]) {
-    return !removeProduct && products ? products.filter(product => product.active) : products ?? []
-  }
-
   function onEditCategoryClick(category: Classes.CCategoryProducts) {
     editCategory?.(category)
   }
@@ -79,7 +75,8 @@
 </script>
 
 <div
-  style="--buttonBackground: {$Layout?.button?.background || 'red'};--buttonColor: {$Layout?.button?.color || '#fff'};"
+  style="--borderColor:{$Layout?.button?.background ?? '#4c0708'};--buttonBackground: {$Layout?.button?.background ||
+    'red'};--buttonColor: {$Layout?.button?.color || '#fff'};"
 >
   {#each categoriesAndProducts as category, index (category.id ?? index)}
     <header>
@@ -125,7 +122,7 @@
       {/if}
     </header>
     {#if (category?.products ?? []).length > 0}
-      {#each filterProducts(category?.products) as product, productIndex (product?.id ?? productIndex)}
+      {#each category?.products ?? [] as product, productIndex (product?.id ?? productIndex)}
         <Item
           active={isBusinessTime(category.business)}
           {product}
@@ -149,10 +146,12 @@
     text-align: center;
     padding: 0;
     margin: 0;
-    /* padding-bottom: 15px; */
-    /* border-bottom: 1px solid #ccc; */
     margin-bottom: 15px;
     position: relative;
+    background: #fff;
+    border: 1px solid var(--borderColor);
+    border-radius: 5px;
+    padding: 5px;
   }
   header > h2 {
     text-align: center;
