@@ -105,7 +105,7 @@
   }
   .item {
     width: 100%;
-    margin: 125px 0;
+    margin: 15px 0;
     border: 1px solid #ccc;
     padding: 10px;
     background: var(--itemBackground);

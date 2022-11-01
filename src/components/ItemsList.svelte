@@ -10,6 +10,7 @@
   import Status from './Status.svelte'
   import { Types } from '..'
   import Alert from './Alert.svelte'
+  import Divider from './Divider.svelte'
   let Layout = LayoutStore.instance.store
 
   export let categoriesAndProducts: Classes.CCategoryProducts[] = []
@@ -133,9 +134,8 @@
         />
       {/each}
     {:else if removeCategory}
-      <Status showIcon={false} type={Types.Status.WARNING}
-        >Não há produtos nesta categoria, adicione novos produtos nesta categoria.</Status
-      >
+      <Status showIcon={false} type={Types.Status.WARNING}>Não há produtos nesta categoria.</Status>
+      <Divider />
     {/if}
   {/each}
 </div>
@@ -145,7 +145,7 @@
     text-align: center;
     padding: 0;
     margin: 0;
-    padding-bottom: 15px;
+    /* padding-bottom: 15px; */
     /* border-bottom: 1px solid #ccc; */
     margin-bottom: 15px;
     position: relative;
