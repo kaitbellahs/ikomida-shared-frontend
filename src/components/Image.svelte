@@ -3,10 +3,14 @@
   export let name = ''
   export let height = ''
   export let width = ''
+  export let loadComplete = false
+  export let showImage = true
 
-  let showImage = true
   function erroLoadImage() {
     showImage = false
+  }
+  function loadImageComplete() {
+    showImage = true
   }
 </script>
 
@@ -15,6 +19,7 @@
   <img
     on:click
     on:error={() => erroLoadImage()}
+    on:load={() => loadImageComplete()}
     src={source}
     alt={name}
     style="{height ? `height:${height};` : ''}{width ? `width:${width};` : ''}"
