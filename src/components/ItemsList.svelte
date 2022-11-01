@@ -8,6 +8,9 @@
   import { Layout as LayoutStore } from '../Stores'
   import { DateTime } from '@ikomida/shared-logics'
   import Status from './Status.svelte'
+  import { Types } from '..'
+  import Alert from './Alert.svelte'
+  import Divider from './Divider.svelte'
   let Layout = LayoutStore.instance.store
 
   export let categoriesAndProducts: Classes.CCategoryProducts[] = []
@@ -117,18 +120,23 @@
         >
       {/if}
     </header>
-    {#each category?.products ?? [] as product, productIndex (product?.id ?? productIndex)}
-      <Item
-        active={isBusinessTime(category.business)}
-        {product}
-        {goToProduct}
-        {removeProduct}
-        itemUp={itemUp && productIndex > 0 ? itemUpClick(category.id) : undefined}
-        itemDown={itemDown && (category.products?.length ?? 0) - 1 > productIndex
-          ? itemDownClick(category.id)
-          : undefined}
-      />
-    {/each}
+    {#if (category?.products ?? []).length > 0}
+      {#each category?.products ?? [] as product, productIndex (product?.id ?? productIndex)}
+        <Item
+          active={isBusinessTime(category.business)}
+          {product}
+          {goToProduct}
+          {removeProduct}
+          itemUp={itemUp && productIndex > 0 ? itemUpClick(category.id) : undefined}
+          itemDown={itemDown && (category.products?.length ?? 0) - 1 > productIndex
+            ? itemDownClick(category.id)
+            : undefined}
+        />
+      {/each}
+    {:else if removeCategory}
+      <Status showIcon={false} type={Types.Status.WARNING}>Não há produtos nesta categoria.</Status>
+      <Divider />
+    {/if}
   {/each}
 </div>
 
@@ -137,8 +145,8 @@
     text-align: center;
     padding: 0;
     margin: 0;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #ccc;
+    /* padding-bottom: 15px; */
+    /* border-bottom: 1px solid #ccc; */
     margin-bottom: 15px;
     position: relative;
   }

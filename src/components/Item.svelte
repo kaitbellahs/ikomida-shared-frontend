@@ -6,7 +6,9 @@
   import { Finances } from '@ikomida/shared-logics'
   import { Layout as LayoutStore } from '../Stores'
   import Image from './Image.svelte'
-  let Layout = LayoutStore.instance.store
+  import Divider from './Divider.svelte'
+  import type { Writable } from 'svelte/store'
+  let Layout: Writable<Classes.CLayout | undefined> = LayoutStore.instance.store
 
   export let active = true
   export let product: Classes.CProduct
@@ -35,7 +37,7 @@
 
 <div
   class="leftShadow item"
-  style="--background: {$Layout?.background || '#eeeeee33'};--buttonBackground: {$Layout?.button?.background ||
+  style="--itemBackground: {$Layout?.itemBackground || '#ffffffab'};--buttonBackground: {$Layout?.button?.background ||
     'red'};--buttonColor: {$Layout?.button?.color || '#fff'};"
 >
   <ShiftUpDownButtons
@@ -82,6 +84,14 @@
         >
       </div>
     </div>
+    {#if removeProduct && product.orderTypes}
+      <Divider height={10} />
+      <div class="orderTypes">
+        {#each product.orderTypes ?? [] as orderType (orderType.id)}
+          <span>{orderType.name}</span>
+        {/each}
+      </div>
+    {/if}
   </button>
 </div>
 
@@ -95,17 +105,25 @@
   }
   .item {
     width: 100%;
-    margin: 25px 0;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 20px;
+    margin: 15px 0;
+    border: 1px solid #ccc;
     padding: 10px;
-    padding-right: 2px;
-    background: var(--background);
+    background: var(--itemBackground);
     position: relative;
   }
   .item > button {
     background-color: transparent;
     border: 0;
+  }
+  .item > button > .orderTypes {
+    display: flex;
+    flex-direction: row;
+  }
+  .item > button > .orderTypes > span {
+    padding: 2px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    border: var(--buttonBackground) solid 1px;
   }
   .item > button > .discount {
     position: absolute;
