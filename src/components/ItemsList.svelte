@@ -78,7 +78,7 @@
   style="--borderColor:{$Layout?.button?.background ?? '#4c0708'};--buttonBackground: {$Layout?.button?.background ||
     'red'};--buttonColor: {$Layout?.button?.color || '#fff'};"
 >
-  {#each categoriesAndProducts as category, index (category.id ?? index)}
+  {#each categoriesAndProducts as category, index}
     <header>
       <h2>
         {#if removeCategory}
@@ -122,7 +122,7 @@
       {/if}
     </header>
     {#if (category?.products ?? []).length > 0}
-      {#each category?.products ?? [] as product, productIndex (product?.id ?? productIndex)}
+      {#each category?.products ?? [] as product, productIndex}
         <Item
           active={isBusinessTime(category.business)}
           {product}

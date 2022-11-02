@@ -10,7 +10,7 @@
     showImage = false
   }
   function loadImageComplete() {
-    showImage = true
+    loadComplete = true
   }
 </script>
 
