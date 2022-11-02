@@ -1,66 +1,69 @@
 <script lang="ts">
-  import Network from '../Network/Network';
-  import Menu from '../Stores/Menu';
-  import Loading from '../Stores/Loading';
-  import LoadMore from '../Stores/LoadMore';
-  import CentredMessage from './CentredMessage.svelte';
-  import ReusableList from './ReusableList.svelte';
-  import { onMount } from 'svelte';
-  import { faSync } from '@fortawesome/free-solid-svg-icons';
+  import Network from '../Network/Network'
+  import Menu from '../Stores/Menu'
+  import Loading from '../Stores/Loading'
+  import LoadMore from '../Stores/LoadMore'
+  import CentredMessage from './CentredMessage.svelte'
+  import ReusableList from './ReusableList.svelte'
+  import { onMount } from 'svelte'
+  import { faSync } from '@fortawesome/free-solid-svg-icons'
+  import type { HttpParams } from '@capacitor-community/http'
+  import type { Writable } from 'svelte/store'
 
-  type T = $$Generic;
+  type T = $$Generic
   interface $$Slots {
     default: {
-      item: T;
-      index: number;
-    };
-    centredMessage: {};
+      item: T
+      index: number
+    }
+    centredMessage: {}
   }
 
-  export let url: string;
-  export let cache: string;
-  export let noItems: string = '';
-  export let hasRecaptcha = false;
-  export let items: T[];
-  let localLoading = false;
-  let canGetMore = true;
-  let working = false;
-  let cleanRefresh = LoadMore.instance.store;
+  export let url: string
+  export let params: HttpParams | undefined = undefined
+  export let cache: string
+  export let noItems: string = ''
+  export let hasRecaptcha = false
+  export let items: T[]
+  let localLoading = false
+  let canGetMore = true
+  let working = false
+  let cleanRefresh: Writable<boolean | undefined> = LoadMore.instance.store
 
   $: if ($cleanRefresh) {
-    refresh().then(() => LoadMore.instance.completed());
+    refresh().then(() => LoadMore.instance.completed())
   }
 
   async function getMore(refresh = false) {
-    working = true;
+    working = true
     if (refresh) {
-      Loading.instance.start();
+      Loading.instance.start()
     } else {
-      localLoading = true;
+      localLoading = true
     }
-    [canGetMore, items] = (await Network.instance?.loadMore(cache, url, true, refresh)) ?? [];
+    ;[canGetMore, items] = (await Network.instance?.loadMore(cache, url, true, params, refresh)) ?? []
     if (refresh) {
-      Loading.instance.stop();
+      Loading.instance.stop()
     } else {
-      localLoading = false;
+      localLoading = false
     }
-    working = false;
+    working = false
   }
 
   async function refresh() {
-    await getMore(true);
+    await getMore(true)
   }
 
   onMount(async () => {
-    Loading.instance.start();
+    Loading.instance.start()
     Menu.instance.addItem({
       name: 'Atualiza e limpa cache',
       icon: faSync,
-      callback: refresh,
-    });
-    await getMore(false);
-    Loading.instance.stop();
-  });
+      callback: refresh
+    })
+    await getMore(false)
+    Loading.instance.stop()
+  })
 </script>
 
 {#if (items?.length ?? 0) > 0}

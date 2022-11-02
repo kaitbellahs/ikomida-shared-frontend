@@ -6,6 +6,8 @@
   import { Finances } from '@ikomida/shared-logics'
   import { Layout as LayoutStore } from '../Stores'
   import Image from './Image.svelte'
+  import Status from './Status.svelte'
+  import TStatus from '../Types/Status'
   import Divider from './Divider.svelte'
   import type { Writable } from 'svelte/store'
   let Layout: Writable<Classes.CLayout | undefined> = LayoutStore.instance.store
@@ -84,10 +86,14 @@
         >
       </div>
     </div>
+    {#if removeProduct && product.quantity <= 10}
+      <Divider height={7} />
+      <Status type={TStatus.WARNING}>Este produto tem uma quantidade inferior a 10 unidades.</Status>
+    {/if}
     {#if removeProduct && product.orderTypes}
       <Divider height={7} />
       <div class="orderTypes">
-        {#each product.orderTypes ?? [] as orderType (orderType.id)}
+        {#each product.orderTypes ?? [] as orderType}
           <span>{orderType.name}</span>
         {/each}
       </div>
