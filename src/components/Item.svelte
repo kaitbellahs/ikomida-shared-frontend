@@ -88,7 +88,7 @@
     </div>
     {#if removeProduct && product.quantity <= 10}
       <Divider height={7} />
-      <Status type={TStatus.WARNING}>Este produto tem uma quantidade inferior a 10 unidades.</Status>
+      <Status type={TStatus.WARNING}>A quantidade dos itens deste produto é inferior a 10 unidades.</Status>
     {/if}
     {#if removeProduct && product.orderTypes}
       <Divider height={7} />
