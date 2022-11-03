@@ -45,7 +45,6 @@
   $: if (swipeGoBack) {
     swipeGoBack = false
     goBack()
-    reset()
   }
 
   $: if ($stack) {
@@ -53,9 +52,6 @@
   }
 
   function reset() {
-    if (($stack?.length ?? 0) > 1) {
-      Loading.instance.reset()
-    }
     showMenu = false
     _showMenuHamburger = false
     showAlert = false
