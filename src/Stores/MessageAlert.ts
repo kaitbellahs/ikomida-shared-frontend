@@ -8,14 +8,14 @@ export interface IMessageAlert {
 }
 export interface IMessageAlertStore {
   object: IMessageAlert | string
-  callback: Function | null
+  callback: Function | undefined
 }
 export default class MessageAlert extends BaseStore<IMessageAlertStore> {
   createStore() {
-    return super.createStore(null)
+    return super.createStore(undefined)
   }
 
-  show(object: IMessageAlert | string, callback: Function | null = null) {
+  show(object: IMessageAlert | string, callback: Function | undefined = undefined) {
     return this.store?.set({ object, callback })
   }
 

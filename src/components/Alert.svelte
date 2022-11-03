@@ -1,4 +1,6 @@
 <script lang="ts" context="module">
+  import type { Classes } from '@ikomida/shared-types'
+  import type { Writable } from 'svelte/store'
   import type { IconDefinition } from '@fortawesome/free-solid-svg-icons'
   export interface IAlertButton {
     name: string
@@ -14,7 +16,7 @@
   import Button from './Button.svelte'
   import { Layout as LayoutStore } from '../Stores'
   import { TButton } from '../Types'
-  let Layout = LayoutStore.instance.store
+  let Layout: Writable<Classes.CLayout | undefined> = LayoutStore.instance.store
 
   export let title: string
   export let message: string | null = null

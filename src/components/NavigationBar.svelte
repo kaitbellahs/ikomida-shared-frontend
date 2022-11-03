@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { Classes } from '@ikomida/shared-types'
+  import type { Writable } from 'svelte/store'
   import { v4 as uuidV4 } from 'uuid'
   import Fa from 'svelte-fa'
   import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
@@ -15,7 +17,7 @@
 
   import { Layout as LayoutStore, Loading } from '../Stores'
   import Image from './Image.svelte'
-  let Layout = LayoutStore.instance.store
+  let Layout: Writable<Classes.CLayout | undefined> = LayoutStore.instance.store
 
   export let logo = ''
   export let paddingTop = 0
@@ -24,13 +26,14 @@
 
   let swipeGoBack: boolean = false
   let showMenu = false
-  let showMenuHamburger = false
+  let _showMenuHamburger = false
   let showAlert = false
   let App: any
-  let stack = Navigation.instance?.store
   let menuHamburger = MenuHamburger.instance?.store
   let menu = Menu.instance?.store
   let title = Title.instance?.store
+  let navigation: Navigation = Navigation.instance
+  let stack = navigation?.store
 
   let swipe = {
     x: 0,
@@ -45,8 +48,12 @@
   }
 
   $: if ($stack) {
+    reset()
+  }
+
+  function reset() {
     showMenu = false
-    showMenuHamburger = false
+    _showMenuHamburger = false
     showAlert = false
   }
 
@@ -71,18 +78,16 @@
   }
 
   function goBack() {
-    Loading.instance.reset()
-    showMenuHamburger = false
-    showMenu = false
-    if (Navigation.instance?.callBack) {
-      Navigation.instance?.callBack?.()
+    if (navigation?.callBack) {
+      navigation?.callBack?.()
     } else {
-      if ($stack.length > 1 || Capacitor.getPlatform() !== 'android') {
-        Navigation.instance.pop()
+      if (($stack?.length ?? 0) > 1 || Capacitor.getPlatform() !== 'android') {
+        navigation.pop()
       } else {
         toggleAlert()
       }
     }
+    reset()
   }
 
   function toggleMenu() {
@@ -93,13 +98,16 @@
     showAlert = !showAlert
   }
 
-  function toggleMenuHamburger() {
-    showMenuHamburger = !showMenuHamburger
+  function showMenuHamburger() {
+    _showMenuHamburger = true
+  }
+  function hideMenuHamburger() {
+    _showMenuHamburger = false
   }
 
   function callHamburgerCallback(callback: () => void) {
     callback?.()
-    toggleMenuHamburger()
+    hideMenuHamburger()
   }
 
   function callCallback(callback: () => void) {
@@ -182,18 +190,18 @@
       </div>
     </button>
   {:else if ($menuHamburger?.length ?? 0) > 0}
-    <button class="menuHamburger" on:click={toggleMenuHamburger}>
+    <button class="menuHamburger" on:click={_showMenuHamburger ? hideMenuHamburger : showMenuHamburger}>
       <div />
       <div />
       <div />
     </button>
-    {#if showMenuHamburger}
+    {#if _showMenuHamburger}
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <div
         in:easeIn={{ duration: 300 }}
         out:easeOut={{ duration: 300 }}
         id="menuHamburger"
-        on:click|stopPropagation={toggleMenuHamburger}
+        on:click|stopPropagation={hideMenuHamburger}
       >
         <ul>
           {#if logo}
