@@ -103,7 +103,7 @@
           >Esta categoria ficará disponível {#if category.business?.days?.length === 7}
             7/7
           {:else}
-            {(category.business?.days ?? []).length > 1 ? 'dias' : 'dia'}
+            {(category.business?.days ?? []).length > 1 ? 'dias' : ''}
             {#each category.business?.days ?? [] as day}
               {days?.[day]?.name || '-'} ,
             {/each}
@@ -114,7 +114,7 @@
           }).length ?? 0) > 0}
             <span>24h/dia</span>
           {:else}
-            e nestes horários:
+            nestes horários:
             {#each category.business?.hours ?? [] as businessHour}
               das {numerToTime(businessHour?.start ?? '')} até {numerToTime(businessHour?.end ?? '')},
             {/each}
