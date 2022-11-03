@@ -40,7 +40,7 @@
 <div
   class="leftShadow item"
   style="--itemBackground: {$Layout?.itemBackground || '#ffffffab'};--buttonBackground: {$Layout?.button?.background ||
-    'red'};--buttonColor: {$Layout?.button?.color || '#fff'};"
+    '#4c0708'};--buttonColor: {$Layout?.button?.color || '#fff'};"
 >
   <ShiftUpDownButtons
     hasUp={itemUp !== undefined}
