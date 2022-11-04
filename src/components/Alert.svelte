@@ -132,7 +132,7 @@
     flex-direction: column;
     align-items: center;
     min-width: 300px;
-    max-width: 100%;
+    max-width: 1000px;
     max-height: calc(100% - 100px);
     overflow: hidden;
   }
