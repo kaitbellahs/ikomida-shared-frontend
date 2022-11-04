@@ -1,13 +1,15 @@
 <script lang="ts">
-  import { Layout as LayoutStore } from '../Stores';
-  let Layout = LayoutStore.instance.store;
+  import type { Classes } from '@ikomida/shared-types'
+  import type { Writable } from 'svelte/store'
+  import { Layout as LayoutStore } from '../Stores'
+  let Layout: Writable<Classes.CLayout | undefined> = LayoutStore.instance.store
 
-  export let text = '';
-  export let value = '';
-  export let fontSize = '1em';
-  export let leftMargin = 40;
-  export let leftColor: string | null = null;
-  export let rightColor: string | null = null;
+  export let text = ''
+  export let value = ''
+  export let fontSize = '1em'
+  export let leftMargin = 40
+  export let leftColor: string | null = null
+  export let rightColor: string | null = null
 </script>
 
 <div

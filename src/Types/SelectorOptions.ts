@@ -4,6 +4,11 @@ export interface ISelectorOptions {
   name: any
   hasOwnProperty: (arg0: string) => any
 }
+
+export interface ITitlesBaseJSON {
+  title: string
+}
+
 export default class SelectorOptions {
   id
   name

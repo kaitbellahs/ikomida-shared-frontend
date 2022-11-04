@@ -1,12 +1,17 @@
 <script lang="ts">
+  import type { Classes } from '@ikomida/shared-types'
+  import type { Writable } from 'svelte/store'
   import Item from './Item.svelte'
   import FloatRemove from './FloatRemove.svelte'
   import FloatEdit from './FloatEdit.svelte'
   import ShiftUpDownButtons from './ShiftUpDownButtons.svelte'
   import Navigation from '../Stores/Navigation'
-  import type { Classes } from '@ikomida/shared-types'
   import { Layout as LayoutStore } from '../Stores'
-  let Layout = LayoutStore.instance.store
+  import { DateTime } from '@ikomida/shared-logics'
+  import Status from './Status.svelte'
+  import { Types } from '..'
+  import Divider from './Divider.svelte'
+  let Layout: Writable<Classes.CLayout | undefined> = LayoutStore.instance.store
 
   export let categoriesAndProducts: Classes.CCategoryProducts[] = []
   export let productPage: Symbol | undefined = undefined
@@ -18,7 +23,25 @@
   export let itemUp: ((categoryId?: string, id?: string) => void) | undefined = undefined
   export let itemDown: ((categoryId?: string, id?: string) => void) | undefined = undefined
 
-  function goToProduct(options: Classes.CProduct) {
+  const days = [
+    { name: 'Domingo', checked: false },
+    { name: 'Segunda-feira', checked: false },
+    { name: 'Terça-feira', checked: false },
+    { name: 'Quarta-feira', checked: false },
+    { name: 'Quinta-feira', checked: false },
+    { name: 'Sexta-feira', checked: false },
+    { name: 'Sabado', checked: false }
+  ]
+
+  function isBusinessTime(business?: Classes.CBusinessTime) {
+    return !business || (!business.days && !business.hours) || DateTime.isBusinessTime(business!)
+  }
+
+  function numerToTime(object: string) {
+    return `${object?.substring(0, 2)}h${object?.substring(2, 4)}`
+  }
+
+  function goToProduct(options: { product: Classes.CProduct; active?: boolean }) {
     Navigation.instance?.goTo(productPage, options)
   }
 
@@ -52,46 +75,88 @@
 </script>
 
 <div
-  style="--buttonBackground: {$Layout?.button?.background || 'red'};--buttonColor: {$Layout?.button?.color || '#fff'};"
+  style="--borderColor:{$Layout?.button?.background ?? '#4c0708'};--buttonBackground: {$Layout?.button?.background ||
+    'red'};--buttonColor: {$Layout?.button?.color || '#fff'};"
 >
-  {#each categoriesAndProducts as category, index (category.id ?? index)}
-    <h2>
-      {#if removeCategory}
-        <FloatRemove callback={() => onRemoveCategoryClick(category.id)} />
+  {#each categoriesAndProducts as category, index}
+    <header>
+      <h2>
+        {#if removeCategory}
+          <FloatRemove callback={() => onRemoveCategoryClick(category.id)} />
+        {/if}
+        {#if editCategory}
+          <FloatEdit right={45} callback={() => onEditCategoryClick(category)} />
+        {/if}
+        <ShiftUpDownButtons
+          hasUp={categoryUp && index > 0}
+          hasDown={categoryUp && categoriesAndProducts.length - 1 > index}
+          up={() => categoryUpClick(category.id)}
+          down={() => categoryDownClick(category.id)}
+        />
+        {category.title}
+      </h2>
+      {#if category.description}
+        <h4>{category.description}</h4>
       {/if}
-      {#if editCategory}
-        <FloatEdit right={45} callback={() => onEditCategoryClick(category)} />
+      {#if !isBusinessTime(category.business)}
+        <Status showIcon={false}
+          >Esta categoria ficará disponível {#if category.business?.days?.length === 7}
+            7/7
+          {:else}
+            {(category.business?.days ?? []).length > 1 ? 'dias' : ''}
+            {#each category.business?.days ?? [] as day}
+              {days?.[day]?.name || '-'} ,
+            {/each}
+          {/if}
+
+          {#if (category.business?.hours?.filter(item => {
+            return item.start === '0000' && item.end === '2359'
+          }).length ?? 0) > 0}
+            <span>24h/dia</span>
+          {:else}
+            nestes horários:
+            {#each category.business?.hours ?? [] as businessHour}
+              das {numerToTime(businessHour?.start ?? '')} até {numerToTime(businessHour?.end ?? '')},
+            {/each}
+          {/if}</Status
+        >
       {/if}
-      <ShiftUpDownButtons
-        hasUp={categoryUp && index > 0}
-        hasDown={categoryUp && categoriesAndProducts.length - 1 > index}
-        up={() => categoryUpClick(category.id)}
-        down={() => categoryDownClick(category.id)}
-      />
-      {category.title}
-    </h2>
-    {#each category?.products ?? [] as product, productIndex (product?.id ?? productIndex)}
-      <Item
-        {product}
-        {goToProduct}
-        {removeProduct}
-        itemUp={itemUp && productIndex > 0 ? itemUpClick(category.id) : undefined}
-        itemDown={itemDown && (category.products?.length ?? 0) - 1 > productIndex
-          ? itemDownClick(category.id)
-          : undefined}
-      />
-    {/each}
+    </header>
+    {#if (category?.products ?? []).length > 0}
+      {#each category?.products ?? [] as product, productIndex}
+        <Item
+          active={isBusinessTime(category.business)}
+          {product}
+          {goToProduct}
+          {removeProduct}
+          itemUp={itemUp && productIndex > 0 ? itemUpClick(category.id) : undefined}
+          itemDown={itemDown && (category.products?.length ?? 0) - 1 > productIndex
+            ? itemDownClick(category.id)
+            : undefined}
+        />
+      {/each}
+    {:else if removeCategory}
+      <Status showIcon={false} type={Types.Status.WARNING}>Não há produtos nesta categoria.</Status>
+      <Divider />
+    {/if}
   {/each}
 </div>
 
 <style>
-  h2 {
+  header {
     text-align: center;
     padding: 0;
     margin: 0;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #ccc;
     margin-bottom: 15px;
     position: relative;
+    background: #fff;
+    border: 1px solid var(--borderColor);
+    border-radius: 5px;
+    padding: 5px;
+  }
+  header > h2 {
+    text-align: center;
+    padding: 0;
+    margin: 0;
   }
 </style>

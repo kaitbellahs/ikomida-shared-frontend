@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { Classes } from '@ikomida/shared-types'
+  import type { Writable } from 'svelte/store'
   import { v4 as uuidV4 } from 'uuid'
   import Fa from 'svelte-fa'
   import { currency, percent, formatAsName } from '../Utils/Strings'
@@ -30,12 +32,12 @@
   import { Capacitor } from '@capacitor/core'
 
   const datePicker = new DatePicker()
-  let Layout = LayoutStore.instance.store
+  let Layout: Writable<Classes.CLayout | undefined> = LayoutStore.instance.store
 
   export let type: TTextEdit = TTextEdit.GENERIC
   export let placeHolder: string | undefined = undefined
   export let initialValue: string | number | undefined = undefined
-  export let value: string | Date | number | undefined | undefined = undefined
+  export let value: string | Date | number | undefined | undefined | null = undefined
   export let buttonName: string | undefined = undefined
   export let buttonIcon: IconDefinition | undefined = undefined
   export let buttonDisabled: boolean = false
@@ -73,6 +75,10 @@
 
   $: if (secret) {
     icon = icon ?? faUnlock
+  }
+
+  $: if (value === null) {
+    value = undefined
   }
 
   $: switch (type) {

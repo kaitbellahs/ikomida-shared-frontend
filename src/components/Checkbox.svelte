@@ -10,7 +10,7 @@
   const id = uuidV4()
 
   function onClick() {
-    dispatch('check', { checked })
+    dispatch('check', { checked: !checked })
   }
 </script>
 

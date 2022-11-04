@@ -19,13 +19,13 @@ export default abstract class BaseStore<T> {
   constructor(...args: any[]) {}
 
   //MARK: -- instance region
-  private storeValue?: Writable<T | null>
-  private initialValue?: T | null
+  private storeValue?: Writable<T | undefined>
+  private initialValue?: T | undefined
   private unsubscribe?: () => void
 
-  createStore(initialValue: T | null = null) {
+  createStore(initialValue: T | undefined = undefined) {
     this.initialValue = initialValue
-    return writable<T | null>(this.initialValue)
+    return writable<T | undefined>(this.initialValue)
   }
 
   get store() {
@@ -35,7 +35,7 @@ export default abstract class BaseStore<T> {
     return this.storeValue
   }
 
-  subscribe(callBack: Subscriber<T | null>) {
+  subscribe(callBack: Subscriber<T | undefined>) {
     this.unsubscribe = this.store.subscribe(callBack)
   }
 
@@ -50,6 +50,6 @@ export default abstract class BaseStore<T> {
 
   reset(...args: any[]) {
     const store = this.store
-    return store?.set(this.initialValue ? this.initialValue : null)
+    return store?.set(this.initialValue ? this.initialValue : undefined)
   }
 }

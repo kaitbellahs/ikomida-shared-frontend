@@ -1,4 +1,4 @@
-import { Http, HttpOptions, HttpResponse } from '@capacitor-community/http'
+import { Http, HttpOptions, HttpParams, HttpResponse } from '@capacitor-community/http'
 import { Capacitor } from '@capacitor/core'
 import { Classes, Interfaces } from '@ikomida/shared-types'
 import { Auth } from '../Stores/Auth.js'
@@ -9,7 +9,7 @@ import _ from 'lodash'
 
 export default class Network {
   //MARK: -- static region
-  static Methods: Interfaces.IMetadata = {
+  static Methods: any = {
     GET: 'get',
     POST: 'post',
     PUT: 'put',
@@ -35,12 +35,12 @@ export default class Network {
   XiKomidaID
   agent
   grecaptchaKey
-  deviceId: string | undefined
+  deviceId?: string
   auth?: Auth
   cache: Cache
   version
   canGetMore: any = {}
-  items: Interfaces.IRecord<string, any | null> = {}
+  items: Interfaces.IRecord<string, any | undefined> = {}
 
   constructor(apiServer: string, XiKomidaID: string, agent: string, grecaptchaKey: string, version: string) {
     this.apiServer = apiServer
@@ -64,8 +64,8 @@ export default class Network {
 
   async clearCache(name: string) {
     this.canGetMore[name] = true
-    this.items[name] = null
-    return this.cache.setObject(name, null)
+    this.items[name] = undefined
+    return this.cache.setObject(name, undefined)
   }
 
   async clearAllCache() {
@@ -74,8 +74,8 @@ export default class Network {
     return this.cache.reset()
   }
 
-  async getItens(url: string, auth: boolean, timestamp = 0) {
-    const response = await this.get(`${url}/${timestamp}`, auth)
+  async getItens(url: string, auth: boolean, params?: HttpParams, timestamp = 0) {
+    const response = await this.get(`${url}/${timestamp}`, auth, params)
     let itens: any[] = []
     if (response?.success) {
       itens = response?.data ?? []
@@ -85,7 +85,7 @@ export default class Network {
     return itens
   }
 
-  async loadMore(name: string, url: string, auth: boolean, refresh = false) {
+  async loadMore(name: string, url: string, auth: boolean, params?: HttpParams, refresh = false) {
     if (!name || !url) {
       throw Error('loadMore: cache name and url is not setted!')
     }
@@ -93,14 +93,14 @@ export default class Network {
       this.canGetMore[name] = true
     }
     if (!(name in this.items)) {
-      this.items[name] = null
+      this.items[name] = undefined
     }
     if (refresh || this.canGetMore?.[name]) {
       const timestamp = refresh ? 0 : this.items?.[name]?.[(this.items?.[name]?.length ?? 0) - 1]?.timestamp ?? 0
       if (!refresh) {
         this.items[name] = this.cache.getObject(name)
       }
-      const newitems = await this.getItens(url, auth, timestamp)
+      const newitems = await this.getItens(url, auth, params, timestamp)
       this.canGetMore[name] = ((newitems as any)?.length ?? 0) === 10
       this.items[name] = refresh
         ? newitems
@@ -122,36 +122,36 @@ export default class Network {
   }
 
   async logout(): Promise<Classes.Return<any>> {
-    const response = await this.remove('/logout', true, null, 'logout', false)
+    const response = await this.remove('/logout', true, undefined, 'logout', false)
     if ((response.data as Classes.Return<boolean>)?.success || response.status === 401) {
       await Network.instance?.clearAllCache()
       await this.auth?.setToken('')
     }
     return response
   }
-  async get(url: string, auth = false, params: any = null, action: string | null = null, parseResponse = true) {
-    return this.request(Network.Methods.GET, url, auth, params, null, action, parseResponse)
+  async get(url: string, auth = false, params?: HttpParams, action?: string, parseResponse = true) {
+    return this.request(Network.Methods.GET, url, auth, params, undefined, action, parseResponse)
   }
-  async post(url: string, auth = false, data: any = null, action: string | null = null, parseResponse = true) {
-    return this.request(Network.Methods.POST, url, auth, null, data, action, parseResponse)
+  async post(url: string, auth = false, data?: any, action?: string, parseResponse = true) {
+    return this.request(Network.Methods.POST, url, auth, undefined, data, action, parseResponse)
   }
-  async put(url: string, auth = false, data: any = null, action: string | null = null, parseResponse = true) {
-    return this.request(Network.Methods.PUT, url, auth, null, data, action, parseResponse)
+  async put(url: string, auth = false, data?: any, action?: string, parseResponse = true) {
+    return this.request(Network.Methods.PUT, url, auth, undefined, data, action, parseResponse)
   }
-  async patch(url: string, auth = false, data: any = null, action: string | null = null, parseResponse = true) {
-    return this.request(Network.Methods.PATCH, url, auth, null, data, action, parseResponse)
+  async patch(url: string, auth = false, data?: any, action?: string, parseResponse = true) {
+    return this.request(Network.Methods.PATCH, url, auth, undefined, data, action, parseResponse)
   }
-  async remove(url: string, auth = false, data: any = null, action: string | null = null, parseResponse = true) {
-    return this.request(Network.Methods.DELETE, url, auth, null, data, action, parseResponse)
+  async remove(url: string, auth = false, data?: any, action?: string, parseResponse = true) {
+    return this.request(Network.Methods.DELETE, url, auth, undefined, data, action, parseResponse)
   }
 
   async request(
-    method: string | undefined,
+    method: string,
     url: string,
     auth = false,
-    params: any = null,
-    data: any = null,
-    action: string | null = null,
+    params?: HttpParams,
+    data?: any,
+    action?: string,
     parseResponse = true
   ) {
     const XiKomidaTimestamp = `${Date.now()}`
@@ -197,7 +197,7 @@ export default class Network {
     // options.headers.signature = await signMessage(options);
   }
 
-  async parseResponse(res?: HttpResponse | undefined) {
+  async parseResponse(res?: HttpResponse) {
     const data = res?.data
     if (res?.status === 401) {
       await this.logout()

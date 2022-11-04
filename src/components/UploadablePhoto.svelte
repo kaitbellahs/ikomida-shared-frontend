@@ -1,4 +1,9 @@
 <script lang="ts">
+  import type { Classes } from '@ikomida/shared-types'
+  import type { Writable } from 'svelte/store'
+  import Cropper from './Cropper.svelte'
+  import getCroppedImg from '../Utils/Canvas'
+  import type { IPixelCrop } from '../Utils/Canvas'
   import Fa from 'svelte-fa'
   import { faCamera } from '@fortawesome/free-solid-svg-icons'
   import { onMount } from 'svelte'
@@ -6,15 +11,25 @@
   import { resizeImage } from '../Utils/Image'
   import { Layout as LayoutStore } from '../Stores'
   import TUploadablePhoto from '../Types/TUploadablePhoto'
-  let Layout = LayoutStore.instance.store
+  import Alert from './Alert.svelte'
 
   export let image: string | undefined
   export let title: string | undefined = undefined
   export let name: string | undefined = undefined
   export let lastName: string | undefined = undefined
   export let type: TUploadablePhoto | undefined = undefined
+
+  let Layout: Writable<Classes.CLayout | undefined> = LayoutStore.instance.store
+  let rawImage: string | undefined
+  let crop = { x: 0, y: 0 }
+  let zoom = 1
+  let pixelCrop: IPixelCrop
+  let dataType: string
   let showImage = true
   let isLoading = true
+  let fileinput: HTMLInputElement
+  let container: HTMLDivElement | undefined = undefined
+
   $: height =
     !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
       ? 'calc(100vw - 40px)'
@@ -22,7 +37,31 @@
       ? '210px'
       : type === TUploadablePhoto.THUMB
       ? '45px'
-      : '160px'
+      : `${container ? (container.clientWidth / 500) * 260 : 260}px`
+  $: width =
+    !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
+      ? 'calc(100vw - 40px)'
+      : type === TUploadablePhoto.PROFILE
+      ? '210px'
+      : type === TUploadablePhoto.THUMB
+      ? '45px'
+      : 'calc(100vw - 40px)'
+  $: cropHeightString =
+    !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
+      ? 'calc(100vw - 80px)'
+      : type === TUploadablePhoto.PROFILE
+      ? '210px'
+      : type === TUploadablePhoto.THUMB
+      ? '45px'
+      : `${container ? (container.clientWidth / 500) * 260 : 260}px`
+  $: cropWidthString =
+    !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
+      ? 'calc(100vw - 80px)'
+      : type === TUploadablePhoto.PROFILE
+      ? '210px'
+      : type === TUploadablePhoto.THUMB
+      ? '45px'
+      : 'calc(100vw - 80px)'
   $: minHeight =
     !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
       ? '500px'
@@ -30,36 +69,50 @@
       ? '210px'
       : type === TUploadablePhoto.THUMB
       ? '45px'
-      : '160px'
-  let fileinput: HTMLInputElement
+      : `${container ? (container.clientWidth / 500) * 260 : 260}px`
+  $: cropHeight =
+    !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
+      ? 500
+      : type === TUploadablePhoto.PROFILE
+      ? 210
+      : type === TUploadablePhoto.THUMB
+      ? 45
+      : container
+      ? (container.clientWidth / 500) * 260
+      : 260
+  $: cropWidth =
+    !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
+      ? 500
+      : type === TUploadablePhoto.PROFILE
+      ? 210
+      : type === TUploadablePhoto.THUMB
+      ? 45
+      : 500
+  $: cropSize = {
+    width: container ? container.clientWidth : cropWidth,
+    height: container ? container.clientHeight : cropHeight
+  }
+
+  async function cropImage() {
+    if (rawImage) {
+      const croppedImage = await getCroppedImg(rawImage, pixelCrop, dataType)
+      if (croppedImage) {
+        image = await resizeImage(croppedImage, cropWidth, cropHeight, dataType)
+        showImage = true
+        rawImage = undefined
+      }
+    }
+  }
 
   async function onFileSelected(event: any) {
     let imageFile = await event.target.files[0]
     let reader = new FileReader()
     reader.readAsDataURL(imageFile)
     reader.onload = async (e: any) => {
-      const [dataType] = e.target.result.split(';')
-      let imageType = 'jpeg'
-      switch (dataType) {
-        case 'image/jpeg':
-        case 'image/jpg':
-          imageType = 'jpeg'
-          break
-        case 'image/png':
-          imageType = 'png'
-          break
-      }
-      const resizeHeight =
-        !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
-          ? 400
-          : type === TUploadablePhoto.PROFILE
-          ? 210
-          : type === TUploadablePhoto.THUMB
-          ? 45
-          : 160
-      image = await resizeImage(imageFile, 400, resizeHeight, imageType)
-      showImage = true
+      ;[dataType] = e.target.result.split(';')
+      rawImage = e.target.result
     }
+    fileinput.value = ''
   }
 
   async function openFileSelector() {
@@ -74,6 +127,15 @@
   function imageLoaded() {
     isLoading = false
   }
+
+  async function closeAlert() {
+    rawImage = undefined
+  }
+
+  function previewCrop(e: any) {
+    pixelCrop = e.detail.pixels
+  }
+
   onMount(() => {
     isLoading = false
   })
@@ -81,9 +143,10 @@
 
 <div
   class="imageContainer"
-  style="--color:{$Layout?.button?.background ?? '#4c0708'};--minHeight: {minHeight};--height: {height};{type ===
-  TUploadablePhoto.PROFILE
-    ? 'border-radius: 50%;width: 210px;place-self:center;'
+  bind:this={container}
+  style="--color:{$Layout?.button?.background ??
+    '#4c0708'};--minHeight: {minHeight};--width: {width};--height: {height};{type === TUploadablePhoto.PROFILE
+    ? `border-radius: 50%;place-self:center;`
     : ''}"
 >
   {#if isLoading && (type !== TUploadablePhoto.PROFILE || image)}
@@ -137,12 +200,43 @@
     />
   </button>
 </div>
+<small>Dimensões da imagem: {cropWidth}px {cropHeight}px</small>
+{#if rawImage}
+  <Alert
+    title="Editar foto"
+    closeCallBack={closeAlert}
+    buttons={[
+      { name: 'Cancelar', callback: closeAlert, principal: false },
+      { name: 'OK', callback: cropImage, principal: true }
+    ]}
+    ><div
+      class="imageContainer"
+      style="--color:{$Layout?.button?.background ??
+        '#4c0708'};--width: {cropWidthString};--minHeight: {minHeight};--height: {cropHeightString};{type ===
+      TUploadablePhoto.PROFILE
+        ? `border-radius: 50%;place-self:center;`
+        : ''}"
+    >
+      <Cropper
+        cropShape="round"
+        {rawImage}
+        minZoom={1}
+        maxZoom={5}
+        bind:cropSize
+        bind:crop
+        bind:zoom
+        on:cropcomplete={previewCrop}
+        aspect={1}
+      />
+    </div>
+  </Alert>
+{/if}
 
 <style>
   .imageContainer {
     position: relative;
     border-radius: 4px;
-    width: 100%;
+    width: var(--width);
     max-width: 500px;
     background: #ccc;
     overflow: hidden;
@@ -183,6 +277,9 @@
     display: flex;
     align-items: center;
     color: #fff;
+  }
+  small {
+    text-align: center;
   }
   @media screen and (min-width: 500px) {
     .imageContainer {
