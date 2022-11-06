@@ -26,7 +26,9 @@
     let calcTotal = 0
     for (const option of product?.options ?? []) {
       calcTotal +=
-        option.units * (option.price - Finances.calcDiscount(option.price, product.discount, product.discountType))
+        product.quantity *
+        option.units *
+        (option.price - Finances.calcDiscount(option.price, product.discount, product.discountType))
     }
     return calcTotal
   }

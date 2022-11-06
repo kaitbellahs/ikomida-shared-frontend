@@ -98,9 +98,9 @@
       {#if category.description}
         <h4>{category.description}</h4>
       {/if}
-      {#if !isBusinessTime(category.business)}
+      {#if removeCategory || !isBusinessTime(category.business)}
         <Status showIcon={false}
-          >Esta categoria ficará disponível {#if category.business?.days?.length === 7}
+          >Esta categoria ficará disponível {#if !category.business || !category.business.days || category.business?.days?.length === 7}
             7/7
           {:else}
             {(category.business?.days ?? []).length > 1 ? 'dias' : ''}
@@ -109,9 +109,9 @@
             {/each}
           {/if}
 
-          {#if (category.business?.hours?.filter(item => {
-            return item.start === '0000' && item.end === '2359'
-          }).length ?? 0) > 0}
+          {#if !category.business || !category.business.hours || (category.business?.hours?.filter(item => {
+              return item.start === '0000' && item.end === '2359'
+            }).length ?? 0) > 0}
             <span>24h/dia</span>
           {:else}
             nestes horários:
