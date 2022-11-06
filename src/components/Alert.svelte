@@ -85,6 +85,7 @@
   p {
     max-width: 100%;
     max-height: 100%;
+    overflow-y: scroll;
   }
   button {
     border: 0;
