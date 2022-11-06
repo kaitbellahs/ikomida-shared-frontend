@@ -7,4 +7,6 @@ declare module '*.svelte' {
 
 interface Window {
   environment: string
+  opera: any
+  safari: any
 }
