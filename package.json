@@ -1,6 +1,6 @@
 {
   "name": "@ikomida/shared-frontend",
-  "version": "1.5.21",
+  "version": "1.5.22",
   "description": "the iKomida fromntend shared code",
   "private": false,
   "author": "Khalid Ait Bellahs",
@@ -72,7 +72,7 @@
   },
   "dependencies": {
     "@ikomida/shared-logics": "^1.2.0",
-    "@ikomida/shared-types": "^1.4.12",
+    "@ikomida/shared-types": "^1.4.14",
     "jose": "^4.11.0",
     "lodash": "^4.17.21",
     "react-image-file-resizer": "^0.4.8"
