@@ -1,6 +1,17 @@
 import { Finances } from '@ikomida/shared-logics'
 const months = [
-  'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+  'Janeiro',
+  'Fevereiro',
+  'Março',
+  'Abril',
+  'Maio',
+  'Junho',
+  'Julho',
+  'Agosto',
+  'Setembro',
+  'Outubro',
+  'Novembro',
+  'Dezembro'
 ]
 const articles = [
   'o',
@@ -107,15 +118,15 @@ export function dateToString(dateTime?: string | Date, showSeconds = false) {
 export function timeToString(input?: number) {
   let string = ''
   if (input && input >= 60) {
-    let minutes = input % 60 !== 0 ? Math.round(input / 60) : input / 60
+    let minutes = input % 60 > 0 ? Math.round(input / 60) : input / 60
     const seconds = input - minutes * 60
-    const secondsString = seconds !== 0 ? ` e ${seconds} segundos` : ''
+    const secondsString = seconds > 0 ? ` e ${seconds} segundos` : ''
     string = `${minutes} minutos${secondsString}`
     if (minutes >= 60) {
-      const hours = minutes % 60 !== 0 ? Math.round(minutes / 60) : minutes / 60
+      const hours = minutes % 60 > 0 ? Math.round(minutes / 60) : minutes / 60
       minutes = minutes - hours * 60
-      const minutesString = minutes !== 0 ? ` e ${minutes} minutos` : ''
-      string = `${hours} horas${minutesString}${seconds}`
+      const minutesString = minutes > 0 ? ` e ${minutes} minutos` : ''
+      string = `${hours} horas${minutesString}${secondsString}`
     }
   }
   return string
