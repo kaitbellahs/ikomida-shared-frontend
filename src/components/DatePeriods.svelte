@@ -34,10 +34,10 @@
   ]
 
   function check(index: number) {
-    if (!Array.isArray(business.days)) {
-      business.days = []
-    }
     return (event: CustomEvent) => {
+      if (!Array.isArray(business.days)) {
+        business.days = []
+      }
       const indexOfDay = business.days?.indexOf(index) ?? -1
       if (event.detail.checked && indexOfDay < 0) {
         business?.days?.push(index)
