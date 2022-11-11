@@ -104,10 +104,10 @@
   dependencies:
     luxon "^3.1.0"
 
-"@ikomida/shared-types@^1.4.14":
-  version "1.4.14"
-  resolved "https://us-central1-npm.pkg.dev/ikomida-dev/node/@ikomida/shared-types/-/@ikomida/shared-types-1.4.14.tgz#c745a9b90807c707b2648315284c3b4ca673297a"
-  integrity sha512-t7AIPpXS8wibOrhScfalwqum9wz2deUDk5xbACHDUduNSmIZpdogpSpm/b8Z+W08mYh5cQBEHjcpJGubFWsdew==
+"@ikomida/shared-types@^1.5.1":
+  version "1.5.1"
+  resolved "https://us-central1-npm.pkg.dev/ikomida-dev/node/@ikomida/shared-types/-/@ikomida/shared-types-1.5.1.tgz#5d985ba11232044bd8584f3a2509946d53449ef0"
+  integrity sha512-9hTVTQtsPZ3BqBtVFYepLofWY/V978JT3vI89+4sgzVqNbHO3AVXpa58PoQ+oUl8UnZNhXFd/XG7idOLW/XPnA==
 
 "@jridgewell/resolve-uri@3.1.0":
   version "3.1.0"
@@ -743,10 +743,10 @@ svelte2tsx@^0.5.20, svelte2tsx@~0.5.0:
     dedent-js "^1.0.1"
     pascal-case "^3.1.1"
 
-svelte@^3.52.0:
-  version "3.52.0"
-  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.52.0.tgz#08259eff20904c63882b66a5d409a55e8c6743b8"
-  integrity sha512-FxcnEUOAVfr10vDU5dVgJN19IvqeHQCS1zfe8vayTfis9A2t5Fhx+JDe5uv/C3j//bB1umpLJ6quhgs9xyUbCQ==
+svelte@^3.53.1:
+  version "3.53.1"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.53.1.tgz#db9d7df7a8f570e8e22547444c149208b1914442"
+  integrity sha512-Q4/hHkktZogGhN5iqxqSi9sjEVoe/NbIxX4hXEHoasTxj+TxEQVAq66LnDMdAZxjmsodkoI5F3slqsS68U7FNw==
 
 to-regex-range@^5.0.1:
   version "5.0.1"

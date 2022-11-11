@@ -1,6 +1,6 @@
 {
   "name": "@ikomida/shared-frontend",
-  "version": "1.5.25",
+  "version": "1.5.27",
   "description": "the iKomida fromntend shared code",
   "private": false,
   "author": "Khalid Ait Bellahs",
@@ -47,7 +47,7 @@
     "@types/uuid": "^8.3.4",
     "prettier": "^2.7.1",
     "reflect-metadata": "^0.1.13",
-    "svelte": "^3.52.0",
+    "svelte": "^3.53.1",
     "svelte-check": "^2.9.2",
     "svelte-fa": "^3.0.3",
     "svelte-strip": "^1.0.2",
@@ -72,7 +72,7 @@
   },
   "dependencies": {
     "@ikomida/shared-logics": "^1.2.1",
-    "@ikomida/shared-types": "^1.4.14",
+    "@ikomida/shared-types": "^1.5.1",
     "jose": "^4.11.0",
     "lodash": "^4.17.21",
     "react-image-file-resizer": "^0.4.8"
