@@ -435,7 +435,8 @@
   )};--marginTop: {marginTop}pt;--leftPadding: {leftPadding}pt; --rightPadding: {rightPadding}; --height: {height}pt;--leftPaddingPlaceHolder: {type ===
   TTextEdit.COLOR
     ? 170.5 + leftPadding
-    : 16 + leftPadding}pt;--color:{$Layout?.button?.background ?? '#350101'};"
+    : 16 + leftPadding}pt;--color:{$Layout?.button?.background ?? '#350101'};--buttonBackgroundColor:{$Layout?.button
+    .background ?? '#4c0708'};"
   bind:this={element}
 >
   {#if placeHolder}<label
@@ -720,7 +721,7 @@
     border-bottom-left-radius: 0;
   }
   button.button.text {
-    background-color: #4c0708;
+    background-color: var(--buttonBackgroundColor);
     color: #fff;
   }
 </style>
