@@ -37,7 +37,7 @@
     color: var(--leftColor);
   }
   .TextValue > .value {
-    margin-left: 10px;
+    margin-left: 16pt;
     width: calc(100% - var(--leftMargin));
     color: var(--rightColor);
   }

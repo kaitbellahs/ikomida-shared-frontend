@@ -25,17 +25,17 @@
   }
   .switchContainer {
     display: flex;
-    margin-top: 20px;
+    margin-top: 16pt;
     align-items: center;
   }
   .switchContainer > .title {
-    margin-right: 20px;
+    margin-right: 16pt;
   }
   .switch {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: 64pt;
+    height: 32pt;
   }
 
   .switch input {
@@ -45,9 +45,9 @@
   }
 
   .switchContainer > .title {
-    margin-bottom: 5px;
+    margin-bottom: 8pt;
     font-size: 1.1em;
-    margin-left: 9px;
+    margin-left: 8pt;
   }
 
   .slider {
@@ -65,10 +65,10 @@
   .slider:before {
     position: absolute;
     content: '';
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
+    height: 32pt;
+    width: 32pt;
+    left: 4pt;
+    bottom: 4pt;
     background-color: white;
     -webkit-transition: 0.4s;
     transition: 0.4s;
@@ -79,7 +79,7 @@
   }
 
   input:focus + .slider {
-    box-shadow: 0 0 1px #2196f3;
+    box-shadow: 0 4pt 8pt #0000009e;
   }
 
   input:checked + .slider:before {
@@ -89,7 +89,7 @@
   }
 
   .slider.round {
-    border-radius: 34px;
+    border-radius: 32pt;
   }
 
   .slider.round:before {

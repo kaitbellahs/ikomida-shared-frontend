@@ -8,8 +8,11 @@
   import type CCart from '../Types/CCart'
   import Image from './Image.svelte'
   import Divider from './Divider.svelte'
-  import { CCartProductOption, TButton, TTextEdit } from '../Types'
+  import { CCartProductOption, Classes, TButton, TTextEdit } from '../Types'
   import TextEdit from './TextEdit.svelte'
+  import type { Writable } from 'svelte/store'
+  import { Layout as LayoutStore } from '../Stores'
+  let Layout: Writable<Classes.CLayout | undefined> = LayoutStore.instance.store
 
   type ICallback =
     | ((cartProduct?: CCart, option?: CCartProductOption) => void)
@@ -46,7 +49,7 @@
   }
 </script>
 
-<div class="product">
+<div class="leftShadow product" style="--itemBackground: {$Layout?.itemBackground || '#fffffffc'};">
   <FloatRemove callback={() => onRemoveClick?.(product)} top={-6} right={-6} />
   <h3>{product.title}</h3>
   <div>
@@ -86,7 +89,7 @@
       <Divider height={10} />
       <div class="option">
         <FloatRemove callback={() => onRemoveClick?.(product, option)} top={-6} right={-6} />
-        <Image source={option.image} name={option.name} height="45px" width="45px" />
+        <Image source={option.image} name={option.name} height="48pt" width="48pt" />
         <div>
           <h3>{option.name}</h3>
           <div>
@@ -94,7 +97,7 @@
               <Button
                 type={TButton.TRANSPARENT}
                 size="none"
-                height="16px"
+                height="16pt"
                 sizeMultiplier={1.3}
                 margin="0"
                 on:click={() => minos(option)}
@@ -103,7 +106,7 @@
               ><span>{option.units}</span><Button
                 type={TButton.TRANSPARENT}
                 size="none"
-                height="16px"
+                height="16pt"
                 margin="0"
                 sizeMultiplier={1.3}
                 on:click={() => plus(option)}><Fa icon={faPlusSquare} /></Button
@@ -149,12 +152,10 @@
   .product {
     position: relative;
     width: 100%;
-    margin-top: 20px;
-    background-color: #ccccccfa;
-    border: #ccd;
-    border-radius: 5px;
-    padding: 10px;
-    padding-bottom: 0;
+    margin-top: 16pt;
+    background: var(--itemBackground);
+    border-radius: 8pt;
+    padding: 16pt;
   }
   .product > h3 {
     padding: 0;
@@ -169,7 +170,7 @@
   }
   .product > div > div {
     width: 100%;
-    min-height: 1px;
+    min-height: 1pt;
     display: flex;
     -o-flex-wrap: wrap;
     flex-wrap: wrap;
@@ -189,7 +190,7 @@
     min-width: 100%;
   }
   .product > div > .body > h4 {
-    margin-top: 8px;
+    margin-top: 8pt;
     font-weight: lighter;
   }
   .product > div > .image > :global(img) {
@@ -197,33 +198,33 @@
     max-width: 100%;
   }
   .quantity {
-    margin-top: 10px;
+    margin-top: 24pt;
     align-items: center;
     font-size: 1.8em;
     text-align: center;
     margin: 0;
     padding: 0;
-    max-height: 55px;
+    max-height: 58pt;
   }
   .quantity > span {
     padding: 0;
     border: 0;
     background: transparent;
-    margin-right: 10px;
-    margin-left: 10px;
+    margin-right: 16pt;
+    margin-left: 16pt;
   }
   .product > .option {
     background-color: #ffffff26;
     border: #ccd;
-    border-radius: 5px;
-    padding: 10px;
+    border-radius: 8pt;
+    padding: 16pt;
     position: relative;
     display: flex;
     flex-direction: row;
   }
   .product > .option > div {
-    width: calc(100% - 42px);
-    margin-left: 10px;
+    width: calc(100% - 40pt);
+    margin-left: 16pt;
   }
   .product > .option > div > div {
     display: flex;
@@ -239,7 +240,7 @@
     width: 100%;
   }
   .product > .option > div > div > .units {
-    margin-top: 5px;
+    margin-top: 8pt;
     align-items: center;
     font-size: 0.9em;
     text-align: center;
@@ -250,8 +251,8 @@
     padding: 0;
     border: 0;
     background: transparent;
-    margin-right: 6px;
-    margin-left: 6px;
+    margin-right: 8pt;
+    margin-left: 8pt;
   }
   .product > .option > div > div > .price {
     display: flex;

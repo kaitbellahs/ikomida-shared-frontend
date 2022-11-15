@@ -51,7 +51,7 @@
   export let validation: Function | undefined = undefined
   export let leftPadding = 0
   export let rightPadding = 0
-  export let marginTop = 30
+  export let marginTop = 32
   export let element: HTMLDivElement | undefined = undefined
   export let error: string | undefined = undefined
   export let min: number | undefined = undefined
@@ -173,7 +173,7 @@
     callback = showSecretCallBack
     input.value = inputValue
   }
-  $: height = (type === TTextEdit.TEXT ? 54 : 44) * sizeMultiplier
+  $: height = (type === TTextEdit.TEXT ? 48 : 32) * sizeMultiplier
   function update() {
     if (type === TTextEdit.COLOR && colorInput) {
       colorInput.value = input.value
@@ -432,10 +432,10 @@
     sizeMultiplier * (sizeMultiplier !== 1 ? 0.85 : 1)
   ).toFixed(
     2
-  )};--marginTop: {marginTop}px;--leftPadding: {leftPadding}px; --rightPadding: {rightPadding}; --height: {height}px;--leftPaddingPlaceHolder: {type ===
+  )};--marginTop: {marginTop}pt;--leftPadding: {leftPadding}pt; --rightPadding: {rightPadding}; --height: {height}pt;--leftPaddingPlaceHolder: {type ===
   TTextEdit.COLOR
-    ? 161 + leftPadding
-    : 6.5 + leftPadding}px;--color:{$Layout?.button?.background ?? '#350101'};"
+    ? 170.5 + leftPadding
+    : 16 + leftPadding}pt;--color:{$Layout?.button?.background ?? '#350101'};"
   bind:this={element}
 >
   {#if placeHolder}<label
@@ -552,7 +552,7 @@
       />
     {/if}
     {#if buttonName}
-      <button class="button" on:click={callback} disabled={buttonDisabled}>{buttonName}</button>
+      <button class="button text" on:click={callback} disabled={buttonDisabled}>{buttonName}</button>
     {:else if buttonIcon}
       <button class="button icon" on:click={callback}>
         <Fa style="font-size: 1.3em; color: {$Layout?.button?.background ?? '#350101'};" icon={buttonIcon} />
@@ -593,30 +593,32 @@
     padding: 0;
     padding-left: var(--leftPadding);
     padding-right: var(--rightPadding);
-    line-height: 11px;
+    line-height: 12pt;
   }
   div.form-cell > .name {
     position: absolute;
-    top: -15px;
-    left: calc(var(--leftPadding) + 5px);
+    top: -14pt;
+    left: calc(var(--leftPadding) + 8pt);
     font-size: 0.8em;
     transition: linear 200ms;
     display: flex;
   }
   div.form-cell > .name.placeHolder {
-    top: calc(16.5px * var(--sizeMultiplierPow));
+    top: calc(12pt * var(--sizeMultiplierPow));
     left: calc(var(--leftPadding) + var(--leftPaddingPlaceHolder));
     color: #757575;
     font-size: 1em;
   }
   div.form-cell > .name.hasIcon {
-    left: calc(var(--leftPadding) + calc(56.5px * var(--sizeMultiplier)));
+    left: calc(var(--leftPadding) + calc(62.8pt * var(--sizeMultiplier)));
   }
   div.form-cell > div:not(.error) {
     display: flex;
     width: 100%;
     margin: 0;
     height: var(--height);
+    border-radius: 8pt;
+    overflow: hidden;
   }
   div.form-cell > div > .input > input {
     height: 100%;
@@ -633,7 +635,7 @@
     background-color: #f2f2f2;
     height: var(--height);
     max-height: var(--height);
-    border-radius: calc(4px * var(--sizeMultiplier));
+    border-radius: calc(4pt * var(--sizeMultiplier));
     border: 0;
     margin: 0;
     -webkit-touch-callout: all;
@@ -642,22 +644,23 @@
     -moz-user-select: all;
     -ms-user-select: all;
     user-select: all;
+    padding: 16pt;
   }
   .button {
     background-color: #f2f2f2;
     border: 0;
     border-radius: 0;
-    border-left: 1px solid #ccc;
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
+    border-left: 1pt solid #ccc;
+    border-top-right-radius: 4pt;
+    border-bottom-right-radius: 4pt;
     margin: 0;
   }
   .icon {
-    border-right: 1px solid #ccc;
+    border-right: 1pt solid #ccc;
     background-color: #f2f2f2;
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-    width: calc(50px * var(--sizeMultiplier));
+    border-top-left-radius: 4pt;
+    border-bottom-left-radius: 4pt;
+    width: calc(48pt * var(--sizeMultiplier));
     margin: 0;
     place-content: center;
     place-items: center;
@@ -698,15 +701,15 @@
   }
   div.error {
     color: red;
-    margin-top: 2px;
+    margin-top: 4pt;
     display: flex;
     text-align: left;
     place-items: center;
   }
   .error > span {
     font-size: 0.75em;
-    line-height: 15px;
-    margin-left: 10px;
+    line-height: 16pt;
+    margin-left: 16pt;
   }
   div.form-cell > div > input.hasButton {
     border-top-right-radius: 0;
@@ -715,5 +718,9 @@
   div.form-cell > div > input.hasIcon {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+  }
+  button.button.text {
+    background-color: #4c0708;
+    color: #fff;
   }
 </style>

@@ -147,12 +147,12 @@
     text-align: center;
     padding: 0;
     margin: 0;
-    margin-bottom: 15px;
+    margin-bottom: 18pt;
     position: relative;
     background: #fff;
-    border: 1px solid var(--borderColor);
-    border-radius: 5px;
-    padding: 5px;
+    border: 1pt solid var(--borderColor);
+    border-radius: 8pt;
+    padding: 8pt;
   }
   header > h2 {
     text-align: center;
