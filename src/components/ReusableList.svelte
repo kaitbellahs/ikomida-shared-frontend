@@ -13,8 +13,7 @@
     }
   }
 
-  export let height = '100%'
-  export let divider = 20
+  export let divider = 24
   export let itemHeight: number | null = null
   export let localLoading = false
   export let canGetMore = false
@@ -138,22 +137,17 @@
   })
 </script>
 
-<resusableListViewport
-  bind:this={viewport}
-  bind:offsetHeight={viewport_height}
-  on:scroll={handle_scroll}
-  style="height: {height};"
->
+<resusableListViewport bind:this={viewport} bind:offsetHeight={viewport_height} on:scroll={handle_scroll}>
   <resusableListContents bind:this={contents} style="padding-top: {top}px; padding-bottom: {bottom}px;">
     {#each visible as row (row.index)}
-      <reusableListRow style="--divider:{divider}px">
+      <reusableListRow class="shadow" style="--divider:{divider}px">
         <slot index={row.index} item={row.data}>Ocurreu um erro, entre em contato com o suporte</slot>
       </reusableListRow>
     {/each}
   </resusableListContents>
 
   {#if localLoading}
-    <Divider height={10} />
+    <Divider height={12} />
     <LocalLoading />
   {/if}
   {#if !localLoading && canGetMore}
@@ -168,9 +162,10 @@
 <style>
   resusableListViewport {
     position: relative;
-    overflow-y: auto;
+    /* overflow-y: auto; */
     -webkit-overflow-scrolling: touch;
     display: flex;
+    height: fit-content;
     flex-direction: column;
   }
 
@@ -183,5 +178,6 @@
   reusableListRow {
     margin-top: var(--divider);
     overflow: hidden;
+    border-radius: 8pt;
   }
 </style>

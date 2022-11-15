@@ -39,7 +39,7 @@
 
 <div
   class="leftShadow item"
-  style="--itemBackground: {$Layout?.itemBackground || '#ffffffab'};--buttonBackground: {$Layout?.button?.background ||
+  style="--itemBackground: {$Layout?.itemBackground || '#fffffffc'};--buttonBackground: {$Layout?.button?.background ||
     '#4c0708'};--buttonColor: {$Layout?.button?.color || '#fff'};"
 >
   <ShiftUpDownButtons
@@ -111,12 +111,12 @@
   }
   .item {
     width: 100%;
-    margin: 15px 0;
-    border: 1px solid #ccc;
-    padding: 10px;
+    margin: 16pt 0;
+    /* border: 1pt solid #ccc; */
+    padding: 16pt;
     background: var(--itemBackground);
     position: relative;
-    border-radius: 10px;
+    border-radius: 8pt;
   }
   .item > button {
     background-color: transparent;
@@ -127,32 +127,32 @@
     flex-direction: row;
   }
   .item > button > .orderTypes > span {
-    padding: 2px;
-    border-radius: 5px;
-    margin: 5px;
+    padding: 4pt;
+    border-radius: 8pt;
+    margin: 8pt;
     font-size: 0.9em;
-    border: var(--buttonBackground) solid 1px;
+    border: var(--buttonBackground) solid 1pt;
   }
   .item > button > .discount {
     position: absolute;
-    top: -5px;
-    right: -5px;
-    border-radius: 20.5px;
-    min-width: 60px;
-    border: 1px solid #4c0708;
+    top: -8pt;
+    right: -8pt;
+    border-radius: 20.8pt;
+    min-width: 64pt;
+    border: 1pt solid #4c0708;
     background: #4c0708;
     color: white;
-    line-height: 21px;
-    padding: 0px 8px;
-    text-shadow: 0.5px 1px #00000055;
-    box-shadow: 2px 3px #00000099;
+    line-height: 24pt;
+    padding: 0pt 8pt;
+    text-shadow: 0.8pt 1pt #00000055;
+    box-shadow: 0 4pt 8pt #0000009e;
   }
   .item > button > h3 {
     padding: 0;
     margin: 0;
     font-size: 1.5em;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 16pt;
   }
   .item > button > div {
     display: flex;
@@ -163,7 +163,7 @@
   }
   .item > button > div > div {
     width: 100%;
-    min-height: 1px;
+    min-height: 1pt;
     display: flex;
     -o-flex-wrap: wrap;
     flex-wrap: wrap;
@@ -183,7 +183,7 @@
   .item > button > div > .body > h4 {
     display: flex;
     flex-direction: column;
-    margin-top: 8px;
+    margin-top: 8pt;
     font-weight: lighter;
   }
   .item > button > div > .body > h4 > .current {
@@ -198,8 +198,8 @@
   .item > button > div > .body > p {
     font-size: 0.9rem;
     font-weight: lighter;
-    margin: 10px 0;
-    max-height: 70px;
+    margin: 16pt 0;
+    max-height: 64pt;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: break-spaces;

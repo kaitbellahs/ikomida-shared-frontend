@@ -45,6 +45,7 @@
     transform: translateY(-0.075em);
     display: grid;
     place-content: center;
+    padding: 8pt;
   }
 
   input[type='checkbox']::before {
@@ -55,7 +56,7 @@
     transform: scale(0);
     transform-origin: bottom left;
     transition: 120ms transform ease-in-out;
-    box-shadow: inset 1em 1em var(--form-control-color);
+    box-shadow: 0 4pt 8pt #0000009e;
     background-color: CanvasText;
   }
 
@@ -75,6 +76,6 @@
     cursor: not-allowed;
   }
   label {
-    margin-left: 10px;
+    margin-left: 16pt;
   }
 </style>
