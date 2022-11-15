@@ -436,7 +436,7 @@
   TTextEdit.COLOR
     ? 170.5 + leftPadding
     : 16 + leftPadding}pt;--color:{$Layout?.button?.background ?? '#350101'};--buttonBackgroundColor:{$Layout?.button
-    .background ?? '#4c0708'};"
+    ?.background ?? '#4c0708'};"
   bind:this={element}
 >
   {#if placeHolder}<label
