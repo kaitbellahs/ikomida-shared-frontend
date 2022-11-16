@@ -16,6 +16,7 @@
   export let leftPadding = 0
   export let rightPadding = 0
   export let margin = '8pt'
+  export let padding = 8
   export let route: Symbol | undefined = undefined
 
   const dispatch = createEventDispatcher()
@@ -71,7 +72,7 @@
 
 <button
   {disabled}
-  style="--border: {border};--margin:{margin};--height:{height
+  style="--padding:{padding}pt;--border: {border};--margin:{margin};--height:{height
     ? height
     : '48pt'};--leftPadding: {leftPadding}pt; --rightPadding: {rightPadding}pt; text-transform: {upperCased
     ? 'uppercase'
@@ -83,7 +84,7 @@
 <style>
   button {
     margin: var(--margin);
-    padding: 8pt;
+    padding: var(--padding);
     margin-left: var(--leftPadding);
     margin-right: var(--rightPadding);
     color: var(--color);

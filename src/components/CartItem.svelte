@@ -68,11 +68,13 @@
       </h4>
 
       <div class="quantity">
-        <Button type={TButton.TRANSPARENT} size="none" on:click={() => minos()}>
+        <Button type={TButton.TRANSPARENT} size="none" margin="0" on:click={() => minos()}>
           <Fa icon={faMinusSquare} />
         </Button>
         <span>{product.quantity}</span>
-        <Button type={TButton.TRANSPARENT} size="none" on:click={() => plus()}><Fa icon={faPlusSquare} /></Button>
+        <Button type={TButton.TRANSPARENT} size="none" margin="0" on:click={() => plus()}
+          ><Fa icon={faPlusSquare} /></Button
+        >
       </div>
       <h3>
         {currency(
@@ -84,49 +86,52 @@
     </div>
   </div>
   {#if (product.options?.length ?? 0) > 0}
-    <h3>Personalização</h3>
-    {#each product.options ?? [] as option (option.id)}
-      <Divider height={10} />
-      <div class="option">
-        <FloatRemove callback={() => onRemoveClick?.(product, option)} top={-6} right={-6} />
-        <Image source={option.image} name={option.name} height="48pt" width="48pt" />
-        <div>
-          <h3>{option.name}</h3>
+    <Divider />
+    <section class="shadow options">
+      <h3>Personalização</h3>
+      {#each product.options ?? [] as option (option.id)}
+        <Divider height={12} />
+        <div class="shadow option">
+          <FloatRemove callback={() => onRemoveClick?.(product, option)} top={-6} right={-6} />
+          <Image source={option.image} name={option.name} height="48pt" width="48pt" />
           <div>
-            <div class="units">
-              <Button
-                type={TButton.TRANSPARENT}
-                size="none"
-                height="16pt"
-                sizeMultiplier={1.3}
-                margin="0"
-                on:click={() => minos(option)}
-              >
-                <Fa icon={faMinusSquare} /></Button
-              ><span>{option.units}</span><Button
-                type={TButton.TRANSPARENT}
-                size="none"
-                height="16pt"
-                margin="0"
-                sizeMultiplier={1.3}
-                on:click={() => plus(option)}><Fa icon={faPlusSquare} /></Button
-              >
-            </div>
-            {#if option.price > 0}
-              <div class="price">
-                {currency(
-                  product.quantity *
-                    option.units *
-                    (option.price - Finances.calcDiscount(option.price, product.discount, product.discountType))
-                )}
+            <h3>{option.name}</h3>
+            <div>
+              <div class="units">
+                <Button
+                  type={TButton.TRANSPARENT}
+                  size="none"
+                  height="16pt"
+                  sizeMultiplier={1.3}
+                  margin="0"
+                  on:click={() => minos(option)}
+                >
+                  <Fa icon={faMinusSquare} /></Button
+                ><span>{option.units}</span><Button
+                  type={TButton.TRANSPARENT}
+                  size="none"
+                  height="16pt"
+                  margin="0"
+                  sizeMultiplier={1.3}
+                  on:click={() => plus(option)}><Fa icon={faPlusSquare} /></Button
+                >
               </div>
-            {:else}
-              <span class="current">Gratuito</span>
-            {/if}
+              {#if option.price > 0}
+                <div class="price">
+                  {currency(
+                    product.quantity *
+                      option.units *
+                      (option.price - Finances.calcDiscount(option.price, product.discount, product.discountType))
+                  )}
+                </div>
+              {:else}
+                <span class="current">Gratuito</span>
+              {/if}
+            </div>
           </div>
         </div>
-      </div>
-    {/each}
+      {/each}
+    </section>
   {/if}
   <Button type={TButton.TRANSPARENT} on:click={() => addOptions?.(product)} sizeMultiplier={0.7}
     >Editar as opções</Button
@@ -156,6 +161,12 @@
     background: var(--itemBackground);
     border-radius: 8pt;
     padding: 16pt;
+  }
+  .product > .options > .option,
+  .product > .options {
+    background: var(--itemBackground);
+    border-radius: 8pt;
+    padding: 8pt;
   }
   .product > h3 {
     padding: 0;
@@ -210,36 +221,30 @@
     padding: 0;
     border: 0;
     background: transparent;
-    margin-right: 16pt;
-    margin-left: 16pt;
   }
-  .product > .option {
-    background-color: #ffffff26;
-    border: #ccd;
-    border-radius: 8pt;
-    padding: 16pt;
+  .product > .options > .option {
     position: relative;
     display: flex;
     flex-direction: row;
   }
-  .product > .option > div {
+  .product > .options > .option > div {
     width: calc(100% - 40pt);
     margin-left: 16pt;
   }
-  .product > .option > div > div {
+  .product > .options > .option > div > div {
     display: flex;
     flex-direction: row;
   }
-  .product > .option > div > div > * {
+  .product > .options > .option > div > div > * {
     font-size: 0.9em;
   }
-  .product > .option > div > div {
+  .product > .options > .option > div > div {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
   }
-  .product > .option > div > div > .units {
+  .product > .options > .option > div > div > .units {
     margin-top: 8pt;
     align-items: center;
     font-size: 0.9em;
@@ -247,14 +252,12 @@
     display: flex;
     flex-direction: row;
   }
-  .product > .option > div > div > .units > span {
+  .product > .options > .option > div > div > .units > span {
     padding: 0;
     border: 0;
     background: transparent;
-    margin-right: 8pt;
-    margin-left: 8pt;
   }
-  .product > .option > div > div > .price {
+  .product > .options > .option > div > div > .price {
     display: flex;
     flex-direction: column;
     align-items: center;
