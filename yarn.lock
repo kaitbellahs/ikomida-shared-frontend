@@ -24,20 +24,20 @@
   resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-3.8.0.tgz#2aa720cac616c45668150157cdd9a24a0aefdaec"
   integrity sha512-FwHCiWOkPmqI/K4rnIBSyRUy39zqDmgK62yR3DSfEMVgXVvUkzRgYQfDxCn+lq8vPiT/CbnI/iEoudBorJFQkw==
 
-"@capacitor/app-launcher@^4.0.1":
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/@capacitor/app-launcher/-/app-launcher-4.0.1.tgz#770cccb1d79cbedaac4298a77e9204f99b5da808"
-  integrity sha512-53bMqQ1x5yYpuJSi2bUtzCmOnKG4cy9fe3lM/7sdEypjZxLqG4fvZVd/7Z2dlbEdfD2kMAF44KXQMM6Jtr/SSQ==
-
-"@capacitor/app@^4.1.0":
+"@capacitor/app-launcher@^4.1.0":
   version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@capacitor/app/-/app-4.1.0.tgz#377f5c334f69b2a2c027ca9bc8f343d97e372142"
-  integrity sha512-QPZh+fnndlL1fT8jUmx8R7KPaWZDNJf/Aj1BiU867AxHnQNnM0a6wwDdQKGhA7OOniudekHEdrJAzHnPnKtLNg==
+  resolved "https://registry.yarnpkg.com/@capacitor/app-launcher/-/app-launcher-4.1.0.tgz#5933bcf6f6498260c079015b906717c6f466de76"
+  integrity sha512-0Gv2AOwj5L4uohi384aOSMcfwdVFVuIN9BROxPRC0Ir1sg9Fv60Mu9yBzjVQ0ijLXoZw/nfrFEPSHBWxHmS6Pg==
 
-"@capacitor/clipboard@^4.0.1":
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/@capacitor/clipboard/-/clipboard-4.0.1.tgz#b96ae5563583d12e510745fff03aa23050284948"
-  integrity sha512-DO5fC6ax5Tm/4K77NjxRLu/bdyvO6FDCK38w05CE4LHvi3RF4LTM8EgnmIrEGKxwwbH5VloTeca9Cu6bsMXPiA==
+"@capacitor/app@^4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@capacitor/app/-/app-4.1.1.tgz#47329e19ecc080bc2934be86566a7673e0f94e5c"
+  integrity sha512-SJcJA1rhFQyeH6eLfUEbdKkHzAwzahJNVPNXmU88fdmXpMgM2dJGzZj1vrm6e21aQq+Z4aBVLJ2RCdj92zD7wg==
+
+"@capacitor/clipboard@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/clipboard/-/clipboard-4.1.0.tgz#02995a33d4b3a5bc0ffb05457e0b2cd748de5e7f"
+  integrity sha512-lfUwDqZces3mQcBOyfxpBCsRWWSfLuPzekA1N3RaMgYVhD6/rdzFnzfRiksj1hm4It+lnULK0y+N5nxVnTt+0Q==
 
 "@capacitor/core@^2.0.0":
   version "2.5.0"
@@ -53,17 +53,17 @@
   dependencies:
     tslib "^2.1.0"
 
-"@capacitor/core@^4.4.0":
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/@capacitor/core/-/core-4.4.0.tgz#47e3911a3d5ebdf7496f731c7aada52fcc70af53"
-  integrity sha512-9k6EJTCMlHhr6g2oGo2FJM2byRyX5GEfB24Bv2e4fnemiiHrQEeAKdg++6Hj7jNNZtI1q+5EImTrcpXzPkiX7Q==
+"@capacitor/core@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/core/-/core-4.5.0.tgz#06b861bdc6a28b336de81e0ca0e4298343ecb5ca"
+  integrity sha512-afx+hvQIrPcHbTdsBIryE96JlfSt1Rw8cWhb1J34v6Exje6zQZQa3fQZ6gcgkON+zkDIK8u3yRcIps0xMUdsMQ==
   dependencies:
     tslib "^2.1.0"
 
-"@capacitor/device@^4.0.1":
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/@capacitor/device/-/device-4.0.1.tgz#4bf1e79aeba6d1ae07c7db0df44331bf18515887"
-  integrity sha512-D0jJFQYifmsgcz4X9MEEKH5E36ARK2CJcUCXJbcuFTChHSxK+ly7Kd6PZC73Y5GkEZIjpebWAWo5F3w9S4hsYQ==
+"@capacitor/device@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/device/-/device-4.1.0.tgz#b9f73368f6f6f1194181bcd7bc4b8a021c67f33e"
+  integrity sha512-BlcYb6e6m+vC1SxeyUDIUGfuNXdKEcpFPDCs/kxk2SByFc/BkvXeoy4NjY4qmTderGELofX9bta5Iy9JV7rGUg==
 
 "@capacitor/filesystem@^1.0.0":
   version "1.1.0"
@@ -75,15 +75,15 @@
   resolved "https://registry.yarnpkg.com/@capacitor/ios/-/ios-3.8.0.tgz#1b3393411566a31b75010b2aa78f56bd7663cef9"
   integrity sha512-a2/inoVG+4L1diOxTK8oXOMliT5tXwJSg5KelJh8YuouYjH8duVRx560qoKQPE9rUbo9VG3pqOK0w3gROSk2yQ==
 
-"@capacitor/preferences@^4.0.1":
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/@capacitor/preferences/-/preferences-4.0.1.tgz#fd56f24fe2cde1222cf5c3057d52cd55fd033e7b"
-  integrity sha512-FffJjKS4XcodUj/rtFtWizQ9q/oYDSn5opZ+JYwj/EkjiMWMhY/Pk9lN3vwQfp+VJrTt3hjr+bwKXjhTbYBqKw==
+"@capacitor/preferences@^4.0.2":
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@capacitor/preferences/-/preferences-4.0.2.tgz#83bee8cadb3456a4f2a89118b8351d488c20ec77"
+  integrity sha512-HgcRkMdVHSIV3TeQLZFmCaCeMWQ25wLyZZ7dA2f8Rw81Q1Nroxsi7HxTEGNqrWKSN9PNKBJD8vChr6eB2GNtZg==
 
-"@capacitor/push-notifications@^4.1.1":
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/@capacitor/push-notifications/-/push-notifications-4.1.1.tgz#6ef24939d8e6e8f1277c01589516c8cd8a78674a"
-  integrity sha512-x7LihJJgSOSSH7CzJTVM9PwaYp6CxRT+/Xv9YX0XWHr55pFiWTPYC85vBz0CtFXi4u7UfBDvQWqIU3ThMTdEiw==
+"@capacitor/push-notifications@^4.1.2":
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/@capacitor/push-notifications/-/push-notifications-4.1.2.tgz#0c3f139cbe501d537c1360eac0f05b696b02a0da"
+  integrity sha512-ok6CGvedwK1azmf8VWhrNlg6jhi4PFz3HoyS0GNE2ew7+JGnxN77sgK5q1TVzdkge+vkqipO6uu5bD1xfj/pWQ==
 
 "@fortawesome/fontawesome-common-types@6.2.1":
   version "6.2.1"
@@ -104,10 +104,10 @@
   dependencies:
     luxon "^3.1.0"
 
-"@ikomida/shared-types@^1.5.7":
-  version "1.5.7"
-  resolved "https://us-central1-npm.pkg.dev/ikomida-dev/node/@ikomida/shared-types/-/@ikomida/shared-types-1.5.7.tgz#f71e928271dba87582acef7f3f00ed87dc078f4c"
-  integrity sha512-Q9rJP+JXEQ2rVH7od7y9CoqVxvrk0prC8UccWJznBPF0nP6iHY4wVDnWJ9wHrFWvEN+Kst5l1AsQYXcdltJ2yw==
+"@ikomida/shared-types@^1.5.9":
+  version "1.5.9"
+  resolved "https://us-central1-npm.pkg.dev/ikomida-dev/node/@ikomida/shared-types/-/@ikomida/shared-types-1.5.9.tgz#2156221f97ba72dd62743731573d3cd29c2b8393"
+  integrity sha512-++v2nch7X4Zt3l04KcxUA14YJKAcwmOwwwn7FVJMeQCcJ79xGzOvy/EvRXI0Bz0+yq5cyhwhMANzyxZBwu9lbg==
 
 "@jridgewell/resolve-uri@3.1.0":
   version "3.1.0"
