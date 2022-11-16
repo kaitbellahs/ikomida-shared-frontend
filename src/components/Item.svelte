@@ -49,7 +49,7 @@
     down={itemDownClick}
   />
   {#if removeProduct}
-    <FloatRemove callback={onRemoveClick} />
+    <FloatRemove top={-8} right={-4} callback={onRemoveClick} />
   {/if}
   <button on:click={onClick}>
     {#if !removeProduct && [Types.TDiscount.PERCENT, Types.TDiscount.VALUE].includes(product.discountType)}
@@ -125,11 +125,12 @@
   .item > button > .orderTypes {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
   }
   .item > button > .orderTypes > span {
     padding: 4pt;
     border-radius: 8pt;
-    margin: 8pt;
+    margin: 4pt;
     font-size: 0.9em;
     border: var(--buttonBackground) solid 1pt;
   }

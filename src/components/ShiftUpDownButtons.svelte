@@ -24,14 +24,16 @@
 <style>
   button {
     border: 0;
-    background-color: transparent;
+    background-color: #fffffffc;
   }
   shiftUpDownButtons {
     display: flex;
     flex-direction: column;
-    width: 24pt;
-    overflow: hidden;
     font-size: 24pt;
+    width: 24pt;
+    position: absolute;
+    top: -8pt;
+    left: -4pt;
   }
   shiftUpDownButtons > button {
     margin: 0;
@@ -43,7 +45,7 @@
     place-content: center;
     border: 1pt solid #4c0708;
     box-shadow: 0 4pt 8pt #0000009e;
-    border-radius: 8pt;
+    border-radius: 12pt;
   }
   shiftUpDownButtons > button.up {
     align-items: flex-start;

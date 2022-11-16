@@ -83,7 +83,7 @@
 <style>
   button {
     margin: var(--margin);
-    padding: 8pt 0;
+    padding: 8pt;
     margin-left: var(--leftPadding);
     margin-right: var(--rightPadding);
     color: var(--color);

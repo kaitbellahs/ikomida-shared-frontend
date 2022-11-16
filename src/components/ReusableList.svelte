@@ -162,10 +162,14 @@
 <style>
   resusableListViewport {
     position: relative;
-    /* overflow-y: auto; */
     -webkit-overflow-scrolling: touch;
     display: flex;
-    height: fit-content;
+    overflow-y: auto;
+    height: 100%;
+    width: calc(100% + 32pt);
+    left: -16pt;
+    right: -16pt;
+    padding: 0 16pt;
     flex-direction: column;
   }
 
@@ -177,7 +181,7 @@
 
   reusableListRow {
     margin-top: var(--divider);
-    overflow: hidden;
+    /* overflow: hidden; */
     border-radius: 8pt;
   }
 </style>

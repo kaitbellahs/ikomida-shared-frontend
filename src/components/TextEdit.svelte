@@ -536,8 +536,24 @@
       {/if}
     {:else if type === TTextEdit.COLOR}
       <div class="input" class:hasIcon={icon} class:hasButton={buttonName || buttonIcon}>
-        <input bind:this={colorInput} on:input={onKeyPress} autocomplete="off" type="color" {disabled} />
-        <input on:input={onKeyPress} bind:this={input} use:events autocomplete="off" id={uuid} type="text" {disabled} />
+        <input
+          class="marginRight"
+          bind:this={colorInput}
+          on:input={onKeyPress}
+          autocomplete="off"
+          type="color"
+          {disabled}
+        />
+        <input
+          class="marginLeft"
+          on:input={onKeyPress}
+          bind:this={input}
+          use:events
+          autocomplete="off"
+          id={uuid}
+          type="text"
+          {disabled}
+        />
       </div>
     {:else}
       <input
@@ -645,7 +661,7 @@
     -moz-user-select: all;
     -ms-user-select: all;
     user-select: all;
-    padding: 16pt;
+    padding: calc(16pt * var(--sizeMultiplier));
   }
   .button {
     background-color: #f2f2f2;
@@ -723,5 +739,19 @@
   button.button.text {
     background-color: var(--buttonBackgroundColor);
     color: #fff;
+  }
+  div.form-cell > div > .input > input.marginLeft {
+    flex: 1 50%;
+    width: 50%;
+    height: 18pt;
+    margin-top: -9pt;
+    margin-left: 8pt;
+  }
+  div.form-cell > div > .input > input.marginRight {
+    flex: 1 50%;
+    width: 50%;
+    height: 18pt;
+    margin-top: -9pt;
+    margin-right: 8pt;
   }
 </style>

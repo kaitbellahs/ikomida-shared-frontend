@@ -65,8 +65,8 @@
   .slider:before {
     position: absolute;
     content: '';
-    height: 32pt;
-    width: 32pt;
+    height: 24pt;
+    width: 24pt;
     left: 4pt;
     bottom: 4pt;
     background-color: white;
@@ -83,13 +83,13 @@
   }
 
   input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
+    -webkit-transform: translateX(32pt);
+    -ms-transform: translateX(32pt);
+    transform: translateX(32pt);
   }
 
   .slider.round {
-    border-radius: 32pt;
+    border-radius: 24pt;
   }
 
   .slider.round:before {
