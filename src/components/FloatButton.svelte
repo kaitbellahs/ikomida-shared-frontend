@@ -31,12 +31,12 @@
     box-shadow: 0 4pt 8pt #0000009e;
     background-color: var(--background);
     border-radius: 50%;
-    width: 32pt;
-    height: 32pt;
+    width: 24pt;
+    height: 24pt;
     display: flex;
     place-content: center;
     align-items: center;
-    font-size: 16pt;
+    font-size: 12pt;
     z-index: 9;
   }
 </style>

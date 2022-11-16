@@ -391,6 +391,7 @@
   #menuHamburger > ul > li.logo {
     padding: 8pt 16pt;
     place-content: center;
+    border-bottom: 0.1px solid #ffffff29;
   }
   #menuHamburger > ul > li.logo > :global(img) {
     width: 100%;
@@ -404,7 +405,8 @@
     align-items: flex-end;
   }
   #menuHamburger > ul > li > .icon {
-    width: 48pt;
+    /* width: 48pt; */
+    margin-right: 24pt;
     place-content: flex-start;
     place-items: center;
     justify-items: center;

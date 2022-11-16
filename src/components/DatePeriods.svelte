@@ -80,17 +80,19 @@
 <h2>{title ? title : 'horário de funcionamento'}</h2>
 {#if (business?.hours?.length ?? 0) > 0}
   {#each business?.hours ?? [] as businessHour}
-    <div class="busninessHours">
-      <FloatRemove callback={() => onRemoveClick(businessHour.id)} />
+    <div class="shadow busninessHours">
+      <FloatRemove top={-4} right={-4} callback={() => onRemoveClick(businessHour.id)} />
       <div class="twoCells">
         <TextEdit
           placeHolder={startTitle ? startTitle : 'Abertura'}
           initialValue={businessHour.start}
           bind:value={businessHour.start}
           type={TTextEdit.TIME}
+          marginTop={12}
           rightPadding={10}
         />
         <TextEdit
+          marginTop={12}
           placeHolder={endTitle ? endTitle : 'Fechamento'}
           bind:value={businessHour.end}
           initialValue={businessHour.end}
@@ -117,6 +119,9 @@
 <style>
   .busninessHours {
     position: relative;
+    border-radius: 8pt;
+    margin-top: 12pt;
+    padding: 12pt;
   }
   .days {
     display: flex;

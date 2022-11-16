@@ -82,10 +82,10 @@
     <header>
       <h2>
         {#if removeCategory}
-          <FloatRemove callback={() => onRemoveCategoryClick(category.id)} />
+          <FloatRemove top={-8} right={-4} callback={() => onRemoveCategoryClick(category.id)} />
         {/if}
         {#if editCategory}
-          <FloatEdit right={45} callback={() => onEditCategoryClick(category)} />
+          <FloatEdit top={-8} right={38} callback={() => onEditCategoryClick(category)} />
         {/if}
         <ShiftUpDownButtons
           hasUp={categoryUp && index > 0}
