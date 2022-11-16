@@ -38,5 +38,6 @@
     align-items: center;
     font-size: 12pt;
     z-index: 9;
+    padding: 0;
   }
 </style>
