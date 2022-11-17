@@ -7,7 +7,7 @@ export default class Layout extends BaseStore<Classes.CLayout> {
       new Classes.CLayout({
         link: '#e8d130',
         background: '#dfdfdf',
-        itemBackground: '#ffffffab',
+        itemBackground: '#fffffffc',
         color: '#000000',
         header: {
           color: '#ffffff',

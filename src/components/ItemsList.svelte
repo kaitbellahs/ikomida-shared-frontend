@@ -82,10 +82,10 @@
     <header>
       <h2>
         {#if removeCategory}
-          <FloatRemove callback={() => onRemoveCategoryClick(category.id)} />
+          <FloatRemove top={-8} right={-4} callback={() => onRemoveCategoryClick(category.id)} />
         {/if}
         {#if editCategory}
-          <FloatEdit right={45} callback={() => onEditCategoryClick(category)} />
+          <FloatEdit top={-8} right={38} callback={() => onEditCategoryClick(category)} />
         {/if}
         <ShiftUpDownButtons
           hasUp={categoryUp && index > 0}
@@ -147,12 +147,12 @@
     text-align: center;
     padding: 0;
     margin: 0;
-    margin-bottom: 15px;
+    margin-bottom: 18pt;
     position: relative;
     background: #fff;
-    border: 1px solid var(--borderColor);
-    border-radius: 5px;
-    padding: 5px;
+    border: 1pt solid var(--borderColor);
+    border-radius: 8pt;
+    padding: 8pt;
   }
   header > h2 {
     text-align: center;

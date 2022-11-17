@@ -67,7 +67,7 @@
 </script>
 
 {#if (items?.length ?? 0) > 0}
-  <ReusableList bind:localLoading bind:canGetMore {items} {getMore} {hasRecaptcha} let:item let:index>
+  <ReusableList bind:localLoading bind:canGetMore bind:items {getMore} {hasRecaptcha} let:item let:index>
     <slot {index} {item} />
   </ReusableList>
 {:else if !working}

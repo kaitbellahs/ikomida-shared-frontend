@@ -51,7 +51,7 @@
   export let validation: Function | undefined = undefined
   export let leftPadding = 0
   export let rightPadding = 0
-  export let marginTop = 30
+  export let marginTop = 32
   export let element: HTMLDivElement | undefined = undefined
   export let error: string | undefined = undefined
   export let min: number | undefined = undefined
@@ -173,7 +173,7 @@
     callback = showSecretCallBack
     input.value = inputValue
   }
-  $: height = (type === TTextEdit.TEXT ? 54 : 44) * sizeMultiplier
+  $: height = (type === TTextEdit.TEXT ? 48 : 32) * sizeMultiplier
   function update() {
     if (type === TTextEdit.COLOR && colorInput) {
       colorInput.value = input.value
@@ -424,18 +424,20 @@
       input.value = ''
     }
   }
+  $: labelWidth = (input?.clientWidth ?? 0) - 32
 </script>
 
 <div
   class="form-cell"
-  style="--sizeMultiplier: {sizeMultiplier};--sizeMultiplierPow:{(
+  style="--labelWidth:{labelWidth}px;--sizeMultiplier: {sizeMultiplier};--sizeMultiplierPow:{(
     sizeMultiplier * (sizeMultiplier !== 1 ? 0.85 : 1)
   ).toFixed(
     2
-  )};--marginTop: {marginTop}px;--leftPadding: {leftPadding}px; --rightPadding: {rightPadding}; --height: {height}px;--leftPaddingPlaceHolder: {type ===
+  )};--marginTop: {marginTop}pt;--leftPadding: {leftPadding}pt; --rightPadding: {rightPadding}; --height: {height}pt;--leftPaddingPlaceHolder: {type ===
   TTextEdit.COLOR
-    ? 161 + leftPadding
-    : 6.5 + leftPadding}px;--color:{$Layout?.button?.background ?? '#350101'};"
+    ? 170.5 + leftPadding
+    : 16 + leftPadding}pt;--color:{$Layout?.button?.background ?? '#350101'};--buttonBackgroundColor:{$Layout?.button
+    ?.background ?? '#4c0708'};"
   bind:this={element}
 >
   {#if placeHolder}<label
@@ -535,8 +537,24 @@
       {/if}
     {:else if type === TTextEdit.COLOR}
       <div class="input" class:hasIcon={icon} class:hasButton={buttonName || buttonIcon}>
-        <input bind:this={colorInput} on:input={onKeyPress} autocomplete="off" type="color" {disabled} />
-        <input on:input={onKeyPress} bind:this={input} use:events autocomplete="off" id={uuid} type="text" {disabled} />
+        <input
+          class="marginRight"
+          bind:this={colorInput}
+          on:input={onKeyPress}
+          autocomplete="off"
+          type="color"
+          {disabled}
+        />
+        <input
+          class="marginLeft"
+          on:input={onKeyPress}
+          bind:this={input}
+          use:events
+          autocomplete="off"
+          id={uuid}
+          type="text"
+          {disabled}
+        />
       </div>
     {:else}
       <input
@@ -552,7 +570,7 @@
       />
     {/if}
     {#if buttonName}
-      <button class="button" on:click={callback} disabled={buttonDisabled}>{buttonName}</button>
+      <button class="button text" on:click={callback} disabled={buttonDisabled}>{buttonName}</button>
     {:else if buttonIcon}
       <button class="button icon" on:click={callback}>
         <Fa style="font-size: 1.3em; color: {$Layout?.button?.background ?? '#350101'};" icon={buttonIcon} />
@@ -593,30 +611,37 @@
     padding: 0;
     padding-left: var(--leftPadding);
     padding-right: var(--rightPadding);
-    line-height: 11px;
+    line-height: 12pt;
   }
   div.form-cell > .name {
     position: absolute;
-    top: -15px;
-    left: calc(var(--leftPadding) + 5px);
+    top: -14pt;
+    left: calc(var(--leftPadding) + 8pt);
     font-size: 0.8em;
     transition: linear 200ms;
     display: flex;
   }
   div.form-cell > .name.placeHolder {
-    top: calc(16.5px * var(--sizeMultiplierPow));
+    top: calc(12pt * var(--sizeMultiplierPow));
     left: calc(var(--leftPadding) + var(--leftPaddingPlaceHolder));
     color: #757575;
     font-size: 1em;
+    width: var(--labelWidth);
+    overflow: hidden;
+    height: 16pt;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   div.form-cell > .name.hasIcon {
-    left: calc(var(--leftPadding) + calc(56.5px * var(--sizeMultiplier)));
+    left: calc(var(--leftPadding) + calc(62.8pt * var(--sizeMultiplier)));
   }
   div.form-cell > div:not(.error) {
     display: flex;
     width: 100%;
     margin: 0;
     height: var(--height);
+    border-radius: 8pt;
+    overflow: hidden;
   }
   div.form-cell > div > .input > input {
     height: 100%;
@@ -633,7 +658,7 @@
     background-color: #f2f2f2;
     height: var(--height);
     max-height: var(--height);
-    border-radius: calc(4px * var(--sizeMultiplier));
+    border-radius: calc(4pt * var(--sizeMultiplier));
     border: 0;
     margin: 0;
     -webkit-touch-callout: all;
@@ -642,22 +667,23 @@
     -moz-user-select: all;
     -ms-user-select: all;
     user-select: all;
+    padding: calc(16pt * var(--sizeMultiplier));
   }
   .button {
     background-color: #f2f2f2;
     border: 0;
     border-radius: 0;
-    border-left: 1px solid #ccc;
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
+    border-left: 1pt solid #ccc;
+    border-top-right-radius: 4pt;
+    border-bottom-right-radius: 4pt;
     margin: 0;
   }
   .icon {
-    border-right: 1px solid #ccc;
+    border-right: 1pt solid #ccc;
     background-color: #f2f2f2;
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-    width: calc(50px * var(--sizeMultiplier));
+    border-top-left-radius: 4pt;
+    border-bottom-left-radius: 4pt;
+    width: calc(48pt * var(--sizeMultiplier));
     margin: 0;
     place-content: center;
     place-items: center;
@@ -698,15 +724,15 @@
   }
   div.error {
     color: red;
-    margin-top: 2px;
+    margin-top: 4pt;
     display: flex;
     text-align: left;
     place-items: center;
   }
   .error > span {
     font-size: 0.75em;
-    line-height: 15px;
-    margin-left: 10px;
+    line-height: 16pt;
+    margin-left: 16pt;
   }
   div.form-cell > div > input.hasButton {
     border-top-right-radius: 0;
@@ -715,5 +741,23 @@
   div.form-cell > div > input.hasIcon {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+  }
+  button.button.text {
+    background-color: var(--buttonBackgroundColor);
+    color: #fff;
+  }
+  div.form-cell > div > .input > input.marginLeft {
+    flex: 1 50%;
+    width: 50%;
+    height: 18pt;
+    margin-top: -9pt;
+    margin-left: 8pt;
+  }
+  div.form-cell > div > .input > input.marginRight {
+    flex: 1 50%;
+    width: 50%;
+    height: 18pt;
+    margin-top: -9pt;
+    margin-right: 8pt;
   }
 </style>

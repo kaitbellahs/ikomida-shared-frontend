@@ -1,8 +1,8 @@
 <script lang="ts">
-  export let height = 20;
+  export let height = 24
 </script>
 
-<div style="--height:{height}px" />
+<div style="--height:{height}pt" />
 
 <style>
   div {

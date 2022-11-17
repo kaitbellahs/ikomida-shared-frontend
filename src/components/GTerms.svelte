@@ -10,7 +10,7 @@
 
 <style>
   small.terms {
-    margin-top: 25px;
+    margin-top: 28pt;
     font-size: 0.6em;
   }
   small.terms > :global(a) {

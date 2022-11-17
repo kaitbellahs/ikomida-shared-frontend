@@ -47,15 +47,15 @@
   }
   label {
     width: 100%;
-    height: 22px;
+    height: 24pt;
     margin: 0;
     margin-top: var(--labelMarginTop);
   }
   select {
     width: 100%;
     background-color: #f2f2f2;
-    height: 44px;
-    border-radius: 4px;
+    height: 32pt;
+    border-radius: 8pt;
     border: 0;
     margin: 0;
     -webkit-touch-callout: all;
