@@ -424,11 +424,12 @@
       input.value = ''
     }
   }
+  $: labelWidth = (input?.clientWidth ?? 0) - 32
 </script>
 
 <div
   class="form-cell"
-  style="--sizeMultiplier: {sizeMultiplier};--sizeMultiplierPow:{(
+  style="--labelWidth:{labelWidth}px;--sizeMultiplier: {sizeMultiplier};--sizeMultiplierPow:{(
     sizeMultiplier * (sizeMultiplier !== 1 ? 0.85 : 1)
   ).toFixed(
     2
@@ -625,6 +626,11 @@
     left: calc(var(--leftPadding) + var(--leftPaddingPlaceHolder));
     color: #757575;
     font-size: 1em;
+    width: var(--labelWidth);
+    overflow: hidden;
+    height: 16pt;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   div.form-cell > .name.hasIcon {
     left: calc(var(--leftPadding) + calc(62.8pt * var(--sizeMultiplier)));
