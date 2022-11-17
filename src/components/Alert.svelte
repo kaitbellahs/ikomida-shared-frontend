@@ -92,21 +92,21 @@
     background-color: transparent;
   }
   button > div > header {
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 20px;
+    border-bottom: 1pt solid #ccc;
+    margin-bottom: 16pt;
   }
   button > div > header > h2 {
     margin: 0;
     text-align: center;
   }
   button > div > footer {
-    width: calc(100% - 40px);
+    width: calc(100% - 40pt);
     display: flex;
     justify-content: space-around;
-    margin-top: 20px;
+    margin-top: 16pt;
   }
   button > div > p {
-    margin-top: 20px;
+    margin-top: 16pt;
   }
   .alert {
     position: fixed;
@@ -122,19 +122,19 @@
     align-items: center;
     place-content: center;
     place-items: center;
-    padding: 20px;
+    padding: 16pt;
   }
   .alert > div {
     background: var(--dialogBackground);
-    padding: 20px;
+    padding: 16pt;
     color: var(--dialogColor);
-    border-radius: 5px;
+    border-radius: 8pt;
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 300px;
-    max-width: 1000px;
-    max-height: calc(100% - 100px);
+    min-width: 304pt;
+    max-width: 1024pt;
+    max-height: calc(100% - 96pt);
     overflow: hidden;
   }
   @media (max-width: 640px) {

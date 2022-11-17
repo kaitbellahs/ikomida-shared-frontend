@@ -80,17 +80,19 @@
 <h2>{title ? title : 'horário de funcionamento'}</h2>
 {#if (business?.hours?.length ?? 0) > 0}
   {#each business?.hours ?? [] as businessHour}
-    <div class="busninessHours">
-      <FloatRemove callback={() => onRemoveClick(businessHour.id)} />
+    <div class="shadow busninessHours">
+      <FloatRemove top={-4} right={-4} callback={() => onRemoveClick(businessHour.id)} />
       <div class="twoCells">
         <TextEdit
           placeHolder={startTitle ? startTitle : 'Abertura'}
           initialValue={businessHour.start}
           bind:value={businessHour.start}
           type={TTextEdit.TIME}
+          marginTop={12}
           rightPadding={10}
         />
         <TextEdit
+          marginTop={12}
           placeHolder={endTitle ? endTitle : 'Fechamento'}
           bind:value={businessHour.end}
           initialValue={businessHour.end}
@@ -117,6 +119,9 @@
 <style>
   .busninessHours {
     position: relative;
+    border-radius: 8pt;
+    margin-top: 12pt;
+    padding: 12pt;
   }
   .days {
     display: flex;
@@ -125,16 +130,16 @@
   }
   .days > .day {
     flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin: 5px;
+    padding: 16pt;
+    border: 1pt solid #ccc;
+    border-radius: 4pt;
+    margin: 8pt;
     width: 50%;
     display: flex;
     flex-direction: column;
     flex-basis: 40%;
-    text-shadow: 0.5px 1px #18056b66;
-    box-shadow: 1px 1.5px #00000099;
+    text-shadow: 0.8pt 1pt #18056b66;
+    box-shadow: 0 4pt 8pt #0000009e;
   }
   .twoCells {
     display: flex;

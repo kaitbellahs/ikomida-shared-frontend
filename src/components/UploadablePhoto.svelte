@@ -32,62 +32,62 @@
 
   $: height =
     !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
-      ? 'calc(100vw - 40px)'
+      ? 'calc(100vw - 40pt)'
       : type === TUploadablePhoto.PROFILE
-      ? '210px'
+      ? '208pt'
       : type === TUploadablePhoto.THUMB
-      ? '45px'
-      : `${container ? (container.clientWidth / 500) * 260 : 260}px`
+      ? '48pt'
+      : `${container ? (container.clientWidth / 480) * 260 : 260}pt`
   $: width =
     !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
-      ? 'calc(100vw - 40px)'
+      ? 'calc(100vw - 40pt)'
       : type === TUploadablePhoto.PROFILE
-      ? '210px'
+      ? '208pt'
       : type === TUploadablePhoto.THUMB
-      ? '45px'
-      : 'calc(100vw - 40px)'
+      ? '48pt'
+      : 'calc(100vw - 40pt)'
   $: cropHeightString =
     !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
-      ? 'calc(100vw - 80px)'
+      ? 'calc(100vw - 80pt)'
       : type === TUploadablePhoto.PROFILE
-      ? '210px'
+      ? '208pt'
       : type === TUploadablePhoto.THUMB
-      ? '45px'
-      : `${container ? (container.clientWidth / 500) * 260 : 260}px`
+      ? '48pt'
+      : `${container ? (container.clientWidth / 480) * 260 : 260}pt`
   $: cropWidthString =
     !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
-      ? 'calc(100vw - 80px)'
+      ? 'calc(100vw - 80pt)'
       : type === TUploadablePhoto.PROFILE
-      ? '210px'
+      ? '208pt'
       : type === TUploadablePhoto.THUMB
-      ? '45px'
-      : 'calc(100vw - 80px)'
+      ? '48pt'
+      : 'calc(100vw - 80pt)'
   $: minHeight =
     !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
-      ? '500px'
+      ? '504pt'
       : type === TUploadablePhoto.PROFILE
-      ? '210px'
+      ? '208pt'
       : type === TUploadablePhoto.THUMB
-      ? '45px'
-      : `${container ? (container.clientWidth / 500) * 260 : 260}px`
+      ? '48pt'
+      : `${container ? (container.clientWidth / 480) * 260 : 260}pt`
   $: cropHeight =
     !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
-      ? 500
+      ? 480
       : type === TUploadablePhoto.PROFILE
       ? 210
       : type === TUploadablePhoto.THUMB
       ? 45
       : container
-      ? (container.clientWidth / 500) * 260
+      ? (container.clientWidth / 480) * 260
       : 260
   $: cropWidth =
     !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
-      ? 500
+      ? 480
       : type === TUploadablePhoto.PROFILE
       ? 210
       : type === TUploadablePhoto.THUMB
       ? 45
-      : 500
+      : 480
   $: cropSize = {
     width: container ? container.clientWidth : cropWidth,
     height: container ? container.clientHeight : cropHeight
@@ -172,13 +172,13 @@
   <button
     style="--uploadLeft:{TUploadablePhoto.THUMB === type
       ? 0
-      : 'calc(50% - 70px)'};--uploadWidth:{TUploadablePhoto.THUMB === type
+      : 'calc(50% - 72pt)'};--uploadWidth:{TUploadablePhoto.THUMB === type
       ? '100%'
-      : '140px'};--uploadBottom:{TUploadablePhoto.THUMB === type
+      : '140pt'};--uploadBottom:{TUploadablePhoto.THUMB === type
       ? -16
-      : -45}px;--uploadHeight:{TUploadablePhoto.THUMB === type
-      ? 'calc(100% + 16px)'
-      : '70px'};--uploadBackgroundColor:{TUploadablePhoto.THUMB === type
+      : -45}pt;--uploadHeight:{TUploadablePhoto.THUMB === type
+      ? 'calc(100% + 16pt)'
+      : '72pt'};--uploadBackgroundColor:{TUploadablePhoto.THUMB === type
       ? 'transparent'
       : '#00000077'};--uploadRadius:{TUploadablePhoto.THUMB === type ? '0' : '100%'};"
     class="upload"
@@ -188,7 +188,7 @@
     <Fa
       style="
     font-size: {TUploadablePhoto.THUMB === type ? 0.8 : 1.7}em;
-    margin-bottom: {TUploadablePhoto.THUMB === type ? -43 : 35}px;"
+    margin-bottom: {TUploadablePhoto.THUMB === type ? -43 : 35}pt;"
       icon={faCamera}
     />
     <input
@@ -235,9 +235,9 @@
 <style>
   .imageContainer {
     position: relative;
-    border-radius: 4px;
+    border-radius: 4pt;
     width: var(--width);
-    max-width: 500px;
+    max-width: 504pt;
     background: #ccc;
     overflow: hidden;
     place-content: center;
@@ -245,7 +245,7 @@
     display: flex;
     height: var(--height);
     min-height: var(--height);
-    max-height: 500px;
+    max-height: 504pt;
     align-self: center;
     color: var(--color);
   }
@@ -281,7 +281,7 @@
   small {
     text-align: center;
   }
-  @media screen and (min-width: 500px) {
+  @media screen and (min-width: 504pt) {
     .imageContainer {
       min-height: var(--minHeight);
     }

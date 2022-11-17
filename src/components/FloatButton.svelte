@@ -27,16 +27,17 @@
     font-size: 1.1em;
     color: var(--color);
     font-family: RobotoBold;
-    border: 1px solid #4c0708;
-    box-shadow: 1px 2px #ccc;
+    border: 1pt solid #4c0708;
+    box-shadow: 0 4pt 8pt #0000009e;
     background-color: var(--background);
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
+    width: 24pt;
+    height: 24pt;
     display: flex;
     place-content: center;
     align-items: center;
-    font-size: 17px;
+    font-size: 12pt;
     z-index: 9;
+    padding: 0;
   }
 </style>

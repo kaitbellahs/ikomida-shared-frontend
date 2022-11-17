@@ -15,19 +15,23 @@
   export let upperCased = true
   export let leftPadding = 0
   export let rightPadding = 0
-  export let margin = '5px'
+  export let margin = '8pt'
+  export let padding = 8
   export let route: Symbol | undefined = undefined
 
   const dispatch = createEventDispatcher()
 
+  let border = ''
   let Layout: Writable<Classes.CLayout | undefined> = LayoutStore.instance.store
   let navigation: Navigation = Navigation.instance
   let width = 'none'
   let background = $Layout?.button?.background ?? '#4c0708'
   let color = $Layout?.button?.color ?? '#ffffff'
-  let minHeight = `min-height: calc(${height ? height : 40}px * ${sizeMultiplier});`
+  let minHeight = `min-height: calc(${height ? height : 48}pt * ${sizeMultiplier});`
 
-  $: float = isFloat ? `position: fixed; left: 5px; right: 5px; bottom: ${(bottomPadding ?? 0) + 52}px;` : ''
+  $: float = isFloat
+    ? `border-radius:8pt;position: fixed; left: 16pt; right: 16pt; bottom: ${(bottomPadding ?? 0) + 64}pt;`
+    : ''
 
   switch (type) {
     case TButton.CONTAINER:
@@ -39,8 +43,9 @@
       height = '100%'
       break
     case TButton.SECONDARY:
-      background = 'gray'
-      color = 'black'
+      background = 'transparent'
+      color = $Layout?.button?.background ?? '#4c0708'
+      border = `1pt solid ${$Layout?.button?.background ?? '#4c0708'}`
       break
     default:
       break
@@ -67,9 +72,9 @@
 
 <button
   {disabled}
-  style="--margin:{margin};--height:{height
+  style="--padding:{padding}pt;--border: {border};--margin:{margin};--height:{height
     ? height
-    : '40px'};--leftPadding: {leftPadding}px; --rightPadding: {rightPadding}px; text-transform: {upperCased
+    : '48pt'};--leftPadding: {leftPadding}pt; --rightPadding: {rightPadding}pt; text-transform: {upperCased
     ? 'uppercase'
     : 'full-width'}; --multiplier: {sizeMultiplier};--background:{background};--color:{color};--width:{width};{minHeight}{float}"
   class={type !== TButton.TRANSPARENT ? 'leftShadow' : 'transparent'}
@@ -79,23 +84,27 @@
 <style>
   button {
     margin: var(--margin);
-    padding: 9px 0;
+    padding: var(--padding);
     margin-left: var(--leftPadding);
     margin-right: var(--rightPadding);
     color: var(--color);
     width: var(--width);
     background: var(--background);
-    border-radius: calc(4px * var(--multiplier));
-    border: 0;
-    font-size: calc(var(--multiplier) * 1em);
-    text-shadow: calc(var(--multiplier) * 0.5px) calc(var(--multiplier) * 1px) #18056b66;
-    box-shadow: calc(var(--multiplier) * 1px) calc(var(--multiplier) * 2px) #ccc;
+    border-radius: calc(var(--height) / 2);
+    border: var(--border);
+    /* font-size: calc(var(--multiplier)); */
+    box-shadow: 0 4pt 8pt #0000009e;
   }
   button:disabled {
+    /* border-radius: calc(4pt * var(--multiplier)); */
     background: #585757;
+    border: 0;
+    color: black;
   }
   button.transparent {
+    /* border-radius: calc(4pt * var(--multiplier)); */
     text-shadow: none;
+    border: 0;
     box-shadow: none;
   }
 </style>
