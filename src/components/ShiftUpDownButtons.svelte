@@ -10,12 +10,12 @@
 
 <shiftUpDownButtons>
   {#if hasUp}
-    <button class="up" on:click={up}>
+    <button class="shadow up" on:click={up}>
       <Fa style="font-size: 1em; color: #350101;" icon={faSortUp} />
     </button>
   {/if}
   {#if hasDown}
-    <button class="down" on:click={down}>
+    <button class="shadow down" on:click={down}>
       <Fa style="font-size: 1em; color:#350101;" icon={faSortDown} />
     </button>
   {/if}
@@ -44,7 +44,6 @@
     align-items: center;
     place-content: center;
     border: 1pt solid #4c0708;
-    box-shadow: 0 4pt 8pt #0000009e;
     border-radius: 12pt;
   }
   shiftUpDownButtons > button.up {

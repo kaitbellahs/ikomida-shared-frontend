@@ -23,6 +23,7 @@
 
 <style>
   button {
+    margin: 0;
     border: 0;
     background-color: transparent;
   }
