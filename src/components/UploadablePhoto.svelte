@@ -53,7 +53,7 @@
       ? '208pt'
       : type === TUploadablePhoto.THUMB
       ? '48pt'
-      : `${container ? (container.clientWidth / 480) * 260 : 260}pt`
+      : `${container ? Math.round((container.clientWidth / 480) * 260) : 260}pt`
   $: cropWidthString =
     !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
       ? 'calc(100vw - 80pt)'
@@ -78,7 +78,7 @@
       : type === TUploadablePhoto.THUMB
       ? 45
       : container
-      ? (container.clientWidth / 480) * 260
+      ? Math.round((container.clientWidth / 480) * 260)
       : 260
   $: cropWidth =
     !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
