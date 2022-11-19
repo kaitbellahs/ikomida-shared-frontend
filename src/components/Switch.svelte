@@ -11,11 +11,11 @@
 </script>
 
 <button class="switchContainer" on:click={onClick}>
-  <span class="title">{name || ''}</span>
-  <label class="switch">
+  <label class="shadow switch">
     <input type="checkbox" bind:checked />
     <span class="slider round" />
   </label>
+  <span class="title">{name || ''}</span>
 </button>
 
 <style>
@@ -25,17 +25,16 @@
   }
   .switchContainer {
     display: flex;
+    place-items: center;
+    width: 100%;
     margin-top: 16pt;
-    align-items: center;
-  }
-  .switchContainer > .title {
-    margin-right: 16pt;
   }
   .switch {
     position: relative;
     display: inline-block;
     width: 64pt;
     height: 32pt;
+    border-radius: 24pt;
   }
 
   .switch input {
@@ -45,7 +44,6 @@
   }
 
   .switchContainer > .title {
-    margin-bottom: 8pt;
     font-size: 1.1em;
     margin-left: 8pt;
   }

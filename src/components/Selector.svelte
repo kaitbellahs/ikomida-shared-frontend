@@ -29,7 +29,7 @@
   {#if selected}
     <label for={id}>{name ?? ''}:</label>
   {/if}
-  <select {id} on:change={change}>
+  <select class="shadow" {id} on:change={change}>
     {#if name}
       <option value={null}>{name}</option>
     {/if}

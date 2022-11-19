@@ -448,7 +448,7 @@
       >{placeHolder ?? ''}{placeHolder && input?.value ? ':' : ''}</label
     >
   {/if}
-  <div>
+  <div class="shadow">
     {#if icon}
       <div class="icon">
         {#if typeof icon === 'string'}
