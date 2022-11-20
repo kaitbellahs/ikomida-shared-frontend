@@ -88,10 +88,12 @@
           initialValue={businessHour.start}
           bind:value={businessHour.start}
           type={TTextEdit.TIME}
+          sizeMultiplier={0.8}
           marginTop={12}
           rightPadding={10}
         />
         <TextEdit
+          sizeMultiplier={0.8}
           marginTop={12}
           placeHolder={endTitle ? endTitle : 'Fechamento'}
           bind:value={businessHour.end}
@@ -130,10 +132,9 @@
   }
   .days > .day {
     flex: 1;
-    padding: 16pt;
-    border: 1pt solid #ccc;
     border-radius: 4pt;
-    margin: 8pt;
+    margin: 4pt;
+    padding: 4pt;
     width: 50%;
     display: flex;
     flex-direction: column;

@@ -20,7 +20,7 @@
 </script>
 
 <h3>{title}</h3>
-<div class="options">
+<div class="shadow options">
   {#each options as option (option?.id)}
     <div class="option">
       <Checkbox
@@ -54,7 +54,6 @@
   .options > .option {
     flex: 1;
     padding: 16pt;
-    border: 1pt solid #ccc;
     border-radius: 4pt;
     margin: 8pt;
     width: 50%;

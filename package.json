@@ -1,6 +1,6 @@
 {
   "name": "@ikomida/shared-frontend",
-  "version": "1.6.0",
+  "version": "1.6.3",
   "description": "the iKomida fromntend shared code",
   "private": false,
   "author": "Khalid Ait Bellahs",
@@ -32,6 +32,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
+    "@ikomida/shared-logics": "^1.2.1",
+    "@ikomida/shared-types": "^1.5.12",
     "@capacitor-community/date-picker": "^0.2.3",
     "@capacitor-community/http": "^1.4.1",
     "@capacitor/app": "^4.1.1",
@@ -57,6 +59,8 @@
     "typescript-svelte-plugin": "^0.3.10"
   },
   "peerDependencies": {
+    "@ikomida/shared-logics": "*",
+    "@ikomida/shared-types": "*",
     "@capacitor-community/date-picker": "*",
     "@capacitor-community/http": "*",
     "@capacitor/app": "*",
@@ -71,8 +75,6 @@
     "uuid": "*"
   },
   "dependencies": {
-    "@ikomida/shared-logics": "^1.2.1",
-    "@ikomida/shared-types": "^1.5.11",
     "jose": "^4.11.0",
     "lodash": "^4.17.21",
     "react-image-file-resizer": "^0.4.8"

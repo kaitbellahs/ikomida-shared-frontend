@@ -53,7 +53,7 @@
   {/if}
   <button on:click={onClick}>
     {#if !removeProduct && [Types.TDiscount.PERCENT, Types.TDiscount.VALUE].includes(product.discountType)}
-      <span class="discount"
+      <span class="shadow discount"
         >-{Types.TDiscount.VALUE === product.discountType
           ? currency(product.discount)
           : percent(product.discount)}</span
@@ -112,7 +112,6 @@
   .item {
     width: 100%;
     margin: 16pt 0;
-    /* border: 1pt solid #ccc; */
     padding: 16pt;
     background: var(--itemBackground);
     position: relative;
@@ -140,13 +139,11 @@
     right: -8pt;
     border-radius: 20.8pt;
     min-width: 64pt;
-    border: 1pt solid #4c0708;
     background: #4c0708;
     color: white;
     line-height: 24pt;
     padding: 0pt 8pt;
     text-shadow: 0.8pt 1pt #00000055;
-    box-shadow: 0 4pt 8pt #0000009e;
   }
   .item > button > h3 {
     padding: 0;

@@ -166,9 +166,8 @@
     display: flex;
     overflow-y: auto;
     height: 100%;
-    width: calc(100% + 32pt);
-    left: -16pt;
-    right: -16pt;
+    left: 0;
+    right: 0;
     padding: 0 16pt;
     flex-direction: column;
   }
