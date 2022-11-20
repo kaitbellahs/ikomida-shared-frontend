@@ -79,7 +79,7 @@
     'red'};--buttonColor: {$Layout?.button?.color || '#fff'};"
 >
   {#each categoriesAndProducts as category, index}
-    <header>
+    <header class="shadow">
       <h2>
         {#if removeCategory}
           <FloatRemove top={-8} right={-4} callback={() => onRemoveCategoryClick(category.id)} />

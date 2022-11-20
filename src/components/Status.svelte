@@ -38,7 +38,7 @@
   }
 </script>
 
-<div {style} class:circle>
+<div {style} class="shadow {circle ? 'circle' : ''}">
   {#if icon && showIcon}
     <Fa style="font-size: 2.5em; margin-bottom: 8pt;" {icon} />
   {/if}
