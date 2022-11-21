@@ -126,7 +126,7 @@
       icon = forceUpdate || !icon ? faUnlock : icon
       break
     case TTextEdit.NUMBER:
-      filter = forceUpdate || !filter ? /\d/gi : filter
+      filter = forceUpdate || !filter ? /[-0-9]/gi : filter
       max = forceUpdate || !max ? 11 : max
       break
     case TTextEdit.CURRENCY:
@@ -140,7 +140,7 @@
       icon = forceUpdate || !icon ? faPercent : icon
       break
     case TTextEdit.ALPHA_NUMERIC:
-      filter = forceUpdate || !filter ? /[A-Za-z0-9]/gi : filter
+      filter = forceUpdate || !filter ? /[-A-Za-z0-9]/gi : filter
       break
     case TTextEdit.SLUG:
       filter = forceUpdate || !filter ? /[a-z0-9\.-]/gi : filter
