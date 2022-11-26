@@ -416,7 +416,7 @@
   }
   header {
     position: fixed;
-    top: -8pt;
+    top: 0;
     left: 0;
     right: 0;
     background: var(--background);
