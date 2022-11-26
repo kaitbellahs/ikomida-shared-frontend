@@ -175,7 +175,7 @@ export default class Network {
         data instanceof Classes.BaseJSON || new data.constructor() instanceof Classes.BaseJSON ? data.toJSON() : data
     }
     if (params) options.params = params
-    if (auth && options.headers) options.headers.authorization = `Bearer ${await this.auth?.data()}`
+    if (auth && this.auth && options.headers) options.headers.authorization = `Bearer ${await this.auth?.data()}`
     if (action && options.headers) {
       options.headers.challenge = await this.getRecaptcha(action)
     }
