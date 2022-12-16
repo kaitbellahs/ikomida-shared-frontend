@@ -30,7 +30,7 @@
   let minHeight = `min-height: calc(${height ? height : 48}pt * ${sizeMultiplier});`
 
   $: float = isFloat
-    ? `border-radius:8pt;position: fixed; left: 16pt; right: 16pt; bottom: ${(bottomPadding ?? 0) + 64}pt;`
+    ? `border-radius:8pt;position: fixed; left: 8pt; right: 8pt; bottom: ${(bottomPadding ?? 0) + 56}pt;`
     : ''
 
   switch (type) {

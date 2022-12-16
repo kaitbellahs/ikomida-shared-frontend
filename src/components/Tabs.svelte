@@ -26,7 +26,7 @@
 </script>
 
 <footer
-  style="--size:{size};--bottomPadding:{bottomPadding}px;--background:{$Layout?.tabs?.background ??
+  style="--size:{size};--bottomPadding:{bottomPadding}pt;--background:{$Layout?.tabs?.background ??
     '#ffe4c4'};--color:{$Layout?.tabs?.color || '#4c0708'};"
 >
   {#each tabs as { name, route, icon } (name)}
@@ -42,9 +42,9 @@
 <style>
   footer {
     position: fixed;
-    left: 16pt;
-    right: 16pt;
-    bottom: calc(16pt + var(--bottomPadding));
+    left: 8pt;
+    right: 8pt;
+    bottom: calc(8pt + var(--bottomPadding));
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
