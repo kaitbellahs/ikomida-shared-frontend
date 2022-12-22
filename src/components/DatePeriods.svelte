@@ -1,122 +1,104 @@
 <script lang="ts">
   import { Classes, TTextEdit } from '../Types'
-  import Button from './Button.svelte'
-  import Checkbox from './Checkbox.svelte'
   import Divider from './Divider.svelte'
   import TextEdit from './TextEdit.svelte'
   import { v4 as uuid } from 'uuid'
   import FloatRemove from './FloatRemove.svelte'
-  import Fa from 'svelte-fa'
-  import { faClock } from '@fortawesome/free-solid-svg-icons'
-  import { onMount } from 'svelte'
+  import { faAdd } from '@fortawesome/free-solid-svg-icons'
+  import { onMount, tick } from 'svelte'
+  import FloatButton from '@ikomida/shared-frontend/lib/components/FloatButton.svelte'
+  import { days } from '../Utils/Strings'
 
-  interface IDay {
-    name: string
-    checked: boolean
-  }
-  export let business: Classes.CBusinessTime = Classes.CBusinessTime.fromObject({
-    days: [],
-    hours: []
-  })
+  export let value: Classes.CBusinessTime[]
   export let title: string | undefined = undefined
   export let startTitle: string | undefined = undefined
   export let endTitle: string | undefined = undefined
   export let mandatory = false
 
-  const days: IDay[] = [
-    { name: 'Domingo', checked: false },
-    { name: 'Segunda-feira', checked: false },
-    { name: 'Terça-feira', checked: false },
-    { name: 'Quarta-feira', checked: false },
-    { name: 'Quinta-feira', checked: false },
-    { name: 'Sexta-feira', checked: false },
-    { name: 'Sabado', checked: false }
-  ]
+  let scope = false
 
-  function check(index: number) {
-    return (event: CustomEvent) => {
-      if (!Array.isArray(business.days)) {
-        business.days = []
-      }
-      const indexOfDay = business.days?.indexOf(index) ?? -1
-      if (event.detail.checked && indexOfDay < 0) {
-        business?.days?.push(index)
-      } else if (!event.detail.checked && indexOfDay >= 0) {
-        business?.days?.splice(indexOfDay, 1)
-      }
-      business = business
-    }
+  $: if (value && !scope) {
+    value = Classes.CBusinessTime.fromObject([
+      ...Classes.CBusinessTime.fromObject([
+        { day: 0, hours: [] },
+        { day: 1, hours: [] },
+        { day: 2, hours: [] },
+        { day: 3, hours: [] },
+        { day: 4, hours: [] },
+        { day: 5, hours: [] },
+        { day: 6, hours: [] }
+      ]).map((businessTime: Classes.CBusinessTime) => businessTime.toJSON()),
+      ...(value && Array.isArray(value) ? value : [(value as Classes.CBusinessTime).toJSON()])
+    ])
   }
 
-  $: if (business?.days) {
-    for (let index = 0; index < days.length; index++) {
-      days[index].checked = business.days.includes(index)
-    }
-  }
-  const addHours = () => {
-    if (business) {
-      if (!business?.hours) {
-        business.hours = []
+  const addHours = async (businessTime: Classes.CBusinessTime) => {
+    scope = true
+    const index = value.indexOf(businessTime)
+    if (businessTime && index >= 0) {
+      if (!businessTime?.hours) {
+        value[index].hours = []
       }
-      business.hours.push(Classes.CBusinessTimeHours.fromObject({ id: uuid(), start: '08:00', end: '23:59' }))
-      business.hours = business?.hours
+      value[index].hours?.push(Classes.CBusinessTimeHours.fromObject({ id: uuid(), start: '08:00', end: '23:59' }))
     }
-    business = business
+    value = value
   }
 
-  function onRemoveClick(id?: string) {
-    if (business) {
-      business.hours = business?.hours?.filter(businessHour => businessHour.id !== id)
+  async function onRemoveClick(businessTime: Classes.CBusinessTime, id?: string) {
+    scope = true
+    const index = value.indexOf(businessTime)
+    if (businessTime && index >= 0) {
+      value[index].hours = value[index].hours?.filter(businessHour => businessHour.id !== id)
     }
-    business = business
+    value = value
   }
-  onMount(() => {
-    for (const index of business?.days ?? []) {
-      days[index].checked = true
-    }
-  })
+  onMount(() => {})
 </script>
 
-<h2>{title ? title : 'horário de funcionamento'}</h2>
-{#if (business?.hours?.length ?? 0) > 0}
-  {#each business?.hours ?? [] as businessHour}
-    <div class="shadow busninessHours">
-      <FloatRemove top={-4} right={-4} callback={() => onRemoveClick(businessHour.id)} />
-      <div class="twoCells">
-        <TextEdit
-          placeHolder={startTitle ? startTitle : 'Abertura'}
-          initialValue={businessHour.start}
-          bind:value={businessHour.start}
-          type={TTextEdit.TIME}
-          sizeMultiplier={0.8}
-          marginTop={12}
-          rightPadding={10}
-        />
-        <TextEdit
-          sizeMultiplier={0.8}
-          marginTop={12}
-          placeHolder={endTitle ? endTitle : 'Fechamento'}
-          bind:value={businessHour.end}
-          initialValue={businessHour.end}
-          type={TTextEdit.TIME}
-          leftPadding={10}
-        />
+<h2>{title ? title : 'Expediente'}</h2>
+
+{#if value.length > 0}
+  {#each value as businessDay}
+    {#if businessDay.day}
+      <div class="shadow day">
+        <FloatButton icon={faAdd} top={4} right={4} callback={() => addHours(businessDay)} />
+        <h3>{days[businessDay.day]}</h3>
+        {#if businessDay.hours && businessDay.hours.length > 0}
+          {#each businessDay.hours ?? [] as businessHour}
+            <div class="shadow busninessHours">
+              <FloatRemove top={-8} right={-8} callback={() => onRemoveClick(businessDay, businessHour.id)} />
+              <div class="twoCells">
+                <TextEdit
+                  placeHolder={startTitle ? startTitle : 'Abertura'}
+                  initialValue={businessHour.start}
+                  bind:value={businessHour.start}
+                  type={TTextEdit.TIME}
+                  sizeMultiplier={0.7}
+                  marginTop={8}
+                  rightPadding={8}
+                />
+                <TextEdit
+                  sizeMultiplier={0.7}
+                  marginTop={8}
+                  placeHolder={endTitle ? endTitle : 'Fechamento'}
+                  bind:value={businessHour.end}
+                  initialValue={businessHour.end}
+                  type={TTextEdit.TIME}
+                  leftPadding={8}
+                />
+              </div>
+            </div>
+          {/each}
+        {:else}
+          <span class="noExpedient">sem horário de expediente</span>
+        {/if}
       </div>
-    </div>
+    {/if}
   {/each}
 {:else if mandatory}
   <Divider />
-  <span>Você precisa definir seus {title ? title : 'horário de funcionamento'}</span>
+  <span>Você precisa definir seus {title ? title : 'horários de funcionamento'}</span>
 {/if}
-<Divider />
-<Button on:click={addHours}><Fa icon={faClock} /><span>Adicionar horários</span></Button>
-<div class="days">
-  {#each days as day, index}
-    <div class="day">
-      <Checkbox marginTop={0} checked={day.checked} on:check={check(index)} label={day.name} />
-    </div>
-  {/each}
-</div>
 
 <style>
   .busninessHours {
@@ -125,22 +107,24 @@
     margin-top: 12pt;
     padding: 12pt;
   }
-  .days {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-  .days > .day {
+  .day {
     flex: 1;
     border-radius: 4pt;
-    margin: 4pt;
-    padding: 4pt;
-    width: 50%;
+    margin: 0;
+    margin-top: 16pt;
+    padding: 8pt;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    flex-basis: 40%;
+    flex-basis: 100%;
+    position: relative;
+  }
+  .day > h3 {
     text-shadow: 0.8pt 1pt #18056b66;
-    box-shadow: 0 4pt 8pt #0000009e;
+    border-bottom: 1pt solid #ccc;
+  }
+  .day > .noExpedient {
+    margin-top: 8pt;
   }
   .twoCells {
     display: flex;

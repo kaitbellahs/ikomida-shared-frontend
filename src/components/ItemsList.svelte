@@ -11,10 +11,12 @@
   import Status from './Status.svelte'
   import { Types } from '..'
   import Divider from './Divider.svelte'
+  import { days } from '../Utils/Strings'
   let Layout: Writable<Classes.CLayout | undefined> = LayoutStore.instance.store
 
   export let categoriesAndProducts: Classes.CCategoryProducts[] = []
   export let productPage: Symbol | undefined = undefined
+  export let contract: Classes.CContract | undefined = undefined
   export let removeProduct: ((product: Classes.CProduct) => Promise<void>) | undefined = undefined
   export let removeCategory: ((id?: string) => Promise<void>) | undefined = undefined
   export let editCategory: ((category: Classes.CCategoryProducts) => void) | undefined = undefined
@@ -23,25 +25,18 @@
   export let itemUp: ((categoryId?: string, id?: string) => void) | undefined = undefined
   export let itemDown: ((categoryId?: string, id?: string) => void) | undefined = undefined
 
-  const days = [
-    { name: 'Domingo', checked: false },
-    { name: 'Segunda-feira', checked: false },
-    { name: 'Terça-feira', checked: false },
-    { name: 'Quarta-feira', checked: false },
-    { name: 'Quinta-feira', checked: false },
-    { name: 'Sexta-feira', checked: false },
-    { name: 'Sabado', checked: false }
-  ]
-
-  function isBusinessTime(business?: Classes.CBusinessTime) {
-    return !business || (!business.days && !business.hours) || DateTime.isBusinessTime(business!)
+  function isBusinessTime(business?: Classes.CBusinessTime[]) {
+    return !business || DateTime.isBusinessTime(business!)
   }
 
   function numerToTime(object: string) {
     return `${object?.substring(0, 2)}h${object?.substring(2, 4)}`
   }
 
-  function goToProduct(options: { product: Classes.CProduct; active?: boolean }) {
+  function goToProduct(options: { product: Classes.CProduct; active?: boolean; contract?: Classes.CContract }) {
+    if (contract) {
+      options.contract = contract
+    }
     Navigation.instance?.goTo(productPage, options)
   }
 
@@ -100,26 +95,33 @@
       {/if}
       {#if removeCategory || !isBusinessTime(category.business)}
         <Status showIcon={false}
-          >Esta categoria ficará disponível {#if !category.business || !category.business.days || category.business?.days?.length === 7}
-            7/7
-          {:else}
-            {(category.business?.days ?? []).length > 1 ? 'dias' : ''}
-            {#each category.business?.days ?? [] as day}
-              {days?.[day]?.name || '-'} ,
-            {/each}
+          >Esta categoria ficará disponível
+          {#if !category.business || category.business?.length === 7}
+            <b>7/7</b>
           {/if}
 
-          {#if !category.business || !category.business.hours || (category.business?.hours?.filter(item => {
-              return item.start === '0000' && item.end === '2359'
-            }).length ?? 0) > 0}
-            <span>24h/dia</span>
+          {#if !category.business || category.business?.filter(businessDay => (businessDay?.hours?.filter(item => {
+                  return (item.start === '0000' && item.end === '2359') || (item.start === '00:00' && item.end === '23:59')
+                }).length ?? 0) > 0)?.length === 7}
+            <b>24h/dia</b>
           {:else}
             nestes horários:
-            {#each category.business?.hours ?? [] as businessHour}
-              das {numerToTime(businessHour?.start ?? '')} até {numerToTime(businessHour?.end ?? '')},
+            {#each category.business ?? [] as businessDay}
+              {#if (businessDay.hours?.length ?? 0) > 0}
+                <day>
+                  <title>{days?.[businessDay.day ?? -1] || '-'}</title>
+                  {#each businessDay.hours ?? [] as businessHour, index}
+                    {#if businessHour.start === '0000' && businessHour.end === '2359'}
+                      <span>24h/dia</span>
+                    {:else}
+                      <span>{numerToTime(businessHour?.start ?? '')} até {numerToTime(businessHour?.end ?? '')}</span>
+                    {/if}
+                  {/each}
+                </day>
+              {/if}
             {/each}
-          {/if}</Status
-        >
+          {/if}
+        </Status>
       {/if}
     </header>
     {#if (category?.products ?? []).length > 0}

@@ -76,7 +76,10 @@
     ? height
     : '48pt'};--leftPadding: {leftPadding}pt; --rightPadding: {rightPadding}pt; text-transform: {upperCased
     ? 'uppercase'
-    : 'full-width'}; --multiplier: {sizeMultiplier};--background:{background};--color:{color};--width:{width};{minHeight}{float}"
+    : 'full-width'}; --multiplier: {sizeMultiplier};--background:{background};--color:{color};--width:{width};{minHeight}{float};--disabledBackground:{type ===
+  TButton.TRANSPARENT
+    ? 'transparent'
+    : '#585757'}"
   class={type !== TButton.TRANSPARENT ? 'leftShadow' : 'transparent'}
   on:click={click}><slot /></button
 >
@@ -97,7 +100,7 @@
   }
   button:disabled {
     /* border-radius: calc(4pt * var(--multiplier)); */
-    background: #585757;
+    background: var(--disabledBackground);
     border: 0;
     color: black;
   }

@@ -281,7 +281,7 @@
   small {
     text-align: center;
   }
-  @media screen and (min-width: 504pt) {
+  @media screen and (min-width: 504px) {
     .imageContainer {
       min-height: var(--minHeight);
     }
