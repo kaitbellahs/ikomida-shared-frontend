@@ -13,6 +13,15 @@ const months = [
   'Novembro',
   'Dezembro'
 ]
+export const days = [
+  'Domingo',
+  'Segunda-feira',
+  'Terça-feira',
+  'Quarta-feira',
+  'Quinta-feira',
+  'Sexta-feira',
+  'Sabado'
+]
 const articles = [
   'o',
   'os',

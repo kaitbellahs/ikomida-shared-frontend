@@ -15,6 +15,7 @@
 
   export let categoriesAndProducts: Classes.CCategoryProducts[] = []
   export let productPage: Symbol | undefined = undefined
+  export let contract: Classes.CContract | undefined = undefined
   export let removeProduct: ((product: Classes.CProduct) => Promise<void>) | undefined = undefined
   export let removeCategory: ((id?: string) => Promise<void>) | undefined = undefined
   export let editCategory: ((category: Classes.CCategoryProducts) => void) | undefined = undefined
@@ -41,7 +42,10 @@
     return `${object?.substring(0, 2)}h${object?.substring(2, 4)}`
   }
 
-  function goToProduct(options: { product: Classes.CProduct; active?: boolean }) {
+  function goToProduct(options: { product: Classes.CProduct; active?: boolean; contract?: Classes.CContract }) {
+    if (contract) {
+      options.contract = contract
+    }
     Navigation.instance?.goTo(productPage, options)
   }
 
