@@ -3,9 +3,10 @@
 </script>
 
 <small class="terms"
-  >Esta página é protegido por reCAPTCHA e <Link url="https://policies.google.com/privacy" alt="política de privacidade"
-    >política de privacidade</Link
-  > e <Link url="https://policies.google.com/terms" alt="termos de uso">termos de uso</Link> da google se aplicam</small
+  >Esta página é protegido por reCAPTCHA e <Link
+    url="https://policies.google.com/privacy"
+    title="política de privacidade">política de privacidade</Link
+  > e <Link url="https://policies.google.com/terms" title="termos de uso">termos de uso</Link> da google se aplicam</small
 >
 
 <style>

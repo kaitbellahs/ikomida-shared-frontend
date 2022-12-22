@@ -14,7 +14,7 @@
   export let cropShape = TCropShape.RECT
   export let showGrid = true
   export let zoomSpeed = 1
-  export let crossOrigin: string | undefined = undefined
+  export let crossorigin: '' | 'anonymous' | 'use-credentials' | null | undefined = undefined
   export let restrictPosition = true
 
   const dispatch = createEventDispatcher()
@@ -84,7 +84,6 @@
         maxZoom = maxZoom + zoom
       }
     }
-    console.log('containerRect:', containerRect)
   }
 
   const getMousePoint = (e: MouseEvent) => ({ x: Number(e.clientX), y: Number(e.clientY) })
@@ -251,7 +250,7 @@
     on:load={onImgLoad}
     alt=""
     style="transform: translate({crop.x}px, {crop.y}px) scale({zoom});"
-    crossorigin={crossOrigin}
+    {crossorigin}
   />
   {#if cropperSize}
     <div
