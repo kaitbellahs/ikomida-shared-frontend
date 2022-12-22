@@ -1,3 +1,6 @@
+import { DateTime } from '@ikomida/shared-logics'
+import type { Classes } from '@ikomida/shared-types'
+import { Stores } from '..'
 import TextEdit from '../components/TextEdit.svelte'
 
 export function validateFields(object: any) {
@@ -34,4 +37,35 @@ export function updateInputs(inputs: any, object: any) {
 
 export function isTrue(object: any) {
   return ![undefined, null, false].includes(object)
+}
+
+export function validateBusinessTime(business: Classes.CBusinessTime[]) {
+  if (!business || (business?.length ?? 0) < 1) {
+    Stores.MessageAlert.instance.show('Precisa escolher pelo menos um dia de funcionamento!')
+    Stores.Loading.instance.stop()
+    return
+  }
+  for (const businessDay of business ?? []) {
+    for (const businessHour of businessDay.hours ?? []) {
+      if (!DateTime.validateTime(businessHour?.start)) {
+        Stores.MessageAlert.instance.show(
+          'O horário de abertura é inválido, o formato deve ser HH:mm e entre 00:00 e 23:59!'
+        )
+        Stores.Loading.instance.stop()
+        return
+      } else if (!DateTime.validateTime(businessHour?.end)) {
+        Stores.MessageAlert.instance.show(
+          'O horário de fechamento é inválido, o formato deve ser HH:mm e entre 00:00 e 23:59!'
+        )
+        Stores.Loading.instance.stop()
+        return
+      } else if (Number(businessHour.start) > Number(businessHour.end)) {
+        Stores.MessageAlert.instance.show(
+          'O horário de abertura deve ser menor que o horário de fechamento, exemplo de abertura: 09:00 e fechamento: 18:00!'
+        )
+        Stores.Loading.instance.stop()
+        return
+      }
+    }
+  }
 }
