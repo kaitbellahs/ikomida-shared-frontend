@@ -12,6 +12,7 @@
   import type { Writable } from 'svelte/store'
   let Layout: Writable<Classes.CLayout | undefined> = LayoutStore.instance.store
 
+  export let element: HTMLElement | undefined = undefined
   export let active = true
   export let product: Classes.CProduct
   export let goToProduct: ((options: { product: Classes.CProduct; active?: boolean }) => void) | undefined = undefined
@@ -38,6 +39,7 @@
 </script>
 
 <div
+  bind:this={element}
   class="leftShadow item"
   style="--itemBackground: {$Layout?.itemBackground || '#fffffffc'};--buttonBackground: {$Layout?.button?.background ||
     '#4c0708'};--buttonColor: {$Layout?.button?.color || '#fff'};"

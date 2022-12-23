@@ -12,7 +12,10 @@
   import { Types } from '..'
   import Divider from './Divider.svelte'
   import { days } from '../Utils/Strings'
-  let Layout: Writable<Classes.CLayout | undefined> = LayoutStore.instance.store
+  import MainScroll from '../Stores/MainScroll'
+  import 'animate.css'
+
+  let Layout: Writable<Classes.CLayout | undefined> = LayoutStore.instance?.store
 
   export let categoriesAndProducts: Classes.CCategoryProducts[] = []
   export let productPage: Symbol | undefined = undefined
@@ -24,6 +27,39 @@
   export let categoryDown: ((id?: string) => void) | undefined = undefined
   export let itemUp: ((categoryId?: string, id?: string) => void) | undefined = undefined
   export let itemDown: ((categoryId?: string, id?: string) => void) | undefined = undefined
+
+  const itemsList: HTMLDivElement[] = []
+  const visibleItemsList: HTMLDivElement[] = []
+  let mainScroll: MainScroll = MainScroll.createInstance().store
+
+  $: if (($Layout?.product?.animation?.in || $Layout?.product?.animation?.out) && $mainScroll) {
+    const list = itemsList.filter(item => item)
+    for (let i = 0; i < list.length; i++) {
+      const item = list[i]
+      if (item) {
+        const itemTop = item.getBoundingClientRect().top
+        const divider = 12
+        const height = $mainScroll.offsetHeight ?? 0
+        if (itemTop > ((-1 * height) / divider) * 2 && itemTop < (height / divider) * (divider - 1)) {
+          if (!visibleItemsList.includes(item)) {
+            item.classList.remove('animate__animated', `animate__${$Layout.product.animation.out}`)
+            item.classList.add('animate__animated', `animate__${$Layout.product.animation.in}`)
+            visibleItemsList.push(item)
+          }
+        } else {
+          if (visibleItemsList.includes(item)) {
+            item.classList.remove('animate__animated', `animate__${$Layout.product.animation.in}`)
+            item.classList.add('animate__animated', `animate__${$Layout.product.animation.out}`)
+            const index = visibleItemsList?.indexOf(item)
+            if ((index ?? -1) > -1) {
+              visibleItemsList?.splice(index, 1)
+            }
+            visibleItemsList.push(item)
+          }
+        }
+      }
+    }
+  }
 
   function isBusinessTime(business?: Classes.CBusinessTime[]) {
     return !business || DateTime.isBusinessTime(business!)
@@ -67,6 +103,11 @@
   let categoryUpClick = (id?: string) => {
     categoryUp?.(id)
   }
+  let index = -1
+  function getIndex() {
+    index++
+    return index
+  }
 </script>
 
 <div
@@ -100,13 +141,13 @@
             <b>7/7</b>
           {/if}
 
-          {#if !category.business || category.business?.filter(businessDay => (businessDay?.hours?.filter(item => {
-                  return (item.start === '0000' && item.end === '2359') || (item.start === '00:00' && item.end === '23:59')
-                }).length ?? 0) > 0)?.length === 7}
+          {#if !category.business || (Array.isArray(category.business) ? category.business : [category.business]).filter(businessDay => (businessDay?.hours?.filter( item => {
+                    return (item.start === '0000' && item.end === '2359') || (item.start === '00:00' && item.end === '23:59')
+                  } ).length ?? 0) > 0)?.length === 7}
             <b>24h/dia</b>
           {:else}
             nestes horários:
-            {#each category.business ?? [] as businessDay}
+            {#each (Array.isArray(category.business) ? category.business : [category.business]) ?? [] as businessDay}
               {#if (businessDay.hours?.length ?? 0) > 0}
                 <day>
                   <title>{days?.[businessDay.day ?? -1] || '-'}</title>
@@ -127,6 +168,7 @@
     {#if (category?.products ?? []).length > 0}
       {#each category?.products ?? [] as product, productIndex}
         <Item
+          bind:element={itemsList[getIndex()]}
           active={isBusinessTime(category.business)}
           {product}
           {goToProduct}
