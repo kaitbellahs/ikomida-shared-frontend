@@ -43,7 +43,7 @@ export function validateBusinessTime(business: Classes.CBusinessTime[]) {
   if (!business || (business?.length ?? 0) < 1) {
     Stores.MessageAlert.instance.show('Precisa escolher pelo menos um dia de funcionamento!')
     Stores.Loading.instance.stop()
-    return
+    return false
   }
   for (const businessDay of business ?? []) {
     for (const businessHour of businessDay.hours ?? []) {
@@ -52,20 +52,21 @@ export function validateBusinessTime(business: Classes.CBusinessTime[]) {
           'O horário de abertura é inválido, o formato deve ser HH:mm e entre 00:00 e 23:59!'
         )
         Stores.Loading.instance.stop()
-        return
+        return false
       } else if (!DateTime.validateTime(businessHour?.end)) {
         Stores.MessageAlert.instance.show(
           'O horário de fechamento é inválido, o formato deve ser HH:mm e entre 00:00 e 23:59!'
         )
         Stores.Loading.instance.stop()
-        return
+        return false
       } else if (Number(businessHour.start) > Number(businessHour.end)) {
         Stores.MessageAlert.instance.show(
           'O horário de abertura deve ser menor que o horário de fechamento, exemplo de abertura: 09:00 e fechamento: 18:00!'
         )
         Stores.Loading.instance.stop()
-        return
+        return false
       }
     }
   }
+  return true
 }
