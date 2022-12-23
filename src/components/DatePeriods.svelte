@@ -5,11 +5,12 @@
   import { v4 as uuid } from 'uuid'
   import FloatRemove from './FloatRemove.svelte'
   import { faAdd } from '@fortawesome/free-solid-svg-icons'
-  import { onMount, tick } from 'svelte'
+  import { onMount } from 'svelte'
   import FloatButton from '@ikomida/shared-frontend/lib/components/FloatButton.svelte'
   import { days } from '../Utils/Strings'
+  import ExpandableBox from './ExpandableBox.svelte'
 
-  export let value: Classes.CBusinessTime[]
+  export let value: Classes.CBusinessTime[] | undefined
   export let title: string | undefined = undefined
   export let startTitle: string | undefined = undefined
   export let endTitle: string | undefined = undefined
@@ -34,20 +35,20 @@
 
   const addHours = async (businessTime: Classes.CBusinessTime) => {
     scope = true
-    const index = value.indexOf(businessTime)
+    const index = value?.indexOf(businessTime) ?? -1
     if (businessTime && index >= 0) {
-      if (!businessTime?.hours) {
+      if (!businessTime?.hours && value) {
         value[index].hours = []
       }
-      value[index].hours?.push(Classes.CBusinessTimeHours.fromObject({ id: uuid(), start: '08:00', end: '23:59' }))
+      value?.[index].hours?.push(Classes.CBusinessTimeHours.fromObject({ id: uuid(), start: '08:00', end: '23:59' }))
     }
     value = value
   }
 
   async function onRemoveClick(businessTime: Classes.CBusinessTime, id?: string) {
     scope = true
-    const index = value.indexOf(businessTime)
-    if (businessTime && index >= 0) {
+    const index = value?.indexOf(businessTime) ?? -1
+    if (businessTime && index >= 0 && value) {
       value[index].hours = value[index].hours?.filter(businessHour => businessHour.id !== id)
     }
     value = value
@@ -55,9 +56,7 @@
   onMount(() => {})
 </script>
 
-<h2>{title ? title : 'Expediente'}</h2>
-
-{#if value.length > 0}
+{#if value && value.length > 0}
   {#each value as businessDay}
     {#if businessDay.day}
       <div class="shadow day">
