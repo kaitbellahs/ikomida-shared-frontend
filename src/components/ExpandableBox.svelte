@@ -9,7 +9,7 @@
   export let expanded = false
 
   const id = uuid()
-  const ExpandableBox = Stores.ExpandableBox.instance?.store
+  let ExpandableBox: Stores.ExpandableBox
 
   $: icon = expanded ? faChevronUp : faChevronDown
   $: if (id !== $ExpandableBox) {
@@ -26,23 +26,29 @@
   function easeIn(_: HTMLDivElement, { duration }: { duration: number }) {
     return {
       duration,
-      css: (t: number) => `
-    max-height: ${t * 100}vh;
+      css: (t: number) => {
+        const css = `
+    ${t === 1 ? 'overflow:none;max-height: fit-content;' : `overflow:hidden;max-height: ${t * 100}vh;`};
     `
+        return css
+      }
     }
   }
 
   function easeOut(_: HTMLDivElement, { duration }: { duration: number }) {
     return {
       duration,
-      css: (t: number) => `
-    max-height: ${t * 100}vh;
+      css: (t: number) => {
+        const css = `
+    ${t === 1 ? 'overflow:none;max-height: fit-content;' : `overflow:hidden;max-height: ${t * 100}vh;`};
     `
+        return css
+      }
     }
   }
 
   onMount(() => {
-    Stores.ExpandableBox.createInstance()
+    ExpandableBox = Stores.ExpandableBox.createInstance().store
   })
 </script>
 
@@ -50,7 +56,7 @@
   <FloatButton bind:icon top={4} right={4} callback={toggleBox} />
   <h2>{title}</h2>
   {#if expanded}
-    <box in:easeIn={{ duration: 100 }} out:easeOut={{ duration: 100 }}>
+    <box in:easeIn={{ duration: 300 }} out:easeOut={{ duration: 300 }}>
       <slot />
     </box>
   {/if}
@@ -65,7 +71,7 @@
     display: flex;
     flex-direction: column;
     margin-top: 16pt;
-    overflow: hidden;
+    /* overflow: hidden; */
   }
   box {
     position: relative;
