@@ -20,19 +20,18 @@
 
   $: if (value && !scope) {
     value = Classes.CBusinessTime.fromObject([
-      ...Classes.CBusinessTime.fromObject([
-        { day: 0, hours: [] },
-        { day: 1, hours: [] },
-        { day: 2, hours: [] },
-        { day: 3, hours: [] },
-        { day: 4, hours: [] },
-        { day: 5, hours: [] },
-        { day: 6, hours: [] }
-      ]).map((businessTime: Classes.CBusinessTime) => businessTime.toJSON()),
-      ...(value && Array.isArray(value) ? value : [(value as Classes.CBusinessTime).toJSON()])
+      getDay(0) ? getDay(0) : { day: 0, hours: [] },
+      getDay(1) ? getDay(1) : { day: 1, hours: [] },
+      getDay(2) ? getDay(2) : { day: 2, hours: [] },
+      getDay(3) ? getDay(3) : { day: 3, hours: [] },
+      getDay(4) ? getDay(4) : { day: 4, hours: [] },
+      getDay(5) ? getDay(5) : { day: 5, hours: [] },
+      getDay(6) ? getDay(6) : { day: 6, hours: [] }
     ])
   }
-
+  function getDay(day: number) {
+    return value?.filter(item => item.day === day)?.[0]?.toJSON()
+  }
   const addHours = async (businessTime: Classes.CBusinessTime) => {
     scope = true
     const index = value?.indexOf(businessTime) ?? -1
@@ -60,12 +59,12 @@
   {#each value as businessDay}
     {#if businessDay.day}
       <div class="shadow day">
-        <FloatButton icon={faAdd} top={4} right={4} callback={() => addHours(businessDay)} />
+        <FloatButton icon={faAdd} top={0} right={1} callback={() => addHours(businessDay)} />
         <h3>{days[businessDay.day]}</h3>
         {#if businessDay.hours && businessDay.hours.length > 0}
           {#each businessDay.hours ?? [] as businessHour}
             <div class="shadow busninessHours">
-              <FloatRemove top={-8} right={-8} callback={() => onRemoveClick(businessDay, businessHour.id)} />
+              <FloatRemove top={-8} right={-7} callback={() => onRemoveClick(businessDay, businessHour.id)} />
               <div class="twoCells">
                 <TextEdit
                   placeHolder={startTitle ? startTitle : 'Abertura'}

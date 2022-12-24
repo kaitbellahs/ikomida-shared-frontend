@@ -140,7 +140,7 @@
 <resusableListViewport bind:this={viewport} bind:offsetHeight={viewport_height} on:scroll={handle_scroll}>
   <resusableListContents bind:this={contents} style="padding-top: {top}px; padding-bottom: {bottom}px;">
     {#each visible as row (row.index)}
-      <reusableListRow class="shadow" style="--divider:{divider}px">
+      <reusableListRow class="shadow" style="--divider:{divider}pt">
         <slot index={row.index} item={row.data}>Ocurreu um erro, entre em contato com o suporte</slot>
       </reusableListRow>
     {/each}

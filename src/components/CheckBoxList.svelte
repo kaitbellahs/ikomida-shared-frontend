@@ -53,7 +53,7 @@
   }
   .options > .option {
     flex: 1;
-    padding: 16pt;
+    padding: 4pt;
     border-radius: 4pt;
     margin: 8pt;
     width: 50%;

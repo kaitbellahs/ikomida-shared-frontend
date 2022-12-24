@@ -19,6 +19,11 @@
   export let lastName: string | undefined = undefined
   export let type: TUploadablePhoto | undefined = undefined
 
+  export function updateImage(value: string) {
+    console.log('value:', value)
+    image = value
+  }
+
   let Layout: Writable<Classes.CLayout | undefined> = LayoutStore.instance.store
   let rawImage: string | undefined
   let crop = { x: 0, y: 0 }

@@ -3,9 +3,10 @@
   import FloatButton from './FloatButton.svelte'
   import { v4 as uuid } from 'uuid'
   import { Stores } from '..'
-  import { onMount } from 'svelte'
+  import { onMount, tick } from 'svelte'
 
   export let title: string
+  export let expand = false
   export let expanded = false
 
   const id = uuid()
@@ -47,14 +48,18 @@
     }
   }
 
-  onMount(() => {
+  onMount(async () => {
     ExpandableBox = Stores.ExpandableBox.createInstance().store
+    if (expand) {
+      await tick()
+      expanded = true
+    }
   })
 </script>
 
 <expandableBox class="shadow">
-  <FloatButton bind:icon top={4} right={4} callback={toggleBox} />
-  <h2 on:click={toggleBox}>{title}</h2>
+  <FloatButton bind:icon top={expanded ? 4 : 16} right={4} callback={toggleBox} />
+  <h2 class:expanded on:click={toggleBox}>{title}</h2>
   {#if expanded}
     <box in:easeIn={{ duration: 300 }} out:easeOut={{ duration: 300 }}>
       <slot />
@@ -71,7 +76,6 @@
     display: flex;
     flex-direction: column;
     margin-top: 16pt;
-    /* overflow: hidden; */
   }
   box {
     position: relative;
@@ -82,5 +86,8 @@
   }
   box:first-of-type {
     margin-top: 0;
+  }
+  h2.expanded {
+    border-bottom: 1px solid #ccc;
   }
 </style>

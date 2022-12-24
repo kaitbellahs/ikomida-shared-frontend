@@ -10,7 +10,7 @@
 </script>
 
 <button
-  style="--top: {top}px; --right:{right}px;--color: {color ?? '#fff'};--background: {background ?? '#4c0708'};"
+  style="--top: {top}pt; --right:{right}pt;--color: {color ?? '#fff'};--background: {background ?? '#4c0708'};"
   on:click={callback}
   class="flatButton"
 >
@@ -39,5 +39,6 @@
     font-size: 12pt;
     z-index: 9;
     padding: 0;
+    transition: all 0.3s;
   }
 </style>

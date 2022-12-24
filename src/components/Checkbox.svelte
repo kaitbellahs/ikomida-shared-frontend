@@ -14,7 +14,7 @@
   }
 </script>
 
-<button class="switchContainer" style="--marginTop: {marginTop}px;" on:click={onClick}>
+<button class="switchContainer" style="--marginTop: {marginTop}pt;" on:click={onClick}>
   <input {id} type="checkbox" bind:checked />
   {#if label}
     <label for={id}>{label}</label>
@@ -66,8 +66,8 @@
   }
 
   input[type='checkbox']:focus {
-    outline: max(2px, 0.15em) solid currentColor;
-    outline-offset: max(2px, 0.15em);
+    outline: max(2pt, 0.15em) solid currentColor;
+    outline-offset: max(2pt, 0.15em);
   }
 
   input[type='checkbox']:disabled {
