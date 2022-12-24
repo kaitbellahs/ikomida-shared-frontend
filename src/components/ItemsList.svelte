@@ -14,7 +14,10 @@
   import { days } from '../Utils/Strings'
   import MainScroll from '../Stores/MainScroll'
   import 'animate.css'
+  import { onMount } from 'svelte'
+  import { animateCSS } from '../Utils/Objects'
 
+  const ANIMATION_PREFIX = 'animate__'
   let Layout: Writable<Classes.CLayout | undefined> = LayoutStore.instance?.store
 
   export let categoriesAndProducts: Classes.CCategoryProducts[] = []
@@ -29,32 +32,45 @@
   export let itemDown: ((categoryId?: string, id?: string) => void) | undefined = undefined
 
   const itemsList: HTMLDivElement[] = []
-  const visibleItemsList: HTMLDivElement[] = []
+  const visibleItemsList: number[] = []
   let mainScroll: MainScroll = MainScroll.createInstance().store
 
   $: if (($Layout?.product?.animation?.in || $Layout?.product?.animation?.out) && $mainScroll) {
+    handleAnimation()
+  }
+
+  $: {
     const list = itemsList.filter(item => item)
     for (let i = 0; i < list.length; i++) {
-      const item = list[i]
-      if (item) {
-        const itemTop = item.getBoundingClientRect().top
+      const node = list[i]
+      if (node && !node.classList.contains(`${ANIMATION_PREFIX}animated`)) {
+        node.classList.add(`${ANIMATION_PREFIX}animated`)
+      }
+    }
+  }
+
+  async function handleAnimation() {
+    const list = itemsList.filter(item => item)
+    for (let i = 0; i < list.length; i++) {
+      const node = list[i]
+      if (node) {
+        const nodeTop = node.getBoundingClientRect().top
         const divider = 12
-        const height = $mainScroll.offsetHeight ?? 0
-        if (itemTop > ((-1 * height) / divider) * 2 && itemTop < (height / divider) * (divider - 1)) {
-          if (!visibleItemsList.includes(item)) {
-            item.classList.remove('animate__animated', `animate__${$Layout.product.animation.out}`)
-            item.classList.add('animate__animated', `animate__${$Layout.product.animation.in}`)
-            visibleItemsList.push(item)
+        const height = $mainScroll?.offsetHeight ?? 0
+        if (nodeTop > ((-1 * height) / divider) * 2 && nodeTop < (height / divider) * (divider - 1)) {
+          if (!visibleItemsList.includes(i)) {
+            visibleItemsList.push(i)
+            node.style.visibility = 'visible'
+            await animateCSS(node, $Layout?.product?.animation?.in ?? 'backInLeft', ANIMATION_PREFIX)
           }
         } else {
-          if (visibleItemsList.includes(item)) {
-            item.classList.remove('animate__animated', `animate__${$Layout.product.animation.in}`)
-            item.classList.add('animate__animated', `animate__${$Layout.product.animation.out}`)
-            const index = visibleItemsList?.indexOf(item)
+          if (visibleItemsList.includes(i)) {
+            await animateCSS(node, $Layout?.product?.animation?.out ?? 'backOutRight', ANIMATION_PREFIX)
+            node.style.visibility = 'hidden'
+            const index = visibleItemsList?.indexOf(i)
             if ((index ?? -1) > -1) {
               visibleItemsList?.splice(index, 1)
             }
-            visibleItemsList.push(item)
           }
         }
       }
@@ -108,6 +124,9 @@
     index++
     return index
   }
+  onMount(() => {
+    handleAnimation()
+  })
 </script>
 
 <div
