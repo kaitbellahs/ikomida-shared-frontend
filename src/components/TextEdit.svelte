@@ -429,7 +429,7 @@
 
 <div
   class="form-cell"
-  style="--labelWidth:{labelWidth}px;--sizeMultiplier: {sizeMultiplier};--sizeMultiplierPow:{(
+  style="--labelWidth:{labelWidth}pt;--sizeMultiplier: {sizeMultiplier};--sizeMultiplierPow:{(
     sizeMultiplier * (sizeMultiplier !== 1 ? 0.85 : 1)
   ).toFixed(
     2
