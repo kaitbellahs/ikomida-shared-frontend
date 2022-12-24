@@ -54,7 +54,7 @@
 
 <expandableBox class="shadow">
   <FloatButton bind:icon top={4} right={4} callback={toggleBox} />
-  <h2>{title}</h2>
+  <h2 on:click={toggleBox}>{title}</h2>
   {#if expanded}
     <box in:easeIn={{ duration: 300 }} out:easeOut={{ duration: 300 }}>
       <slot />
