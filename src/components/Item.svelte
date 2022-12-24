@@ -41,8 +41,10 @@
 <div
   bind:this={element}
   class="leftShadow item"
-  style="--itemBackground: {$Layout?.itemBackground || '#fffffffc'};--buttonBackground: {$Layout?.button?.background ||
-    '#4c0708'};--buttonColor: {$Layout?.button?.color || '#fff'};"
+  style="--visibility: {$Layout?.product?.animation?.in || $Layout?.product?.animation?.out
+    ? 'hidden'
+    : 'visible'};--itemBackground: {$Layout?.itemBackground || '#fffffffc'};--buttonBackground: {$Layout?.button
+    ?.background || '#4c0708'};--buttonColor: {$Layout?.button?.color || '#fff'};"
 >
   <ShiftUpDownButtons
     hasUp={itemUp !== undefined}
@@ -112,6 +114,7 @@
     box-sizing: border-box;
   }
   .item {
+    visibility: var(--visibility);
     width: 100%;
     margin: 16pt 0;
     padding: 16pt;

@@ -70,3 +70,17 @@ export function validateBusinessTime(business: Classes.CBusinessTime[]) {
   }
   return true
 }
+
+export function animateCSS(node: HTMLDivElement, animation: string, prefix: string = '') {
+  return new Promise((resolve, reject) => {
+    node.classList.add(`${prefix}${animation}`)
+
+    function handleAnimationEnd(event: Event) {
+      event.stopPropagation()
+      node.classList.remove(`${prefix}${animation}`)
+      resolve('Animation ended')
+    }
+
+    node.addEventListener('animationend', handleAnimationEnd, { once: true })
+  })
+}
