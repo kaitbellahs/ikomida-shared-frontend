@@ -6,9 +6,9 @@
   import FloatRemove from './FloatRemove.svelte'
   import { faAdd } from '@fortawesome/free-solid-svg-icons'
   import { onMount } from 'svelte'
-  import FloatButton from '@ikomida/shared-frontend/lib/components/FloatButton.svelte'
-  import { days } from '../Utils/Strings'
-  import ExpandableBox from './ExpandableBox.svelte'
+  import FloatButton from './FloatButton.svelte'
+  import { days } from '../Utils/Strings.js'
+  import { isTrue } from '../Utils/Objects.js'
 
   export let value: Classes.CBusinessTime[] | undefined
   export let title: string | undefined = undefined
@@ -17,7 +17,6 @@
   export let mandatory = false
 
   let scope = false
-
   $: if (value && !scope) {
     value = Classes.CBusinessTime.fromObject([
       getDay(0) ? getDay(0) : { day: 0, hours: [] },
@@ -30,7 +29,9 @@
     ])
   }
   function getDay(day: number) {
-    return value?.filter(item => item.day === day)?.[0]?.toJSON()
+    return (Array.isArray(value) ? value : [value as any as Classes.CBusinessTime])
+      ?.filter(item => item.day === day)?.[0]
+      ?.toJSON()
   }
   const addHours = async (businessTime: Classes.CBusinessTime) => {
     scope = true
@@ -57,10 +58,10 @@
 
 {#if value && value.length > 0}
   {#each value as businessDay}
-    {#if businessDay.day}
+    {#if isTrue(businessDay.day)}
       <div class="shadow day">
         <FloatButton icon={faAdd} top={0} right={1} callback={() => addHours(businessDay)} />
-        <h3>{days[businessDay.day]}</h3>
+        <h3>{days[businessDay.day ?? -1]}</h3>
         {#if businessDay.hours && businessDay.hours.length > 0}
           {#each businessDay.hours ?? [] as businessHour}
             <div class="shadow busninessHours">
