@@ -104,11 +104,11 @@
       {#if removeCategory || !isBusinessTime(category.business)}
         <Status showIcon={false}
           >Esta categoria ficará disponível
-          {#if !category.business || category.business?.length === 7}
+          {#if !category.business || category.business?.filter(businessDay => (businessDay?.hours?.length ?? 0) > 0)?.length === 7 || category.business?.length === 0}
             <b>7/7</b>
           {/if}
 
-          {#if !category.business || (Array.isArray(category.business) ? category.business : [category.business]).filter(businessDay => (businessDay?.hours?.filter( item => {
+          {#if !category.business || category.business?.length === 0 || (Array.isArray(category.business) ? category.business : [category.business]).filter(businessDay => (businessDay?.hours?.filter( item => {
                     return (item.start === '0000' && item.end === '2359') || (item.start === '00:00' && item.end === '23:59')
                   } ).length ?? 0) > 0)?.length === 7}
             <b>24h/dia</b>
@@ -116,16 +116,25 @@
             nestes horários:
             {#each (Array.isArray(category.business) ? category.business : [category.business]) ?? [] as businessDay}
               {#if (businessDay.hours?.length ?? 0) > 0}
-                <day>
-                  <title>{days?.[businessDay.day ?? -1] || '-'}</title>
-                  {#each businessDay.hours ?? [] as businessHour, index}
-                    {#if businessHour.start === '0000' && businessHour.end === '2359'}
-                      <span>24h/dia</span>
-                    {:else}
-                      <span>{numerToTime(businessHour?.start ?? '')} até {numerToTime(businessHour?.end ?? '')}</span>
-                    {/if}
-                  {/each}
-                </day>
+                <!-- svelte-ignore component-name-lowercase -->
+                <days>
+                  <day
+                    >{days?.[businessDay.day ?? -1] || '-'}:
+                    {#each businessDay.hours ?? [] as businessHour, index}
+                      {#if businessHour.start === '0000' && businessHour.end === '2359'}
+                        <span>24h/dia</span>
+                      {:else}
+                        {index > 0 && (businessDay.hours?.length ?? 0) > index + 1
+                          ? ', '
+                          : index > 0 && index === (businessDay.hours?.length ?? 0) - 1
+                          ? ' e '
+                          : ''}<span
+                          >{numerToTime(businessHour?.start ?? '')} até {numerToTime(businessHour?.end ?? '')}</span
+                        >
+                      {/if}
+                    {/each}
+                  </day>
+                </days>
               {/if}
             {/each}
           {/if}
@@ -169,5 +178,9 @@
     text-align: center;
     padding: 0;
     margin: 0;
+  }
+  days {
+    display: flex;
+    flex-direction: column;
   }
 </style>

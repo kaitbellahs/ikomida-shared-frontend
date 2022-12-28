@@ -14,10 +14,15 @@
   export let title: string | undefined = undefined
   export let startTitle: string | undefined = undefined
   export let endTitle: string | undefined = undefined
+  export let refresh = false
   export let mandatory = false
 
   let scope = false
-  $: if (value && !scope) {
+  $: if (value && (!scope || refresh)) {
+    refreshData()
+    refresh = false
+  }
+  function refreshData() {
     value = Classes.CBusinessTime.fromObject([
       getDay(0) ? getDay(0) : { day: 0, hours: [] },
       getDay(1) ? getDay(1) : { day: 1, hours: [] },
