@@ -10,6 +10,7 @@
   import TStatus from '../Types/Status'
   import Divider from './Divider.svelte'
   import type { Writable } from 'svelte/store'
+  import Discount from './Discount.svelte'
   let Layout: Writable<Classes.CLayout | undefined> = LayoutStore.instance.store
 
   export let element: HTMLElement | undefined = undefined
@@ -57,11 +58,7 @@
   {/if}
   <button on:click={onClick}>
     {#if !removeProduct && [Types.TDiscount.PERCENT, Types.TDiscount.VALUE].includes(product.discountType)}
-      <span class="shadow discount"
-        >-{Types.TDiscount.VALUE === product.discountType
-          ? currency(product.discount)
-          : percent(product.discount)}</span
-      >
+      <Discount value={product.discount} type={product.discountType} top={-8} right={-8} />
     {/if}
     <h3>{product.title}</h3>
     <div>

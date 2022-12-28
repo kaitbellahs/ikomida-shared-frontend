@@ -1,5 +1,6 @@
 import { DateTime } from '@ikomida/shared-logics'
 import type { Classes } from '@ikomida/shared-types'
+import { tick } from 'svelte'
 import { Stores } from '..'
 import TextEdit from '../components/TextEdit.svelte'
 
@@ -72,7 +73,7 @@ export function validateBusinessTime(business: Classes.CBusinessTime[]) {
 }
 
 export function animateCSS(node: HTMLDivElement, animation: string, prefix: string = '') {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     node.classList.add(`${prefix}${animation}`)
 
     function handleAnimationEnd(event: Event) {
@@ -82,5 +83,6 @@ export function animateCSS(node: HTMLDivElement, animation: string, prefix: stri
     }
 
     node.addEventListener('animationend', handleAnimationEnd, { once: true })
+    await tick()
   })
 }
