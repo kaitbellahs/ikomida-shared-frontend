@@ -18,6 +18,8 @@
   export let scrollTo = 0
 
   const ANIMATION_PREFIX = 'animate__'
+  let inAnimationList: number[] = []
+  let outAnimationList: number[] = []
   let visibleItemsList: number[] = []
   let inVisibleItemsList: number[] = []
   let lastScrollTop = 0
