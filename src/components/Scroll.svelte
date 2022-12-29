@@ -27,7 +27,7 @@
   let mainScroll: MainScroll = MainScroll.createInstance()
 
   $: if (scrollTo) {
-    element?.scrollTo({ top: scrollTo })
+    element?.scrollTo({ top: scrollTo, behavior: 'smooth' })
     scrollTo = 0
   }
 
