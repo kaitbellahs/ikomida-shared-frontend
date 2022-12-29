@@ -13,13 +13,13 @@
   export let itemsList: HTMLDivElement[] = []
   export let topEdge = 20
   export let bottomEdge = 95
+  export let scrollStep = 5
 
   const ANIMATION_PREFIX = 'animate__'
   let inAnimationList: number[] = []
   let outAnimationList: number[] = []
   let visibleItemsList: number[] = []
   let inVisibleItemsList: number[] = []
-  let scrollStep = 25
   let lastScrollTop = 0
 
   let mainScroll: MainScroll = MainScroll.createInstance()
