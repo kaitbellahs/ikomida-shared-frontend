@@ -6,6 +6,7 @@ import Cache from '../Stores/Cache.js'
 import MessageAlert from '../Stores/MessageAlert.js'
 import { capitalizeFirstLeter } from '../Utils/Strings.js'
 import _ from 'lodash'
+import { gt as semverGT } from 'semver'
 
 export default class Network {
   //MARK: -- static region
@@ -80,7 +81,7 @@ export default class Network {
     if (response?.success) {
       itens = response?.data ?? []
     } else {
-      ;(MessageAlert.instance as MessageAlert)?.show(response?.data as string)
+      ; (MessageAlert.instance as MessageAlert)?.show(response?.data as string)
     }
     return itens
   }
@@ -105,8 +106,8 @@ export default class Network {
       this.items[name] = refresh
         ? newitems
         : this.items?.[name]
-        ? [...(this.items?.[name] ?? []), ...(newitems as any)]
-        : newitems
+          ? [...(this.items?.[name] ?? []), ...(newitems as any)]
+          : newitems
       this.items?.[name]?.sort(
         (item1: Classes.BaseJSON & { order: number }, item2: Classes.BaseJSON & { order: number }) =>
           (item1?.order ?? item2?.timestamp ?? 0) - (item2?.order ?? item1?.timestamp ?? 0)
@@ -198,6 +199,13 @@ export default class Network {
   }
 
   async parseResponse(res?: HttpResponse) {
+    const key = `${Capacitor.getPlatform()}-version`
+    if (key in (res?.headers ?? {})) {
+      const version = res?.headers[key]
+      if (version && semverGT(version, this.version)) {
+        MessageAlert.instance.show(`Uma nova versão V${version} está disponível, atualize o aplicativo para evitar possíveis erros e aproveitar os novos recursos.`)
+      }
+    }
     const data = res?.data
     if (res?.status === 401) {
       await this.logout()
