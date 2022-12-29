@@ -11,9 +11,11 @@
   export let backgroundImage = ''
   export let element: HTMLElement | undefined = undefined
   export let itemsList: HTMLDivElement[] = []
-  export let topEdge = 20
+  export let topEdge = 35
   export let bottomEdge = 95
   export let scrollStep = 5
+  export let showHeader = false
+  export let scrollTo = 0
 
   const ANIMATION_PREFIX = 'animate__'
   let inAnimationList: number[] = []
@@ -21,11 +23,15 @@
   let visibleItemsList: number[] = []
   let inVisibleItemsList: number[] = []
   let lastScrollTop = 0
-
-  let mainScroll: MainScroll = MainScroll.createInstance()
   let scroll: TScroll
+  let mainScroll: MainScroll = MainScroll.createInstance()
 
-  $: if ((animationIn || animationOut) && scroll && itemsList) {
+  $: if (scrollTo) {
+    element?.scrollTo({ top: scrollTo })
+    scrollTo = 0
+  }
+
+  $: if ((animationIn || animationOut) && (scroll || scrollTo) && itemsList) {
     handleAnimation()
   }
 
@@ -116,12 +122,16 @@
 <svelte:element
   this={tag}
   class="scroll"
-  style="--height:{realHight ? `${realHight}px` : '100%'};--backgroundImage: url('{backgroundImage
-    ? backgroundImage
-    : 'none'}');{style}"
-  bind:this={element}
+  style="overflow:hidden;padding:0;--height:{realHight
+    ? `${realHight}px`
+    : '100%'};--backgroundImage: url('{backgroundImage ? backgroundImage : 'none'}');{style}"
 >
-  <slot />
+  {#if $$slots.header && showHeader}
+    <slot name="header" />
+  {/if}
+  <scroll bind:this={element}>
+    <slot scroller={scroll} />
+  </scroll>
 </svelte:element>
 
 <style>
@@ -135,12 +145,27 @@
     height: var(--height);
     opacity: 0.3;
   }
-  .scroll {
+  scroll {
     display: flex;
     flex-direction: column;
     height: 100vh;
     max-height: 100%;
     overflow: scroll;
     overflow-x: hidden;
+    padding: 16pt;
+    padding-bottom: 104pt;
+  }
+  header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: row;
+    z-index: 10;
+    place-items: stretch;
+    overflow-y: scroll;
+    padding: 8pt;
+    border-radius: 0;
   }
 </style>
