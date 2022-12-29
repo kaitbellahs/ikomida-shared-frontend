@@ -11,10 +11,16 @@
   export let backgroundImage = ''
   export let element: HTMLElement | undefined = undefined
   export let itemsList: HTMLDivElement[] = []
+  export let topEdge = 20
+  export let bottomEdge = 95
 
   const ANIMATION_PREFIX = 'animate__'
-  const inAnimationList: number[] = []
-  const visibleItemsList: number[] = []
+  let inAnimationList: number[] = []
+  let outAnimationList: number[] = []
+  let visibleItemsList: number[] = []
+  let inVisibleItemsList: number[] = []
+  let scrollStep = 25
+  let lastScrollTop = 0
 
   let mainScroll: MainScroll = MainScroll.createInstance()
   let scroll: TScroll
@@ -23,14 +29,18 @@
     handleAnimation()
   }
 
-  $: {
+  $: if (itemsList) {
     const list = itemsList.filter(item => item)
+    inVisibleItemsList = []
+    visibleItemsList = []
     for (let i = 0; i < list.length; i++) {
       const node = list[i]
       if (node && !node.classList.contains(`${ANIMATION_PREFIX}animated`)) {
         node.classList.add(`${ANIMATION_PREFIX}animated`)
+        inVisibleItemsList.push(i)
       }
     }
+    handleAnimation()
   }
 
   $: if (element) {
@@ -43,9 +53,16 @@
           .flatMap(child => child.clientHeight)
           .reduce((child1, child2) => child1 + child2) + 50
       : 0
+
   const handleScroll = (event: Event) => {
-    scroll = new TScroll(element?.scrollTop, element?.scrollHeight, element?.offsetHeight)
-    mainScroll?.set(scroll)
+    if (
+      (element?.scrollTop ?? 0) > lastScrollTop + scrollStep ||
+      (element?.scrollTop ?? 0) < lastScrollTop - scrollStep
+    ) {
+      lastScrollTop = element?.scrollTop ?? 0
+      scroll = new TScroll(element?.scrollTop, element?.scrollHeight, element?.offsetHeight)
+      mainScroll?.set(scroll)
+    }
   }
 
   function addEventListener() {
@@ -62,38 +79,36 @@
 
   async function handleAnimation() {
     const list = itemsList.filter(item => item)
+    const height = scroll?.offsetHeight ?? 0
     for (let i = 0; i < list.length; i++) {
       const node = list[i]
       if (node) {
         const nodeTop = node.getBoundingClientRect().top
-        const divider = 12
-        const height = scroll?.offsetHeight ?? 0
-        if (nodeTop > ((-1 * height) / divider) * 2 && nodeTop < (height / divider) * (divider - 1)) {
-          if (!visibleItemsList.includes(i) && !inAnimationList.includes(i)) {
+        const nodeheight = node.getBoundingClientRect().height
+        if (nodeTop > topEdge && nodeTop < height - bottomEdge) {
+          if (!visibleItemsList.includes(i) && inVisibleItemsList.includes(i)) {
             node.style.visibility = 'visible'
-            inAnimationList.push(i)
-            await animateCSS(node, animationIn ?? 'backInLeft', ANIMATION_PREFIX)
-            removeFromList(i, inAnimationList)
             visibleItemsList.push(i)
+            await animateCSS(node, animationIn ?? 'backInLeft', ANIMATION_PREFIX)
+            removeFromList(i, inVisibleItemsList)
           }
         } else {
-          if (visibleItemsList.includes(i) && !inAnimationList.includes(i)) {
-            inAnimationList.push(i)
+          if (visibleItemsList.includes(i) && !inVisibleItemsList.includes(i)) {
+            inVisibleItemsList.push(i)
             await animateCSS(node, animationOut ?? 'backOutRight', ANIMATION_PREFIX)
-            node.style.visibility = 'invisible'
-            removeFromList(i, inAnimationList)
             removeFromList(i, visibleItemsList)
+            node.style.visibility = 'hidden'
           }
         }
       }
     }
   }
-  onMount(() => {
+  onMount(async () => {
     if (element) {
       addEventListener()
       scroll = new TScroll(element?.scrollTop, element?.scrollHeight, element?.offsetHeight)
       mainScroll?.set(scroll)
-      handleAnimation()
+      await handleAnimation()
     }
   })
 </script>

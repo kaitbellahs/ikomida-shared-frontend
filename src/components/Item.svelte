@@ -42,7 +42,7 @@
 <div
   bind:this={element}
   class="leftShadow item"
-  style="--visibility: {$Layout?.product?.animation?.in || $Layout?.product?.animation?.out
+  style="visibility: {$Layout?.product?.animation?.in || $Layout?.product?.animation?.out
     ? 'hidden'
     : 'visible'};--itemBackground: {$Layout?.itemBackground || '#fffffffc'};--buttonBackground: {$Layout?.button
     ?.background || '#4c0708'};--buttonColor: {$Layout?.button?.color || '#fff'};"
@@ -111,7 +111,6 @@
     box-sizing: border-box;
   }
   .item {
-    visibility: var(--visibility);
     width: 100%;
     margin: 16pt 0;
     padding: 16pt;
@@ -134,18 +133,6 @@
     margin: 4pt;
     font-size: 0.9em;
     border: var(--buttonBackground) solid 1pt;
-  }
-  .item > button > .discount {
-    position: absolute;
-    top: -8pt;
-    right: -8pt;
-    border-radius: 20.8pt;
-    min-width: 64pt;
-    background: #4c0708;
-    color: white;
-    line-height: 24pt;
-    padding: 0pt 8pt;
-    text-shadow: 0.8pt 1pt #00000055;
   }
   .item > button > h3 {
     padding: 0;
