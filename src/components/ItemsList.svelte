@@ -82,7 +82,7 @@
     'red'};--buttonColor: {$Layout?.button?.color || '#fff'};"
 >
   {#each categoriesAndProducts as category, index}
-    <header class="shadow">
+    <header id={category.id} class="shadow">
       <h2>
         {#if removeCategory}
           <FloatRemove top={-8} right={-4} callback={() => onRemoveCategoryClick(category.id)} />
@@ -103,7 +103,7 @@
       {/if}
       {#if removeCategory || !isBusinessTime(category.business)}
         <Status showIcon={false}
-          >Esta categoria ficará disponível
+          >Esta categoria está disponível
           {#if !category.business || category.business?.filter(businessDay => (businessDay?.hours?.length ?? 0) > 0)?.length === 7 || category.business?.length === 0}
             <b>7/7</b>
           {/if}
@@ -119,7 +119,7 @@
                 <!-- svelte-ignore component-name-lowercase -->
                 <days>
                   <day
-                    >{days?.[businessDay.day ?? -1] || '-'}:
+                    ><span>{days?.[businessDay.day ?? -1] || '-'}</span>:
                     {#each businessDay.hours ?? [] as businessHour, index}
                       {#if businessHour.start === '0000' && businessHour.end === '2359'}
                         <span>24h/dia</span>
@@ -128,9 +128,11 @@
                           ? ', '
                           : index > 0 && index === (businessDay.hours?.length ?? 0) - 1
                           ? ' e '
-                          : ''}<span
-                          >{numerToTime(businessHour?.start ?? '')} até {numerToTime(businessHour?.end ?? '')}</span
-                        >
+                          : ''} entre <span>{numerToTime(businessHour?.start ?? '')}</span> e
+                        <span>{numerToTime(businessHour?.end ?? '')}</span>{index ===
+                        (businessDay.hours?.length ?? 0) - 1
+                          ? '.'
+                          : ''}
                       {/if}
                     {/each}
                   </day>
@@ -182,5 +184,8 @@
   days {
     display: flex;
     flex-direction: column;
+  }
+  days > day > span {
+    font-family: 'RobotoBold', 'Courier New', Courier, monospace;
   }
 </style>
