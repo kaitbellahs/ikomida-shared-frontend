@@ -1,8 +1,8 @@
 <script lang="ts">
-  export let text: string;
+  export let text: string
 </script>
 
-<div class="content">
+<div class="content backgroundCustomColor">
   {#if text}
     <h2>
       {text}

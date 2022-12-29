@@ -1,6 +1,6 @@
 {
   "name": "@ikomida/shared-frontend",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "description": "The iKomida fromntend shared code",
   "private": false,
   "author": "Khalid Ait Bellahs",
