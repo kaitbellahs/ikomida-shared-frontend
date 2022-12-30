@@ -14,7 +14,7 @@ export default class Layout extends BaseStore<Classes.CLayout> {
           background: '#4c0708',
           menuHamburger: '#ffffff'
         },
-        tabs: { background: '#ffe4c4', color: '#4c0708' },
+        tabs: { background: '#e5e4e3', color: '#4c0708' },
         button: { background: '#4c0708', color: 'white' },
         dialog: { background: '#ffffffdf', color: '#4c0708' }
       })
