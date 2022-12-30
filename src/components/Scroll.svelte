@@ -18,8 +18,6 @@
   export let scrollTo = 0
 
   const ANIMATION_PREFIX = 'animate__'
-  let inAnimationList: number[] = []
-  let outAnimationList: number[] = []
   let visibleItemsList: number[] = []
   let inVisibleItemsList: number[] = []
   let lastScrollTop = 0
@@ -42,9 +40,14 @@
     for (let i = 0; i < list.length; i++) {
       const node = list[i]
       if (node && !node.classList.contains(`${ANIMATION_PREFIX}animated`)) {
-        node.classList.add(`${ANIMATION_PREFIX}animated`)
-        inVisibleItemsList.push(i)
+        for (const classItem of node.classList) {
+          if (classItem.startsWith(ANIMATION_PREFIX)) {
+            node.classList.remove(classItem)
+          }
+        }
       }
+      node.classList.add(`${ANIMATION_PREFIX}animated`)
+      inVisibleItemsList.push(i)
     }
     handleAnimation()
   }

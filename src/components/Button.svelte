@@ -30,7 +30,7 @@
   let minHeight = `min-height: calc(${height ? height : 48}pt * ${sizeMultiplier});`
 
   $: float = isFloat
-    ? `border-radius:8pt;position: fixed; left: 8pt; right: 8pt; bottom: ${(bottomPadding ?? 0) + 56}pt;`
+    ? `z-index: 999;border-radius:8pt;position: fixed; left: 8pt; right: 8pt; bottom: ${(bottomPadding ?? 0) + 56}pt;`
     : ''
 
   switch (type) {
@@ -95,17 +95,14 @@
     background: var(--background);
     border-radius: calc(var(--height) / 2);
     border: var(--border);
-    /* font-size: calc(var(--multiplier)); */
     box-shadow: 0 4pt 8pt #0000009e;
   }
   button:disabled {
-    /* border-radius: calc(4pt * var(--multiplier)); */
     background: var(--disabledBackground);
     border: 0;
     color: black;
   }
   button.transparent {
-    /* border-radius: calc(4pt * var(--multiplier)); */
     text-shadow: none;
     border: 0;
     box-shadow: none;
