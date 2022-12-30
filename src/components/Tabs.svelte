@@ -27,7 +27,7 @@
 
 <footer
   style="--size:{size};--bottomPadding:{bottomPadding}pt;--background:{$Layout?.tabs?.background ??
-    '#ffe4c4'};--color:{$Layout?.tabs?.color || '#4c0708'};"
+    '#e5e4e3'};--color:{$Layout?.tabs?.color || '#4c0708'};"
 >
   {#each tabs as { name, route, icon } (name)}
     <button aria-label={name} class:selected={baseRoute === route} on:click={() => onClick(route)}>
