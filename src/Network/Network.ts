@@ -81,7 +81,7 @@ export default class Network {
     if (response?.success) {
       itens = response?.data ?? []
     } else {
-      ; (MessageAlert.instance as MessageAlert)?.show(response?.data as string)
+      ;(MessageAlert.instance as MessageAlert)?.show(response?.data as string)
     }
     return itens
   }
@@ -106,8 +106,8 @@ export default class Network {
       this.items[name] = refresh
         ? newitems
         : this.items?.[name]
-          ? [...(this.items?.[name] ?? []), ...(newitems as any)]
-          : newitems
+        ? [...(this.items?.[name] ?? []), ...(newitems as any)]
+        : newitems
       this.items?.[name]?.sort(
         (item1: Classes.BaseJSON & { order: number }, item2: Classes.BaseJSON & { order: number }) =>
           (item1?.order ?? item2?.timestamp ?? 0) - (item2?.order ?? item1?.timestamp ?? 0)
@@ -203,7 +203,9 @@ export default class Network {
     if (key in (res?.headers ?? {})) {
       const version = res?.headers[key]
       if (version && semverGT(version, this.version)) {
-        MessageAlert.instance.show(`Uma nova versão V${version} está disponível, atualize o aplicativo para evitar possíveis erros e aproveitar os novos recursos.`)
+        MessageAlert.instance.show(
+          `Uma nova versão V${version} está disponível, atualize o aplicativo para evitar possíveis erros e aproveitar os novos recursos.`
+        )
       }
     }
     const data = res?.data

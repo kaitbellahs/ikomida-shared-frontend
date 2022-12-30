@@ -97,17 +97,17 @@
   dependencies:
     "@fortawesome/fontawesome-common-types" "6.2.1"
 
-"@ikomida/shared-logics@^1.3.0":
-  version "1.3.0"
-  resolved "https://us-central1-npm.pkg.dev/ikomida-dev/node/@ikomida/shared-logics/-/@ikomida/shared-logics-1.3.0.tgz#a18718673b8b14a7738465a8d2dba0d3f72cc11f"
-  integrity sha512-SOJP/YQllE6oCy8FKIXttz0tqGIniH3L+ixV0/lyAi34sYa+eI+fciVERgXhL7Be+xXMoVKDYyOx2F4s4xaqGA==
+"@ikomida/shared-logics@^1.3.1":
+  version "1.3.1"
+  resolved "https://us-central1-npm.pkg.dev/ikomida-dev/node/@ikomida/shared-logics/-/@ikomida/shared-logics-1.3.1.tgz#8d72359082268d5b6fafd15dfaf077a7ec9a3601"
+  integrity sha512-qUQ9NWm5TfkA4H6yaMkjWCaNJfdcIe3IzN+o2Mn0KHB8Yp5HHhzxNxnBGQrad0Pw2APQ4RY7VytJGZCgoQu/Kw==
   dependencies:
-    luxon "^3.1.1"
+    luxon "^3.2.0"
 
-"@ikomida/shared-types@^1.9.6":
-  version "1.9.6"
-  resolved "https://us-central1-npm.pkg.dev/ikomida-dev/node/@ikomida/shared-types/-/@ikomida/shared-types-1.9.6.tgz#7d0bca10a45ac17118996daed393a29fee5ce9ce"
-  integrity sha512-Htafm7VfrZet3sBRTN058Gb5vn1/UCZyp/+sAdogiobEjAHzNQH3YHQdDQQw9YAPKsT+scUopTmomQSW5HS5dA==
+"@ikomida/shared-types@^1.9.7":
+  version "1.9.7"
+  resolved "https://us-central1-npm.pkg.dev/ikomida-dev/node/@ikomida/shared-types/-/@ikomida/shared-types-1.9.7.tgz#938be1d698ab704c80c20a738484bfc1ac4f4962"
+  integrity sha512-rIRXiWgt6w568MbSW7+DOqI34grHRz8S2Q/wP8TKxOFVBAPuaBxG9OdGevV+msdqhDEiM7OfndJmCOTaAPisoA==
 
 "@jridgewell/resolve-uri@3.1.0":
   version "3.1.0"
@@ -492,10 +492,10 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
-luxon@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/luxon/-/luxon-3.1.1.tgz#b492c645b2474fb86f3bd3283213846b99c32c1e"
-  integrity sha512-Ah6DloGmvseB/pX1cAmjbFvyU/pKuwQMQqz7d0yvuDlVYLTs2WeDHQMpC8tGjm1da+BriHROW/OEIT/KfYg6xw==
+luxon@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-3.2.0.tgz#7962c5dafcd3623e70e222882be49b381e7a8718"
+  integrity sha512-Namj3XqoJjFekq/JHQEaaAv4zyE/fyyDBrMEBnIL2s/X54SC8W5Ea0uej1TRXUArWec8OojsAVsGBYhNRjpMVw==
 
 magic-string@^0.25.7:
   version "0.25.9"

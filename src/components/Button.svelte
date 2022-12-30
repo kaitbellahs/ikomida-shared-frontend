@@ -79,7 +79,7 @@
     : 'full-width'}; --multiplier: {sizeMultiplier};--background:{background};--color:{color};--width:{width};{minHeight}{float};--disabledBackground:{type ===
   TButton.TRANSPARENT
     ? 'transparent'
-    : '#585757'}"
+    : '#585757'};--disabledColor:{type === TButton.TRANSPARENT ? '#ccc' : '#000'};"
   class={type !== TButton.TRANSPARENT ? 'leftShadow' : 'transparent'}
   on:click={click}><slot /></button
 >
@@ -100,7 +100,7 @@
   button:disabled {
     background: var(--disabledBackground);
     border: 0;
-    color: black;
+    color: var(--disabledColor);
   }
   button.transparent {
     text-shadow: none;
