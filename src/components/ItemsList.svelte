@@ -101,36 +101,36 @@
       {#if category.description}
         <h4>{category.description}</h4>
       {/if}
-      {#if removeCategory || !isBusinessTime(category.business)}
+      {#if removeCategory || (category.business && category.business.length > 0 && !isBusinessTime(category.business))}
         <Status showIcon={false}
           >Esta categoria está disponível
           {#if !category.business || category.business?.filter(businessDay => (businessDay?.hours?.length ?? 0) > 0)?.length === 7 || category.business?.length === 0}
             <b>7/7</b>
           {/if}
 
-          {#if !category.business || category.business?.length === 0 || (Array.isArray(category.business) ? category.business : [category.business]).filter(businessDay => (businessDay?.hours?.filter( item => {
+          {#if category.business?.length === 0 || category.business?.filter(businessDay => (businessDay?.hours?.filter( item => {
                     return (item.start === '0000' && item.end === '2359') || (item.start === '00:00' && item.end === '23:59')
                   } ).length ?? 0) > 0)?.length === 7}
             <b>24h/dia</b>
           {:else}
             nestes horários:
             {#each (Array.isArray(category.business) ? category.business : [category.business]) ?? [] as businessDay}
-              {#if (businessDay.hours?.length ?? 0) > 0}
+              {#if (businessDay?.hours?.length ?? 0) > 0}
                 <!-- svelte-ignore component-name-lowercase -->
                 <days>
                   <day
-                    ><span>{days?.[businessDay.day ?? -1] || '-'}</span>:
-                    {#each businessDay.hours ?? [] as businessHour, index}
+                    ><span>{days?.[businessDay?.day ?? -1] || '-'}</span>:
+                    {#each businessDay?.hours ?? [] as businessHour, index}
                       {#if businessHour.start === '0000' && businessHour.end === '2359'}
                         <span>24h/dia</span>
                       {:else}
-                        {index > 0 && (businessDay.hours?.length ?? 0) > index + 1
+                        {index > 0 && (businessDay?.hours?.length ?? 0) > index + 1
                           ? ', '
-                          : index > 0 && index === (businessDay.hours?.length ?? 0) - 1
+                          : index > 0 && index === (businessDay?.hours?.length ?? 0) - 1
                           ? ' e '
                           : ''} entre <span>{numerToTime(businessHour?.start ?? '')}</span> e
                         <span>{numerToTime(businessHour?.end ?? '')}</span>{index ===
-                        (businessDay.hours?.length ?? 0) - 1
+                        (businessDay?.hours?.length ?? 0) - 1
                           ? '.'
                           : ''}
                       {/if}

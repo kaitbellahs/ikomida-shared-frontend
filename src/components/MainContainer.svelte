@@ -23,7 +23,6 @@
   main {
     padding: var(--padding);
     padding-top: var(--paddingTop);
-    overflow: hidden;
     max-width: 100%;
     position: relative;
     display: flex;
@@ -31,7 +30,7 @@
     padding-bottom: var(--paddingBottom);
     height: 100vh;
     max-height: 100%;
-    overflow: scroll;
-    overflow-x: hidden;
+    overflow: hidden;
+    overflow-y: scroll;
   }
 </style>
