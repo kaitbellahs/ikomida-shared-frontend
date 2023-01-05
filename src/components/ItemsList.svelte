@@ -147,7 +147,7 @@
       {#each category?.products ?? [] as product, productIndex}
         <Item
           bind:element={itemsList[getIndex()]}
-          active={isBusinessTime(category.business)}
+          active={category.business?.length === 0 || isBusinessTime(category.business)}
           {product}
           {goToProduct}
           {removeProduct}
