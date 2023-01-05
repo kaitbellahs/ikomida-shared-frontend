@@ -23,7 +23,6 @@
   let lastScrollTop = 0
   let scroll: TScroll
   let mainScroll: MainScroll = MainScroll.createInstance()
-
   $: if (scrollTo) {
     element?.scrollTo({ top: scrollTo, behavior: 'smooth' })
     scrollTo = 0
@@ -98,14 +97,18 @@
           if (!visibleItemsList.includes(i) && inVisibleItemsList.includes(i)) {
             node.style.visibility = 'visible'
             visibleItemsList.push(i)
+            // visibleItemsList = visibleItemsList
             await animateCSS(node, animationIn ?? 'backInLeft', ANIMATION_PREFIX)
             removeFromList(i, inVisibleItemsList)
+            // inVisibleItemsList = inVisibleItemsList
           }
         } else {
           if (visibleItemsList.includes(i) && !inVisibleItemsList.includes(i)) {
             inVisibleItemsList.push(i)
+            // inVisibleItemsList = inVisibleItemsList
             await animateCSS(node, animationOut ?? 'backOutRight', ANIMATION_PREFIX)
             removeFromList(i, visibleItemsList)
+            // visibleItemsList = visibleItemsList
             node.style.visibility = 'hidden'
           }
         }
