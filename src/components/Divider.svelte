@@ -2,7 +2,7 @@
   export let height = 24
 </script>
 
-<div style="--height:{height}pt" />
+<div style="--height:{height}px" />
 
 <style>
   div {

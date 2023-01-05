@@ -423,9 +423,9 @@
     color: var(--color);
     display: flex;
     width: 100%;
-    height: calc(48px + var(--paddingTop) + var(--topMargin));
-    padding: 0;
-    padding-top: calc(var(--paddingTop) + var(--topMargin));
+    min-height: calc(48px + var(--paddingTop) + var(--topMargin));
+    padding: 8px;
+    padding-top: calc(var(--paddingTop) + var(--topMargin)+8px);
     box-shadow: 0 4px 8px #0000009c;
     align-items: center;
     z-index: 99999999;

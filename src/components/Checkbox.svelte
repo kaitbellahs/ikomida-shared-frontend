@@ -14,7 +14,7 @@
   }
 </script>
 
-<button class="switchContainer" style="--marginTop: {marginTop}pt;" on:click={onClick}>
+<button class="switchContainer" style="--marginTop: {marginTop}px;" on:click={onClick}>
   <input {id} type="checkbox" bind:checked />
   {#if label}
     <label for={id}>{label}</label>

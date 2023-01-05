@@ -11,10 +11,40 @@
 
   const id = uuid()
   let ExpandableBox: Stores.ExpandableBox
+  let element: HTMLElement
 
   $: icon = expanded ? faChevronUp : faChevronDown
   $: if (id !== $ExpandableBox) {
     expanded = false
+  }
+
+  $: height = element
+    ? Array.from(element?.children)
+        .flatMap(child => {
+          const style = getComputedStyle(child)
+          return (
+            Number(style.height.replace('px', '')) +
+            Number(style.marginTop.replace('px', '')) +
+            Number(style.marginBottom.replace('px', '')) +
+            Number(style.borderTopWidth.replace('px', '')) +
+            Number(style.borderBottomWidth.replace('px', ''))
+          )
+        })
+        .reduce((child1, child2) => child1 + child2)
+    : 0
+
+  $: if (expanded) {
+    element?.addEventListener(
+      'transitionend',
+      () => {
+        element.style.overflow = 'visible'
+      },
+      { once: true }
+    )
+  } else {
+    if (element) {
+      element.style.overflow = 'hidden'
+    }
   }
 
   function toggleBox() {
@@ -22,30 +52,6 @@
       Stores.ExpandableBox.instance.toggle(id)
     }
     expanded = !expanded
-  }
-
-  function easeIn(_: HTMLDivElement, { duration }: { duration: number }) {
-    return {
-      duration,
-      css: (t: number) => {
-        const css = `
-    ${t === 1 ? 'overflow:none;max-height: fit-content;' : `overflow:hidden;max-height: ${t * 100}vh;`};
-    `
-        return css
-      }
-    }
-  }
-
-  function easeOut(_: HTMLDivElement, { duration }: { duration: number }) {
-    return {
-      duration,
-      css: (t: number) => {
-        const css = `
-    ${t === 1 ? 'overflow:none;max-height: fit-content;' : `overflow:hidden;max-height: ${t * 100}vh;`};
-    `
-        return css
-      }
-    }
   }
 
   onMount(async () => {
@@ -60,11 +66,9 @@
 <expandableBox class="shadow">
   <FloatButton bind:icon top={expanded ? 4 : 16} right={4} callback={toggleBox} />
   <h2 class:expanded on:click={toggleBox}>{title}</h2>
-  {#if expanded}
-    <box in:easeIn={{ duration: 300 }} out:easeOut={{ duration: 300 }}>
-      <slot />
-    </box>
-  {/if}
+  <box class:expanded bind:this={element} style="--height:{height}px;">
+    <slot />
+  </box>
 </expandableBox>
 
 <style>
@@ -83,6 +87,12 @@
     display: flex;
     flex-direction: column;
     margin-top: 16px;
+    height: 0px;
+    transition: all 0.3s;
+    overflow: hidden;
+  }
+  box.expanded {
+    height: var(--height);
   }
   box:first-of-type {
     margin-top: 0;

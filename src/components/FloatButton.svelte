@@ -10,7 +10,7 @@
 </script>
 
 <button
-  style="--top: {top}pt; --right:{right}pt;--color: {color ?? '#fff'};--background: {background ?? '#4c0708'};"
+  style="--top: {top}px; --right:{right}px;--color: {color ?? '#fff'};--background: {background ?? '#4c0708'};"
   on:click={callback}
   class="flatButton"
 >
