@@ -18,17 +18,17 @@
     top: var(--top);
     right: var(--right);
     padding: 8px;
-    font-size: 12pt;
-    -webkit-border-radius: 0 4pt 0 4pt;
-    -moz-border-radius: 0 4pt 0 4pt;
-    border-radius: 0 4pt 4pt 0;
+    font-size: 12px;
+    -webkit-border-radius: 0 4px 0 4px;
+    -moz-border-radius: 0 4px 0 4px;
+    border-radius: 0 4px 4px 0;
     background: #16b516;
     color: white;
     z-index: 99;
     font-family: RobotoBold, sans-serif;
     line-height: 1;
-    text-shadow: 0pt 4pt 8pt #000000;
-    box-shadow: 0 4pt 8pt #0000009e;
+    text-shadow: 0px 4px 8px #000000;
+    box-shadow: 0 4px 8px #0000009e;
   }
 
   discount:after {
@@ -39,9 +39,9 @@
     width: 0;
     position: absolute;
     border-color: rgba(136, 183, 213, 0);
-    border-width: 12pt;
+    border-width: 12px;
     top: 50%;
-    margin-top: -12pt;
+    margin-top: -12px;
     border-right-color: #16b516;
   }
 
@@ -49,14 +49,14 @@
     content: '';
     z-index: 2;
     position: absolute;
-    top: calc(50% - 3pt);
+    top: calc(50% - 3px);
     right: 100%;
-    width: 6pt;
-    height: 6pt;
+    width: 6px;
+    height: 6px;
     opacity: 0.95;
     background: #ffffff;
-    border-radius: 7pt;
-    -webkit-box-shadow: inset 0.5pt 0 rgba(0, 0, 0, 0.6);
-    box-shadow: inset 0.5pt 0 rgba(0, 0, 0, 0.6);
+    border-radius: 7px;
+    -webkit-box-shadow: inset 0.5px 0 rgba(0, 0, 0, 0.6);
+    box-shadow: inset 0.5px 0 rgba(0, 0, 0, 0.6);
   }
 </style>

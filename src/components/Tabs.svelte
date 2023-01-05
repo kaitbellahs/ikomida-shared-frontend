@@ -42,9 +42,9 @@
 <style>
   footer {
     position: fixed;
-    left: 8pt;
-    right: 8pt;
-    bottom: calc(8pt + var(--bottomPadding));
+    left: 8px;
+    right: 8px;
+    bottom: calc(8px + var(--bottomPadding));
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
@@ -52,9 +52,9 @@
     background: var(--background);
     z-index: 99999999;
     padding: 0;
-    border-radius: 8pt;
-    box-shadow: 0 4pt 8pt #0000009e;
-    border: 1pt solid #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px #0000009e;
+    border: 1px solid #fff;
     overflow: hidden;
   }
   footer > button {
@@ -64,7 +64,7 @@
     flex: 1 var(--size);
     align-self: center;
     margin: 0;
-    height: 48pt;
+    height: 48px;
     text-align: center;
     justify-content: center;
     flex-direction: column;
@@ -73,7 +73,7 @@
   }
 
   footer > button:not(:first-child) {
-    border-left: 1pt solid rgb(0 0 0 / 20%);
+    border-left: 1px solid rgb(0 0 0 / 20%);
   }
 
   footer > button > * {

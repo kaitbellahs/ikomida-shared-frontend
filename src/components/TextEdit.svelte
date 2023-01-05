@@ -611,36 +611,36 @@
     padding: 0;
     padding-left: var(--leftPadding);
     padding-right: var(--rightPadding);
-    line-height: 12pt;
+    line-height: 12px;
   }
   div.form-cell > .name {
     position: absolute;
-    top: -14pt;
-    left: calc(var(--leftPadding) + 8pt);
+    top: -14px;
+    left: calc(var(--leftPadding) + 8px);
     font-size: 0.8em;
     transition: linear 200ms;
     display: flex;
   }
   div.form-cell > .name.placeHolder {
-    top: calc(12pt * var(--sizeMultiplierPow));
+    top: calc(12px * var(--sizeMultiplierPow));
     left: calc(var(--leftPadding) + var(--leftPaddingPlaceHolder));
     color: #757575;
     font-size: 1em;
     width: var(--labelWidth);
     overflow: hidden;
-    height: 16pt;
+    height: 16px;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
   div.form-cell > .name.hasIcon {
-    left: calc(var(--leftPadding) + calc(62.8pt * var(--sizeMultiplier)));
+    left: calc(var(--leftPadding) + calc(62.8px * var(--sizeMultiplier)));
   }
   div.form-cell > div:not(.error) {
     display: flex;
     width: 100%;
     margin: 0;
     height: var(--height);
-    border-radius: 8pt;
+    border-radius: 8px;
     overflow: hidden;
   }
   div.form-cell > div > .input > input {
@@ -658,7 +658,7 @@
     background-color: #f2f2f2;
     height: var(--height);
     max-height: var(--height);
-    border-radius: calc(4pt * var(--sizeMultiplier));
+    border-radius: calc(4px * var(--sizeMultiplier));
     border: 0;
     margin: 0;
     -webkit-touch-callout: all;
@@ -667,23 +667,23 @@
     -moz-user-select: all;
     -ms-user-select: all;
     user-select: all;
-    padding: calc(16pt * var(--sizeMultiplier));
+    padding: calc(16px * var(--sizeMultiplier));
   }
   .button {
     background-color: #f2f2f2;
     border: 0;
     border-radius: 0;
-    border-left: 1pt solid #ccc;
-    border-top-right-radius: 4pt;
-    border-bottom-right-radius: 4pt;
+    border-left: 1px solid #ccc;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
     margin: 0;
   }
   .icon {
-    border-right: 1pt solid #ccc;
+    border-right: 1px solid #ccc;
     background-color: #f2f2f2;
-    border-top-left-radius: 4pt;
-    border-bottom-left-radius: 4pt;
-    width: calc(48pt * var(--sizeMultiplier));
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    width: calc(48px * var(--sizeMultiplier));
     margin: 0;
     place-content: center;
     place-items: center;
@@ -724,15 +724,15 @@
   }
   div.error {
     color: red;
-    margin-top: 4pt;
+    margin-top: 4px;
     display: flex;
     text-align: left;
     place-items: center;
   }
   .error > span {
     font-size: 0.75em;
-    line-height: 16pt;
-    margin-left: 16pt;
+    line-height: 16px;
+    margin-left: 16px;
   }
   div.form-cell > div > input.hasButton {
     border-top-right-radius: 0;
@@ -749,15 +749,15 @@
   div.form-cell > div > .input > input.marginLeft {
     flex: 1 50%;
     width: 50%;
-    height: 18pt;
-    margin-top: -9pt;
-    margin-left: 8pt;
+    height: 18px;
+    margin-top: -9px;
+    margin-left: 8px;
   }
   div.form-cell > div > .input > input.marginRight {
     flex: 1 50%;
     width: 50%;
-    height: 18pt;
-    margin-top: -9pt;
-    margin-right: 8pt;
+    height: 18px;
+    margin-top: -9px;
+    margin-right: 8px;
   }
 </style>

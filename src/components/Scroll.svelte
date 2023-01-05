@@ -155,8 +155,8 @@
     max-height: 100%;
     overflow: scroll;
     overflow-x: hidden;
-    padding: 16pt;
-    padding-bottom: 168pt;
+    padding: 16px;
+    padding-bottom: 168px;
   }
   header {
     position: absolute;
@@ -168,7 +168,7 @@
     z-index: 10;
     place-items: stretch;
     overflow-y: scroll;
-    padding: 8pt;
+    padding: 8px;
     border-radius: 0;
   }
 </style>

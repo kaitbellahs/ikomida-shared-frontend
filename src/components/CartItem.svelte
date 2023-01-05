@@ -93,7 +93,7 @@
         <Divider height={12} />
         <div class="shadow option">
           <FloatRemove callback={() => onRemoveClick?.(product, option)} top={-6} right={-6} />
-          <Image source={option.image} name={option.name} height="48pt" width="48pt" />
+          <Image source={option.image} name={option.name} height="48px" width="48px" />
           <div>
             <h3>{option.name}</h3>
             <div>
@@ -101,7 +101,7 @@
                 <Button
                   type={TButton.TRANSPARENT}
                   size="none"
-                  height="16pt"
+                  height="16px"
                   sizeMultiplier={1.3}
                   margin="0"
                   on:click={() => minos(option)}
@@ -110,7 +110,7 @@
                 ><span>{option.units}</span><Button
                   type={TButton.TRANSPARENT}
                   size="none"
-                  height="16pt"
+                  height="16px"
                   margin="0"
                   sizeMultiplier={1.3}
                   on:click={() => plus(option)}><Fa icon={faPlusSquare} /></Button
@@ -157,16 +157,16 @@
   .product {
     position: relative;
     width: 100%;
-    margin-top: 16pt;
+    margin-top: 16px;
     background: var(--itemBackground);
-    border-radius: 8pt;
-    padding: 16pt;
+    border-radius: 8px;
+    padding: 16px;
   }
   .product > .options > .option,
   .product > .options {
     background: var(--itemBackground);
-    border-radius: 8pt;
-    padding: 8pt;
+    border-radius: 8px;
+    padding: 8px;
   }
   .product > h3 {
     padding: 0;
@@ -181,7 +181,7 @@
   }
   .product > div > div {
     width: 100%;
-    min-height: 1pt;
+    min-height: 1px;
     display: flex;
     -o-flex-wrap: wrap;
     flex-wrap: wrap;
@@ -201,7 +201,7 @@
     min-width: 100%;
   }
   .product > div > .body > h4 {
-    margin-top: 8pt;
+    margin-top: 8px;
     font-weight: lighter;
   }
   .product > div > .image > :global(img) {
@@ -209,13 +209,13 @@
     max-width: 100%;
   }
   .quantity {
-    margin-top: 24pt;
+    margin-top: 24px;
     align-items: center;
     font-size: 1.8em;
     text-align: center;
     margin: 0;
     padding: 0;
-    max-height: 58pt;
+    max-height: 58px;
   }
   .quantity > span {
     padding: 0;
@@ -228,8 +228,8 @@
     flex-direction: row;
   }
   .product > .options > .option > div {
-    width: calc(100% - 40pt);
-    margin-left: 16pt;
+    width: calc(100% - 40px);
+    margin-left: 16px;
   }
   .product > .options > .option > div > div {
     display: flex;
@@ -245,7 +245,7 @@
     width: 100%;
   }
   .product > .options > .option > div > div > .units {
-    margin-top: 8pt;
+    margin-top: 8px;
     align-items: center;
     font-size: 0.9em;
     text-align: center;

@@ -29,32 +29,32 @@
   shiftUpDownButtons {
     display: flex;
     flex-direction: column;
-    font-size: 24pt;
-    width: 24pt;
+    font-size: 24px;
+    width: 24px;
     position: absolute;
-    top: -8pt;
-    left: -4pt;
+    top: -8px;
+    left: -4px;
   }
   shiftUpDownButtons > button {
     margin: 0;
     padding: 0;
-    height: 24pt;
+    height: 24px;
     overflow: hidden;
     display: flex;
     align-items: center;
     place-content: center;
-    border: 1pt solid #4c0708;
-    border-radius: 12pt;
+    border: 1px solid #4c0708;
+    border-radius: 12px;
   }
   shiftUpDownButtons > button.up {
     align-items: flex-start;
     place-content: center;
-    padding-top: 4pt;
+    padding-top: 4px;
   }
   shiftUpDownButtons > button.down {
-    margin-top: 4pt;
+    margin-top: 4px;
     align-items: flex-end;
     place-content: center;
-    padding-bottom: 4pt;
+    padding-bottom: 4px;
   }
 </style>

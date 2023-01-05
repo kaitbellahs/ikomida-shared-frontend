@@ -11,7 +11,7 @@
 
 <style>
   small.terms {
-    margin-top: 28pt;
+    margin-top: 28px;
     font-size: 0.6em;
   }
   small.terms > :global(a) {

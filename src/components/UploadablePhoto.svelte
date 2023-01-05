@@ -37,43 +37,43 @@
 
   $: height =
     !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
-      ? 'calc(100vw - 40pt)'
+      ? 'calc(100vw - 40px)'
       : type === TUploadablePhoto.PROFILE
-      ? '208pt'
+      ? '208px'
       : type === TUploadablePhoto.THUMB
-      ? '48pt'
+      ? '48px'
       : `${container ? (container.clientWidth / 480) * 260 : 260}pt`
   $: width =
     !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
-      ? 'calc(100vw - 40pt)'
+      ? 'calc(100vw - 40px)'
       : type === TUploadablePhoto.PROFILE
-      ? '208pt'
+      ? '208px'
       : type === TUploadablePhoto.THUMB
-      ? '48pt'
-      : 'calc(100vw - 40pt)'
+      ? '48px'
+      : 'calc(100vw - 40px)'
   $: cropHeightString =
     !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
-      ? 'calc(100vw - 80pt)'
+      ? 'calc(100vw - 80px)'
       : type === TUploadablePhoto.PROFILE
-      ? '208pt'
+      ? '208px'
       : type === TUploadablePhoto.THUMB
-      ? '48pt'
+      ? '48px'
       : `${container ? Math.round((container.clientWidth / 480) * 260) : 260}pt`
   $: cropWidthString =
     !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
-      ? 'calc(100vw - 80pt)'
+      ? 'calc(100vw - 80px)'
       : type === TUploadablePhoto.PROFILE
-      ? '208pt'
+      ? '208px'
       : type === TUploadablePhoto.THUMB
-      ? '48pt'
-      : 'calc(100vw - 80pt)'
+      ? '48px'
+      : 'calc(100vw - 80px)'
   $: minHeight =
     !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
-      ? '504pt'
+      ? '504px'
       : type === TUploadablePhoto.PROFILE
-      ? '208pt'
+      ? '208px'
       : type === TUploadablePhoto.THUMB
-      ? '48pt'
+      ? '48px'
       : `${container ? (container.clientWidth / 480) * 260 : 260}pt`
   $: cropHeight =
     !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
@@ -177,13 +177,13 @@
   <button
     style="--uploadLeft:{TUploadablePhoto.THUMB === type
       ? 0
-      : 'calc(50% - 72pt)'};--uploadWidth:{TUploadablePhoto.THUMB === type
+      : 'calc(50% - 72px)'};--uploadWidth:{TUploadablePhoto.THUMB === type
       ? '100%'
-      : '140pt'};--uploadBottom:{TUploadablePhoto.THUMB === type
+      : '140px'};--uploadBottom:{TUploadablePhoto.THUMB === type
       ? -16
       : -45}pt;--uploadHeight:{TUploadablePhoto.THUMB === type
-      ? 'calc(100% + 16pt)'
-      : '72pt'};--uploadBackgroundColor:{TUploadablePhoto.THUMB === type
+      ? 'calc(100% + 16px)'
+      : '72px'};--uploadBackgroundColor:{TUploadablePhoto.THUMB === type
       ? 'transparent'
       : '#00000077'};--uploadRadius:{TUploadablePhoto.THUMB === type ? '0' : '100%'};"
     class="upload"
@@ -240,9 +240,9 @@
 <style>
   .imageContainer {
     position: relative;
-    border-radius: 4pt;
+    border-radius: 4px;
     width: var(--width);
-    max-width: 504pt;
+    max-width: 504px;
     background: #ccc;
     overflow: hidden;
     place-content: center;
@@ -250,7 +250,7 @@
     display: flex;
     height: var(--height);
     min-height: var(--height);
-    max-height: 504pt;
+    max-height: 504px;
     align-self: center;
     color: var(--color);
   }

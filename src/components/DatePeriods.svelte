@@ -107,16 +107,16 @@
 <style>
   .busninessHours {
     position: relative;
-    border-radius: 8pt;
-    margin-top: 12pt;
-    padding: 12pt;
+    border-radius: 8px;
+    margin-top: 12px;
+    padding: 12px;
   }
   .day {
     flex: 1;
-    border-radius: 4pt;
+    border-radius: 4px;
     margin: 0;
-    margin-top: 16pt;
-    padding: 8pt;
+    margin-top: 16px;
+    padding: 8px;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -124,11 +124,11 @@
     position: relative;
   }
   .day > h3 {
-    text-shadow: 0.8pt 1pt #18056b66;
-    border-bottom: 1pt solid #ccc;
+    text-shadow: 0.8px 1px #18056b66;
+    border-bottom: 1px solid #ccc;
   }
   .day > .noExpedient {
-    margin-top: 8pt;
+    margin-top: 8px;
   }
   .twoCells {
     display: flex;

@@ -40,22 +40,22 @@
 
 <div {style} class="shadow {circle ? 'circle' : ''}">
   {#if icon && showIcon}
-    <Fa style="font-size: 2.5em; margin-bottom: 8pt;" {icon} />
+    <Fa style="font-size: 2.5em; margin-bottom: 8px;" {icon} />
   {/if}
   <slot />
 </div>
 
 <style>
   div {
-    border-radius: 8pt;
-    padding: 4pt 16pt;
+    border-radius: 8px;
+    padding: 4px 16px;
     align-self: center;
     place-self: center;
     display: flex;
     flex-direction: column;
     color: var(--color);
     background-color: var(--backGroundColor);
-    border: 1pt solid var(--color);
+    border: 1px solid var(--color);
     place-content: center;
     align-items: center;
   }
