@@ -122,7 +122,7 @@
     if (!value) {
       await Clipboard.write({ string: url })
       MessageAlert.instance.show(
-        `Se o navigador externo nao abriu: abra o e digitar essa URL: ${url}, também foi copiado para sua área de transferência para colar-lo!`
+        `Se o navegador externo não abriu: abra o e digitar essa URL: ${url}, também foi copiado para sua área de transferência para colar-lo!`
       )
     }
   }
