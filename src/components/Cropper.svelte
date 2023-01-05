@@ -293,17 +293,17 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    box-shadow: 0 4pt 8pt #0000009e;
+    box-shadow: 0 4px 8px #0000009e;
     box-sizing: border-box;
     color: rgba(0, 0, 0, 0.5);
-    border: 1pt solid rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     overflow: hidden;
   }
 
   .grid:before {
     content: ' ';
     box-sizing: border-box;
-    border: 1pt solid rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     position: absolute;
     top: 0;
     bottom: 0;
@@ -316,7 +316,7 @@
   .grid:after {
     content: ' ';
     box-sizing: border-box;
-    border: 1pt solid rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     position: absolute;
     top: 33.33%;
     bottom: 33.33%;

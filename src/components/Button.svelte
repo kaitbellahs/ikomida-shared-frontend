@@ -15,7 +15,7 @@
   export let upperCased = true
   export let leftPadding = 0
   export let rightPadding = 0
-  export let margin = '8pt'
+  export let margin = '8px'
   export let padding = 8
   export let route: Symbol | undefined = undefined
 
@@ -30,7 +30,7 @@
   let minHeight = `min-height: calc(${height ? height : 48}pt * ${sizeMultiplier});`
 
   $: float = isFloat
-    ? `z-index: 999;border-radius:8pt;position: fixed; left: 8pt; right: 8pt; bottom: ${(bottomPadding ?? 0) + 56}pt;`
+    ? `z-index: 999;border-radius:8px;position: fixed; left: 8px; right: 8px; bottom: ${(bottomPadding ?? 0) + 56}pt;`
     : ''
 
   switch (type) {
@@ -45,7 +45,7 @@
     case TButton.SECONDARY:
       background = 'transparent'
       color = $Layout?.button?.background ?? '#4c0708'
-      border = `1pt solid ${$Layout?.button?.background ?? '#4c0708'}`
+      border = `1px solid ${$Layout?.button?.background ?? '#4c0708'}`
       break
     default:
       break
@@ -74,7 +74,7 @@
   {disabled}
   style="--padding:{padding}pt;--border: {border};--margin:{margin};--height:{height
     ? height
-    : '48pt'};--leftPadding: {leftPadding}pt; --rightPadding: {rightPadding}pt; text-transform: {upperCased
+    : '48px'};--leftPadding: {leftPadding}pt; --rightPadding: {rightPadding}pt; text-transform: {upperCased
     ? 'uppercase'
     : 'full-width'}; --multiplier: {sizeMultiplier};--background:{background};--color:{color};--width:{width};{minHeight}{float};--disabledBackground:{type ===
   TButton.TRANSPARENT
@@ -95,7 +95,7 @@
     background: var(--background);
     border-radius: calc(var(--height) / 2);
     border: var(--border);
-    box-shadow: 0 4pt 8pt #0000009e;
+    box-shadow: 0 4px 8px #0000009e;
   }
   button:disabled {
     background: var(--disabledBackground);

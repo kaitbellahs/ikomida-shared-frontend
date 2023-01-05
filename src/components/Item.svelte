@@ -112,11 +112,11 @@
   }
   .item {
     width: 100%;
-    margin: 16pt 0;
-    padding: 16pt;
+    margin: 16px 0;
+    padding: 16px;
     background: var(--itemBackground);
     position: relative;
-    border-radius: 8pt;
+    border-radius: 8px;
   }
   .item > button {
     background-color: transparent;
@@ -128,18 +128,18 @@
     flex-wrap: wrap;
   }
   .item > button > .orderTypes > span {
-    padding: 4pt;
-    border-radius: 8pt;
-    margin: 4pt;
+    padding: 4px;
+    border-radius: 8px;
+    margin: 4px;
     font-size: 0.9em;
-    border: var(--buttonBackground) solid 1pt;
+    border: var(--buttonBackground) solid 1px;
   }
   .item > button > h3 {
     padding: 0;
     margin: 0;
     font-size: 1.5em;
     text-align: center;
-    margin-bottom: 16pt;
+    margin-bottom: 16px;
   }
   .item > button > div {
     display: flex;
@@ -150,7 +150,7 @@
   }
   .item > button > div > div {
     width: 100%;
-    min-height: 1pt;
+    min-height: 1px;
     display: flex;
     -o-flex-wrap: wrap;
     flex-wrap: wrap;
@@ -170,7 +170,7 @@
   .item > button > div > .body > h4 {
     display: flex;
     flex-direction: column;
-    margin-top: 8pt;
+    margin-top: 8px;
     font-weight: lighter;
   }
   .item > button > div > .body > h4 > .current {
@@ -185,8 +185,8 @@
   .item > button > div > .body > p {
     font-size: 0.9rem;
     font-weight: lighter;
-    margin: 16pt 0;
-    max-height: 64pt;
+    margin: 16px 0;
+    max-height: 64px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: break-spaces;

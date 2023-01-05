@@ -168,7 +168,7 @@
     height: 100%;
     left: 0;
     right: 0;
-    padding: 0 16pt;
+    padding: 0 16px;
     flex-direction: column;
   }
 
@@ -181,6 +181,6 @@
   reusableListRow {
     margin-top: var(--divider);
     /* overflow: hidden; */
-    border-radius: 8pt;
+    border-radius: 8px;
   }
 </style>

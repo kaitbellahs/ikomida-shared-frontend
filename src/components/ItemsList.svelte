@@ -169,12 +169,12 @@
     text-align: center;
     padding: 0;
     margin: 0;
-    margin-bottom: 18pt;
+    margin-bottom: 18px;
     position: relative;
     background: #fff;
-    border: 1pt solid var(--borderColor);
-    border-radius: 8pt;
-    padding: 8pt;
+    border: 1px solid var(--borderColor);
+    border-radius: 8px;
+    padding: 8px;
   }
   header > h2 {
     text-align: center;

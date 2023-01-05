@@ -71,18 +71,18 @@
   expandableBox {
     position: relative;
     width: 100%;
-    padding: 16pt;
-    border-radius: 8pt;
+    padding: 16px;
+    border-radius: 8px;
     display: flex;
     flex-direction: column;
-    margin-top: 16pt;
+    margin-top: 16px;
   }
   box {
     position: relative;
     width: 100%;
     display: flex;
     flex-direction: column;
-    margin-top: 16pt;
+    margin-top: 16px;
   }
   box:first-of-type {
     margin-top: 0;

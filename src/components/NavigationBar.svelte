@@ -230,7 +230,7 @@
   {#if ($menu?.length ?? 0) === 1 && $menu?.[0].icon}
     <button class="menu" on:click={() => callCallback($menu?.[0].callback)}>
       <Fa
-        style="color: {$Layout?.header?.menuHamburger ?? '#ffffff'};font-size: 1.5em; margin-right: 16pt;"
+        style="color: {$Layout?.header?.menuHamburger ?? '#ffffff'};font-size: 1.5em; margin-right: 16px;"
         icon={$menu?.[0].icon}
       />
     </button>
@@ -245,7 +245,7 @@
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <li on:click={() => callCallback(callback)}>
           {#if icon}
-            <Fa style="font-size: 1.5em; margin-right: 16pt;" {icon} />
+            <Fa style="font-size: 1.5em; margin-right: 16px;" {icon} />
           {/if}
           {name}
         </li>
@@ -253,7 +253,7 @@
     </ul>
   {:else if ($menu?.length ?? 0) == 1}
     <button class="singleMenuItem" on:click={$menu[0].callback}
-      ><Fa style="font-size: 1.5em; margin-right: 16pt;" icon={$menu[0].icon} /></button
+      ><Fa style="font-size: 1.5em; margin-right: 16px;" icon={$menu[0].icon} /></button
     >
   {/if}
 </header>
@@ -285,7 +285,7 @@
   }
   button.menu {
     flex-direction: column;
-    height: 32pt;
+    height: 32px;
     padding: 0;
     margin: 0;
     place-content: center;
@@ -299,16 +299,16 @@
   button.menu > div {
     background: var(--menuHamburger);
     display: block;
-    width: 8pt;
-    height: 8pt;
-    border-radius: 4pt;
-    margin: 2pt 16pt 1pt 4pt;
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    margin: 2px 16px 1px 4px;
   }
   ul.menu {
     display: none;
     position: fixed;
     right: 0;
-    top: calc(54pt+ var(--topMargin));
+    top: calc(54px+ var(--topMargin));
     background: var(--background);
     list-style: none;
     padding: 0;
@@ -321,8 +321,8 @@
     display: block;
   }
   ul.menu > li {
-    padding: 16pt;
-    /* border-bottom: 1pt solid gray; */
+    padding: 16px;
+    /* border-bottom: 1px solid gray; */
     display: flex;
   }
   .singleMenuItem {
@@ -331,7 +331,7 @@
   }
   button.menuHamburger {
     flex-direction: column;
-    height: 32pt;
+    height: 32px;
     padding: 0;
     margin: 0;
     place-content: center;
@@ -345,10 +345,10 @@
   button.menuHamburger > div {
     background: var(--menuHamburger);
     display: block;
-    height: 4pt;
-    border-radius: 4pt;
-    width: 32pt;
-    margin: 4pt 16pt;
+    height: 4px;
+    border-radius: 4px;
+    width: 32px;
+    margin: 4px 16px;
   }
   #menuHamburger > ul {
     display: flex;
@@ -360,52 +360,52 @@
     max-width: 90%;
     height: 100%;
     overflow: hidden;
-    padding-top: 12pt;
+    padding-top: 12px;
     font-size: 1.2em;
     overflow-y: scroll;
-    box-shadow: 0 4pt 8pt #0000009e;
+    box-shadow: 0 4px 8px #0000009e;
   }
   #menuHamburger {
     display: flex;
     flex-direction: column;
     position: fixed;
     left: 0;
-    top: calc(48pt + var(--paddingTop) + var(--topMargin) - 4pt);
+    top: calc(48px + var(--paddingTop) + var(--topMargin) - 4px);
     background: rgba(0, 0, 0, 0.7);
     padding: 0;
     min-width: 100vw;
     max-width: 100vw;
-    height: calc(100vh - 48pt - var(--paddingTop) - var(--topMargin) - 4pt);
+    height: calc(100vh - 48px - var(--paddingTop) - var(--topMargin) - 4px);
     overflow: hidden;
     overflow-y: scroll;
   }
   #menuHamburger > ul > li {
-    padding: 12pt 16pt;
+    padding: 12px 16px;
     display: flex;
     flex-direction: row;
     width: 100%;
     align-items: center;
   }
   #menuHamburger > ul > li.logo {
-    padding: 8pt 16pt;
+    padding: 8px 16px;
     place-content: center;
-    border-bottom: 0.1pt solid #ffffff29;
+    border-bottom: 0.1px solid #ffffff29;
   }
   #menuHamburger > ul > li.logo > :global(img) {
     width: 100%;
-    max-width: 480pt;
-    border-radius: 32pt;
-    max-height: 260pt;
+    max-width: 480px;
+    border-radius: 32px;
+    max-height: 260px;
     object-fit: contain;
   }
   #menuHamburger > ul > li:last-of-type {
     flex-grow: 1;
     align-items: flex-end;
-    padding-bottom: calc(64pt + var(--paddingBottom));
+    padding-bottom: calc(64px + var(--paddingBottom));
   }
   #menuHamburger > ul > li > .icon {
-    /* width: 48pt; */
-    margin-right: 24pt;
+    /* width: 48px; */
+    margin-right: 24px;
     place-content: flex-start;
     place-items: center;
     justify-items: center;
@@ -423,10 +423,10 @@
     color: var(--color);
     display: flex;
     width: 100%;
-    height: calc(48pt + var(--paddingTop) + var(--topMargin));
+    height: calc(48px + var(--paddingTop) + var(--topMargin));
     padding: 0;
     padding-top: calc(var(--paddingTop) + var(--topMargin));
-    box-shadow: 0 4pt 8pt #0000009c;
+    box-shadow: 0 4px 8px #0000009c;
     align-items: center;
     z-index: 99999999;
   }
@@ -435,7 +435,7 @@
     background-color: transparent;
     color: var(--menuHamburger);
     border: 0;
-    height: 48pt;
+    height: 48px;
     flex-direction: column;
     padding: 0;
     margin: 0;
@@ -451,7 +451,7 @@
     display: flex;
     place-content: center;
     align-items: center;
-    width: 48pt;
+    width: 48px;
   }
   header > h1 {
     background-color: transparent;

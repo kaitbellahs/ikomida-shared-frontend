@@ -46,7 +46,7 @@
     transform: translateY(-0.075em);
     display: grid;
     place-content: center;
-    padding: 8pt;
+    padding: 8px;
   }
 
   input[type='checkbox']::before {
@@ -57,7 +57,7 @@
     transform: scale(0);
     transform-origin: bottom left;
     transition: 120ms transform ease-in-out;
-    box-shadow: 0 4pt 8pt #0000009e;
+    box-shadow: 0 4px 8px #0000009e;
     background-color: CanvasText;
   }
 
@@ -66,8 +66,8 @@
   }
 
   input[type='checkbox']:focus {
-    outline: max(2pt, 0.15em) solid currentColor;
-    outline-offset: max(2pt, 0.15em);
+    outline: max(2px, 0.15em) solid currentColor;
+    outline-offset: max(2px, 0.15em);
   }
 
   input[type='checkbox']:disabled {
@@ -77,6 +77,6 @@
     cursor: not-allowed;
   }
   label {
-    margin-left: 16pt;
+    margin-left: 16px;
   }
 </style>
