@@ -12,6 +12,7 @@
   import TextEdit from './TextEdit.svelte'
   import type { Writable } from 'svelte/store'
   import { Layout as LayoutStore } from '../Stores'
+  import { calcProductPrice } from '../Utils/Numbers'
   let Layout: Writable<Classes.CLayout | undefined> = LayoutStore.instance.store
 
   type ICallback =
@@ -24,17 +25,6 @@
   export let onPlusClick: ICallback = null
   export let onMinosClick: ICallback = null
   export let addOptions: ICallback = null
-
-  $: optionsTotal = () => {
-    let calcTotal = 0
-    for (const option of product?.options ?? []) {
-      calcTotal +=
-        product.quantity *
-        option.units *
-        (option.price - Finances.calcDiscount(option.price, product.discount, product.discountType))
-    }
-    return calcTotal
-  }
 
   function minos(option?: CCartProductOption) {
     if (product.quantity > 1 || option) {
@@ -77,11 +67,7 @@
         >
       </div>
       <h3>
-        {currency(
-          optionsTotal() +
-            product.quantity *
-              (product.price - Finances.calcDiscount(product.price, product.discount, product.discountType))
-        )}
+        {currency(calcProductPrice(product))}
       </h3>
     </div>
   </div>
@@ -118,11 +104,7 @@
               </div>
               {#if option.price > 0}
                 <div class="price">
-                  {currency(
-                    product.quantity *
-                      option.units *
-                      (option.price - Finances.calcDiscount(option.price, product.discount, product.discountType))
-                  )}
+                  {currency(product.quantity * option.units * option.price)}
                 </div>
               {:else}
                 <span class="current">Gratuito</span>

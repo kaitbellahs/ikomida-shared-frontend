@@ -42,7 +42,7 @@
       ? '208px'
       : type === TUploadablePhoto.THUMB
       ? '48px'
-      : `${container ? (container.clientWidth / 480) * 260 : 260}pt`
+      : `${container ? (container.clientWidth / 480) * 260 : 260}px`
   $: width =
     !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
       ? 'calc(100vw - 40px)'
@@ -58,7 +58,7 @@
       ? '208px'
       : type === TUploadablePhoto.THUMB
       ? '48px'
-      : `${container ? Math.round((container.clientWidth / 480) * 260) : 260}pt`
+      : `${container ? Math.round((container.clientWidth / 480) * 260) : 260}px`
   $: cropWidthString =
     !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
       ? 'calc(100vw - 80px)'
@@ -74,7 +74,7 @@
       ? '208px'
       : type === TUploadablePhoto.THUMB
       ? '48px'
-      : `${container ? (container.clientWidth / 480) * 260 : 260}pt`
+      : `${container ? (container.clientWidth / 480) * 260 : 260}px`
   $: cropHeight =
     !type || ![TUploadablePhoto.VENDOR, TUploadablePhoto.PROFILE, TUploadablePhoto.THUMB].includes(type)
       ? 480
@@ -181,7 +181,7 @@
       ? '100%'
       : '140px'};--uploadBottom:{TUploadablePhoto.THUMB === type
       ? -16
-      : -45}pt;--uploadHeight:{TUploadablePhoto.THUMB === type
+      : -45}px;--uploadHeight:{TUploadablePhoto.THUMB === type
       ? 'calc(100% + 16px)'
       : '72px'};--uploadBackgroundColor:{TUploadablePhoto.THUMB === type
       ? 'transparent'
@@ -193,7 +193,7 @@
     <Fa
       style="
     font-size: {TUploadablePhoto.THUMB === type ? 0.8 : 1.7}em;
-    margin-bottom: {TUploadablePhoto.THUMB === type ? -43 : 35}pt;"
+    margin-bottom: {TUploadablePhoto.THUMB === type ? -43 : 35}px;"
       icon={faCamera}
     />
     <input

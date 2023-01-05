@@ -26,7 +26,7 @@
 </script>
 
 <footer
-  style="--size:{size};--bottomPadding:{bottomPadding}pt;--background:{$Layout?.tabs?.background ??
+  style="--size:{size};--bottomPadding:{bottomPadding}px;--background:{$Layout?.tabs?.background ??
     '#e5e4e3'};--color:{$Layout?.tabs?.color || '#4c0708'};"
 >
   {#each tabs as { name, route, icon } (name)}
@@ -64,7 +64,8 @@
     flex: 1 var(--size);
     align-self: center;
     margin: 0;
-    height: 48px;
+    padding: 8px;
+    /* height: 48px; */
     text-align: center;
     justify-content: center;
     flex-direction: column;

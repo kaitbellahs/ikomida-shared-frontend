@@ -173,7 +173,7 @@
     callback = showSecretCallBack
     input.value = inputValue
   }
-  $: height = (type === TTextEdit.TEXT ? 48 : 32) * sizeMultiplier
+  $: height = (type === TTextEdit.TEXT ? 48 : 40) * sizeMultiplier
   function update() {
     if (type === TTextEdit.COLOR && colorInput) {
       colorInput.value = input.value
@@ -429,14 +429,14 @@
 
 <div
   class="form-cell"
-  style="--labelWidth:{labelWidth}pt;--sizeMultiplier: {sizeMultiplier};--sizeMultiplierPow:{(
+  style="--labelWidth:{labelWidth}px;--sizeMultiplier: {sizeMultiplier};--sizeMultiplierPow:{(
     sizeMultiplier * (sizeMultiplier !== 1 ? 0.85 : 1)
   ).toFixed(
     2
-  )};--marginTop: {marginTop}pt;--leftPadding: {leftPadding}pt; --rightPadding: {rightPadding}; --height: {height}pt;--leftPaddingPlaceHolder: {type ===
+  )};--marginTop: {marginTop}px;--leftPadding: {leftPadding}px; --rightPadding: {rightPadding}; --height: {height}px;--leftPaddingPlaceHolder: {type ===
   TTextEdit.COLOR
     ? 170.5 + leftPadding
-    : 16 + leftPadding}pt;--color:{$Layout?.button?.background ?? '#350101'};--buttonBackgroundColor:{$Layout?.button
+    : 16 + leftPadding}px;--color:{$Layout?.button?.background ?? '#350101'};--buttonBackgroundColor:{$Layout?.button
     ?.background ?? '#4c0708'};"
   bind:this={element}
 >
@@ -622,7 +622,7 @@
     display: flex;
   }
   div.form-cell > .name.placeHolder {
-    top: calc(12px * var(--sizeMultiplierPow));
+    top: calc(16px * var(--sizeMultiplierPow));
     left: calc(var(--leftPadding) + var(--leftPaddingPlaceHolder));
     color: #757575;
     font-size: 1em;

@@ -25,7 +25,7 @@
   }
 </script>
 
-<div style="--labelMarginTop:{marginTop > 14 ? marginTop - 14 : 0}pt;--selectorMarginTop:{selected ? 0 : marginTop}pt;">
+<div style="--labelMarginTop:{marginTop > 14 ? marginTop - 14 : 0}px;--selectorMarginTop:{selected ? 0 : marginTop}px;">
   {#if selected}
     <label for={id}>{name ?? ''}:</label>
   {/if}

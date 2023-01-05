@@ -27,10 +27,10 @@
   let width = 'none'
   let background = $Layout?.button?.background ?? '#4c0708'
   let color = $Layout?.button?.color ?? '#ffffff'
-  let minHeight = `min-height: calc(${height ? height : 48}pt * ${sizeMultiplier});`
+  let minHeight = `min-height: calc(${height ? height : 48}px * ${sizeMultiplier});`
 
   $: float = isFloat
-    ? `z-index: 999;border-radius:8px;position: fixed; left: 8px; right: 8px; bottom: ${(bottomPadding ?? 0) + 56}pt;`
+    ? `z-index: 999;border-radius:8px;position: fixed; left: 8px; right: 8px; bottom: ${(bottomPadding ?? 0) + 56}px;`
     : ''
 
   switch (type) {
@@ -72,9 +72,9 @@
 
 <button
   {disabled}
-  style="--padding:{padding}pt;--border: {border};--margin:{margin};--height:{height
+  style="--padding:{padding}px;--border: {border};--margin:{margin};--height:{height
     ? height
-    : '48px'};--leftPadding: {leftPadding}pt; --rightPadding: {rightPadding}pt; text-transform: {upperCased
+    : '48px'};--leftPadding: {leftPadding}px; --rightPadding: {rightPadding}px; text-transform: {upperCased
     ? 'uppercase'
     : 'full-width'}; --multiplier: {sizeMultiplier};--background:{background};--color:{color};--width:{width};{minHeight}{float};--disabledBackground:{type ===
   TButton.TRANSPARENT

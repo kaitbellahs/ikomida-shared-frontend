@@ -8,7 +8,7 @@
   export let type: Types.TDiscount
 </script>
 
-<discount class="shadow" style="--top:{top}pt;--right:{right}pt;"
+<discount class="shadow" style="--top:{top}px;--right:{right}px;"
   >-{Types.TDiscount.VALUE === type ? currency(value) : percent(value)}</discount
 >
 
