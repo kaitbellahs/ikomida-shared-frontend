@@ -156,7 +156,7 @@
     overflow: scroll;
     overflow-x: hidden;
     padding: 16pt;
-    padding-bottom: 104pt;
+    padding-bottom: 168pt;
   }
   header {
     position: absolute;
