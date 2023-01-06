@@ -1,4 +1,6 @@
-import { Http, HttpOptions, HttpParams, HttpResponse } from '@capacitor-community/http'
+import type { HttpPlugin, HttpOptions, HttpParams, HttpResponse } from '@capacitor-community/http'
+import axios from 'axios'
+import type { AxiosResponse } from 'axios'
 import { Capacitor } from '@capacitor/core'
 import { Classes, Interfaces } from '@ikomida/shared-types'
 import { Auth } from '../Stores/Auth.js'
@@ -8,13 +10,22 @@ import { capitalizeFirstLeter } from '../Utils/Strings.js'
 import _ from 'lodash'
 import { gt as semverGT } from 'semver'
 
+let httpRequest: HttpPlugin | typeof axios.Axios
+if (['android', 'ios'].includes(Capacitor.getPlatform())) {
+  const { Http } = await import('@capacitor-community/http')
+  httpRequest = Http
+} else {
+  const axios = await import('axios')
+  httpRequest = axios.Axios
+}
+
 export default class Network {
   //MARK: -- static region
   static Methods: any = {
     GET: 'get',
     POST: 'post',
     PUT: 'put',
-    DELETE: 'del',
+    DELETE: httpRequest instanceof axios.Axios ? 'delete' : 'del',
     PATCH: 'patch'
   }
 
@@ -170,7 +181,7 @@ export default class Network {
     if (options.headers && this.deviceId) {
       options.headers['X-iKomida-DId'] = this.deviceId
     }
-    if (data && options.headers) {
+    if (!(httpRequest instanceof axios.Axios) && data && options.headers) {
       options.headers['Content-Type'] = 'application/json'
       options.data =
         data instanceof Classes.BaseJSON || new data.constructor() instanceof Classes.BaseJSON ? data.toJSON() : data
@@ -183,7 +194,12 @@ export default class Network {
     let response
     if (method && this.methodsList().includes(method)) {
       try {
-        response = (await ((Http as any)[method] as Function)(options)) as HttpResponse
+        if (httpRequest instanceof axios.Axios) {
+          options.method = method
+          response = (await httpRequest.request(options)) as AxiosResponse
+        } else {
+          response = (await ((httpRequest as any)[method] as Function)(options)) as HttpResponse
+        }
       } catch (exception) {
         //TODO: report errors
         return {
@@ -198,7 +214,7 @@ export default class Network {
     // options.headers.signature = await signMessage(options);
   }
 
-  async parseResponse(res?: HttpResponse) {
+  async parseResponse(res?: HttpResponse | AxiosResponse) {
     const key = `${Capacitor.getPlatform()}-version`
     if (key in (res?.headers ?? {})) {
       const version = res?.headers[key]
