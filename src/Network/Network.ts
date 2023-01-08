@@ -1,5 +1,5 @@
-import type { HttpPlugin, HttpOptions, HttpParams, HttpResponse } from '@capacitor-community/http'
-import axios from 'axios'
+import type { HttpOptions, HttpParams, HttpResponse } from '@capacitor-community/http'
+import { Http } from '@capacitor-community/http'
 import type { AxiosResponse } from 'axios'
 import { Capacitor } from '@capacitor/core'
 import { Classes, Interfaces } from '@ikomida/shared-types'
@@ -10,14 +10,7 @@ import { capitalizeFirstLeter } from '../Utils/Strings.js'
 import _ from 'lodash'
 import { gt as semverGT } from 'semver'
 
-let httpRequest: HttpPlugin | typeof axios.Axios
-if (['android', 'ios'].includes(Capacitor.getPlatform())) {
-  const { Http } = await import('@capacitor-community/http')
-  httpRequest = Http
-} else {
-  const axios = await import('axios')
-  httpRequest = axios.Axios
-}
+let useCapacitor = ['web', 'android', 'ios'].includes(Capacitor.getPlatform())
 
 export default class Network {
   //MARK: -- static region
@@ -25,7 +18,7 @@ export default class Network {
     GET: 'get',
     POST: 'post',
     PUT: 'put',
-    DELETE: httpRequest instanceof axios.Axios ? 'delete' : 'del',
+    DELETE: useCapacitor ? 'del' : 'delete',
     PATCH: 'patch'
   }
 
@@ -92,7 +85,7 @@ export default class Network {
     if (response?.success) {
       itens = response?.data ?? []
     } else {
-      ;(MessageAlert.instance as MessageAlert)?.show(response?.data as string)
+      ; (MessageAlert.instance as MessageAlert)?.show(response?.data as string)
     }
     return itens
   }
@@ -117,8 +110,8 @@ export default class Network {
       this.items[name] = refresh
         ? newitems
         : this.items?.[name]
-        ? [...(this.items?.[name] ?? []), ...(newitems as any)]
-        : newitems
+          ? [...(this.items?.[name] ?? []), ...(newitems as any)]
+          : newitems
       this.items?.[name]?.sort(
         (item1: Classes.BaseJSON & { order: number }, item2: Classes.BaseJSON & { order: number }) =>
           (item1?.order ?? item2?.timestamp ?? 0) - (item2?.order ?? item1?.timestamp ?? 0)
@@ -181,7 +174,7 @@ export default class Network {
     if (options.headers && this.deviceId) {
       options.headers['X-iKomida-DId'] = this.deviceId
     }
-    if (!(httpRequest instanceof axios.Axios) && data && options.headers) {
+    if (data && options.headers) {
       options.headers['Content-Type'] = 'application/json'
       options.data =
         data instanceof Classes.BaseJSON || new data.constructor() instanceof Classes.BaseJSON ? data.toJSON() : data
@@ -194,11 +187,11 @@ export default class Network {
     let response
     if (method && this.methodsList().includes(method)) {
       try {
-        if (httpRequest instanceof axios.Axios) {
-          options.method = method
-          response = (await httpRequest.request(options)) as AxiosResponse
+        if (useCapacitor) {
+          response = (await ((Http as any)[method] as Function)(options)) as AxiosResponse
         } else {
-          response = (await ((httpRequest as any)[method] as Function)(options)) as HttpResponse
+          options.method = method
+          response = await (window.iKomidaElectronAPI.httpRequest(options))
         }
       } catch (exception) {
         //TODO: report errors
@@ -214,7 +207,16 @@ export default class Network {
     // options.headers.signature = await signMessage(options);
   }
 
-  async parseResponse(res?: HttpResponse | AxiosResponse) {
+  async parseResponse(res?: AxiosResponse) {
+    if (!res) {
+      return {
+        success: false,
+        data: {
+          error:
+            'Ocorreu um erro indefinido, verifique a qualidade da sua conexão à internet e tente de novo mais tarde. Se o erro persiste entre em contato com nosso suporte.!'
+        }
+      }
+    }
     const key = `${Capacitor.getPlatform()}-version`
     if (key in (res?.headers ?? {})) {
       const version = res?.headers[key]
