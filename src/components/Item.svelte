@@ -39,7 +39,7 @@
   }
 </script>
 
-<div
+<itemContainer
   bind:this={element}
   class="leftShadow item"
   style="visibility: {$Layout?.product?.animation?.in || $Layout?.product?.animation?.out
@@ -100,7 +100,7 @@
       </div>
     {/if}
   </button>
-</div>
+</itemContainer>
 
 <style>
   *,
@@ -110,79 +110,81 @@
     margin: 0;
     box-sizing: border-box;
   }
-  .item {
+  itemContainer {
     width: 100%;
     margin: 16px 0;
     padding: 16px;
     background: var(--itemBackground);
     position: relative;
     border-radius: 8px;
+    flex-grow: 1;
+    width: 100%;
   }
-  .item > button {
+  itemContainer > button {
     background-color: transparent;
     border: 0;
   }
-  .item > button > .orderTypes {
+  itemContainer > button > .orderTypes {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
   }
-  .item > button > .orderTypes > span {
+  itemContainer > button > .orderTypes > span {
     padding: 4px;
     border-radius: 8px;
     margin: 4px;
     font-size: 0.9em;
     border: var(--buttonBackground) solid 1px;
   }
-  .item > button > h3 {
+  itemContainer > button > h3 {
     padding: 0;
     margin: 0;
     font-size: 1.5em;
     text-align: center;
     margin-bottom: 16px;
   }
-  .item > button > div {
+  itemContainer > button > div {
     display: flex;
     flex-direction: row-reverse;
     justify-content: center;
     padding: 0;
     margin: 0;
   }
-  .item > button > div > div {
+  itemContainer > button > div > div {
     width: 100%;
     min-height: 1px;
     display: flex;
     -o-flex-wrap: wrap;
     flex-wrap: wrap;
   }
-  .item > button > div > .image {
+  itemContainer > button > div > .image {
     flex: 1 45%;
     width: 45%;
   }
-  .item > button > div > .body {
+  itemContainer > button > div > .body {
     flex: 1 55%;
     width: 55%;
   }
-  .item > button > div > .body > * {
+  itemContainer > button > div > .body > * {
     width: 100%;
     min-width: 100%;
   }
-  .item > button > div > .body > h4 {
+  itemContainer > button > div > .body > h4 {
     display: flex;
     flex-direction: column;
     margin-top: 8px;
     font-weight: lighter;
   }
-  .item > button > div > .body > h4 > .current {
+  itemContainer > button > div > .body > h4 > .current {
     color: green;
     font-size: 1.2em;
   }
-  .item > button > div > .body > h4 > .oldPrice {
+  itemContainer > button > div > .body > h4 > .oldPrice {
     text-decoration: line-through;
     color: #717171;
     font-size: 0.9rem;
   }
-  .item > button > div > .body > p {
+  itemContainer > button > div > .body > p {
     font-size: 0.9rem;
     font-weight: lighter;
     margin: 16px 0;
@@ -194,12 +196,21 @@
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
   }
-  .item > button > div > .body > .serves {
+  itemContainer > button > div > .body > .serves {
     font-size: 0.8rem;
   }
-  .item > button > div > .image > :global(img) {
+  itemContainer > button > div > .image > :global(img) {
     width: 100%;
     max-width: 100%;
     object-fit: contain;
+  }
+
+  @media (min-width: 481px) {
+    itemContainer {
+      flex-grow: 1;
+      width: calc(50% - 32px);
+      max-width: calc(50% - 16px);
+      margin: 16px 8px;
+    }
   }
 </style>

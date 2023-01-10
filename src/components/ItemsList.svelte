@@ -77,7 +77,7 @@
   }
 </script>
 
-<div
+<itemsList
   style="--borderColor:{$Layout?.button?.background ?? '#4c0708'};--buttonBackground: {$Layout?.button?.background ||
     'red'};--buttonColor: {$Layout?.button?.color || '#fff'};"
 >
@@ -162,9 +162,14 @@
       <Divider />
     {/if}
   {/each}
-</div>
+</itemsList>
 
 <style>
+  itemsList {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
   header {
     text-align: center;
     padding: 0;
@@ -175,6 +180,8 @@
     border: 1px solid var(--borderColor);
     border-radius: 8px;
     padding: 8px;
+    flex-grow: 1;
+    width: 100%;
   }
   header > h2 {
     text-align: center;
@@ -187,5 +194,8 @@
   }
   days > day > span {
     font-family: 'RobotoBold', 'Courier New', Courier, monospace;
+  }
+
+  @media (min-width: 481px) {
   }
 </style>

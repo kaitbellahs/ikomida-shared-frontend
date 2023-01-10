@@ -85,7 +85,7 @@ export default class Network {
     if (response?.success) {
       itens = response?.data ?? []
     } else {
-      ; (MessageAlert.instance as MessageAlert)?.show(response?.data as string)
+      ;(MessageAlert.instance as MessageAlert)?.show(response?.data as string)
     }
     return itens
   }
@@ -110,8 +110,8 @@ export default class Network {
       this.items[name] = refresh
         ? newitems
         : this.items?.[name]
-          ? [...(this.items?.[name] ?? []), ...(newitems as any)]
-          : newitems
+        ? [...(this.items?.[name] ?? []), ...(newitems as any)]
+        : newitems
       this.items?.[name]?.sort(
         (item1: Classes.BaseJSON & { order: number }, item2: Classes.BaseJSON & { order: number }) =>
           (item1?.order ?? item2?.timestamp ?? 0) - (item2?.order ?? item1?.timestamp ?? 0)
@@ -191,7 +191,7 @@ export default class Network {
           response = (await ((Http as any)[method] as Function)(options)) as AxiosResponse
         } else {
           options.method = method
-          response = await (window.iKomidaElectronAPI.httpRequest(options))
+          response = await window.iKomidaElectronAPI.httpRequest(options)
         }
       } catch (exception) {
         //TODO: report errors

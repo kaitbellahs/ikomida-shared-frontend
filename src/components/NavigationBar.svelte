@@ -322,7 +322,6 @@
   }
   ul.menu > li {
     padding: 16px;
-    /* border-bottom: 1px solid gray; */
     display: flex;
   }
   .singleMenuItem {
@@ -404,7 +403,6 @@
     padding-bottom: calc(64px + var(--paddingBottom));
   }
   #menuHamburger > ul > li > .icon {
-    /* width: 48px; */
     margin-right: 24px;
     place-content: flex-start;
     place-items: center;
@@ -435,7 +433,6 @@
     background-color: transparent;
     color: var(--menuHamburger);
     border: 0;
-    height: 48px;
     flex-direction: column;
     padding: 0;
     margin: 0;
@@ -462,5 +459,12 @@
     font-size: 1.55em;
     padding: 0;
     flex: 1;
+  }
+  @media (min-width: 481px) {
+    #menuHamburger > ul {
+      max-width: 80%;
+      min-width: 40%;
+      width: fit-content;
+    }
   }
 </style>

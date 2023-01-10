@@ -12,28 +12,22 @@
   const id = uuid()
   let ExpandableBox: Stores.ExpandableBox
   let element: HTMLElement
+  let height = 0
+  let init = false
+  let expandedInit = false
 
   $: icon = expanded ? faChevronUp : faChevronDown
   $: if (id !== $ExpandableBox) {
     expanded = false
   }
 
-  $: height = element
-    ? Array.from(element?.children)
-        .flatMap(child => {
-          const style = getComputedStyle(child)
-          return (
-            Number(style.height.replace('px', '')) +
-            Number(style.marginTop.replace('px', '')) +
-            Number(style.marginBottom.replace('px', '')) +
-            Number(style.borderTopWidth.replace('px', '')) +
-            Number(style.borderBottomWidth.replace('px', ''))
-          )
-        })
-        .reduce((child1, child2) => child1 + child2)
-    : 0
+  $: if (element) {
+    updateHeight()
+  }
 
   $: if (expanded) {
+    expandedInit = true
+    updateHeight()
     element?.addEventListener(
       'transitionend',
       () => {
@@ -42,9 +36,27 @@
       { once: true }
     )
   } else {
+    expandedInit = false
     if (element) {
       element.style.overflow = 'hidden'
     }
+  }
+
+  async function updateHeight() {
+    await tick()
+    init = true
+    height = Array.from(element?.children)
+      .flatMap(child => {
+        const style = getComputedStyle(child)
+        return (
+          Number(style.height.replace('px', '')) +
+          Number(style.marginTop.replace('px', '')) +
+          Number(style.marginBottom.replace('px', '')) +
+          Number(style.borderTopWidth.replace('px', '')) +
+          Number(style.borderBottomWidth.replace('px', ''))
+        )
+      })
+      .reduce((child1, child2) => child1 + child2)
   }
 
   function toggleBox() {
@@ -88,11 +100,13 @@
     flex-direction: column;
     margin-top: 16px;
     height: 0px;
+    max-height: 0px;
     transition: all 0.3s;
     overflow: hidden;
   }
   box.expanded {
     height: var(--height);
+    max-height: var(--height);
   }
   box:first-of-type {
     margin-top: 0;
