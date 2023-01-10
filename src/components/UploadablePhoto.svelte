@@ -146,8 +146,7 @@
   })
 </script>
 
-<div
-  class="imageContainer"
+<imageContainer
   bind:this={container}
   style="--color:{$Layout?.button?.background ??
     '#4c0708'};--minHeight: {minHeight};--width: {width};--height: {height};{type === TUploadablePhoto.PROFILE
@@ -204,7 +203,7 @@
       accept="image/jpeg, image/png"
     />
   </button>
-</div>
+</imageContainer>
 <small>Dimensões da imagem: {cropWidth}px {cropHeight}px</small>
 {#if rawImage}
   <Alert
@@ -238,7 +237,7 @@
 {/if}
 
 <style>
-  .imageContainer {
+  imageContainer {
     position: relative;
     border-radius: 4px;
     width: var(--width);
@@ -254,22 +253,22 @@
     align-self: center;
     color: var(--color);
   }
-  .imageContainer > .avatar {
+  imageContainer > .avatar {
     font-size: 4em;
     font-family: RobotoBold;
   }
-  .imageContainer > img {
+  imageContainer > img {
     background: #ccc;
     width: 100%;
     max-width: 100%;
     object-fit: contain;
   }
-  .imageContainer > img.show {
+  imageContainer > img.show {
     display: flex;
     align-items: center;
     place-content: center;
   }
-  .imageContainer > .upload {
+  imageContainer > .upload {
     width: var(--uploadWidth);
     position: absolute;
     left: var(--uploadLeft);
@@ -286,9 +285,10 @@
   small {
     text-align: center;
   }
-  @media (min-width: 504px) {
-    .imageContainer {
+  @media (min-width: 481px) {
+    imageContainer {
       min-height: var(--minHeight);
+      max-width: 100%;
     }
   }
 </style>
