@@ -87,7 +87,7 @@
 <style>
   button {
     margin: var(--margin);
-    padding: var(--padding);
+    padding: var(--padding) calc(3 * var(--padding));
     margin-left: var(--leftPadding);
     margin-right: var(--rightPadding);
     color: var(--color);

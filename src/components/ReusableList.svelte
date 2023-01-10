@@ -32,9 +32,12 @@
   let visible: ArrayLike<{ index: number; data: T }>
   let mounted: boolean
 
+  let screenWidth: number
   let top = 0
   let bottom = 0
   let average_height: number
+
+  $: itensPerRow = screenWidth > 480 ? 2 : 1
 
   $: visible = items.slice(start, end).map((data, i) => {
     return { index: i + start, data }
@@ -54,14 +57,14 @@
       let row = rows[i - start]
 
       if (!row) {
-        end = i + 1
+        end = i + itensPerRow
         await tick()
         row = rows[i - start]
       }
 
-      const row_height = (height_map[i] = itemHeight || row.offsetHeight)
+      const row_height = (height_map[i] = itemHeight || row?.offsetHeight)
       content_height += row_height
-      i += 1
+      i += itensPerRow
     }
 
     end = i
@@ -78,7 +81,7 @@
 
     const old_start = start
 
-    for (let v = 0; v < rows.length; v += 1) {
+    for (let v = 0; v < rows.length; v += itensPerRow) {
       height_map[start + v] = itemHeight || rows[v].offsetHeight
     }
 
@@ -95,12 +98,12 @@
       }
 
       y += row_height
-      i += 1
+      i += itensPerRow
     }
 
     while (i < items.length) {
       y += height_map[i] || average_height
-      i += 1
+      i += itensPerRow
 
       if (y > scrollTop + viewport_height) break
     }
@@ -119,7 +122,7 @@
       let expected_height = 0
       let actual_height = 0
 
-      for (let i = start; i < old_start; i += 1) {
+      for (let i = start; i < old_start; i += itensPerRow) {
         if (rows[i - start]) {
           expected_height += height_map[i] ?? 0
           actual_height += itemHeight || rows[i - start].offsetHeight
@@ -137,6 +140,7 @@
   })
 </script>
 
+<svelte:window bind:innerWidth={screenWidth} />
 <resusableListViewport bind:this={viewport} bind:offsetHeight={viewport_height} on:scroll={handle_scroll}>
   <resusableListContents bind:this={contents} style="padding-top: {top}px; padding-bottom: {bottom}px;">
     {#each visible as row (row.index)}
@@ -169,6 +173,7 @@
     left: 0;
     right: 0;
     padding: 0 16px;
+    width: 100%;
     flex-direction: column;
   }
 
@@ -180,7 +185,18 @@
 
   reusableListRow {
     margin-top: var(--divider);
-    /* overflow: hidden; */
     border-radius: 8px;
+  }
+  @media (min-width: 481px) {
+    resusableListContents {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+    reusableListRow {
+      flex-grow: 1;
+      width: calc(50% - 16px);
+      max-width: calc(50% - 16px);
+      margin: 16px 8px;
+    }
   }
 </style>

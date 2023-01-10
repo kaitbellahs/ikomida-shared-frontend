@@ -61,57 +61,63 @@
   onMount(() => {})
 </script>
 
-{#if value && value.length > 0}
-  {#each value as businessDay}
-    {#if isTrue(businessDay.day)}
-      <div class="shadow day">
-        <FloatButton icon={faAdd} top={0} right={1} callback={() => addHours(businessDay)} />
-        <h3>{days[businessDay.day ?? -1]}</h3>
-        {#if businessDay.hours && businessDay.hours.length > 0}
-          {#each businessDay.hours ?? [] as businessHour}
-            <div class="shadow busninessHours">
-              <FloatRemove top={-8} right={-7} callback={() => onRemoveClick(businessDay, businessHour.id)} />
-              <div class="twoCells">
-                <TextEdit
-                  placeHolder={startTitle ? startTitle : 'Abertura'}
-                  initialValue={businessHour.start}
-                  bind:value={businessHour.start}
-                  type={TTextEdit.TIME}
-                  sizeMultiplier={0.7}
-                  marginTop={8}
-                  rightPadding={8}
-                />
-                <TextEdit
-                  sizeMultiplier={0.7}
-                  marginTop={8}
-                  placeHolder={endTitle ? endTitle : 'Fechamento'}
-                  bind:value={businessHour.end}
-                  initialValue={businessHour.end}
-                  type={TTextEdit.TIME}
-                  leftPadding={8}
-                />
-              </div>
-            </div>
-          {/each}
-        {:else}
-          <span class="noExpedient">sem horário de expediente</span>
-        {/if}
-      </div>
-    {/if}
-  {/each}
-{:else if mandatory}
-  <Divider />
-  <span>Você precisa definir seus {title ? title : 'horários de funcionamento'}</span>
-{/if}
+<days>
+  {#if value && value.length > 0}
+    {#each value as businessDay}
+      {#if isTrue(businessDay.day)}
+        <day class="shadow">
+          <FloatButton icon={faAdd} top={0} right={1} callback={() => addHours(businessDay)} />
+          <h3>{days[businessDay.day ?? -1]}</h3>
+          {#if businessDay.hours && businessDay.hours.length > 0}
+            {#each businessDay.hours ?? [] as businessHour}
+              <busninessHours class="shadow">
+                <FloatRemove top={-8} right={-7} callback={() => onRemoveClick(businessDay, businessHour.id)} />
+                <div class="twoCells">
+                  <TextEdit
+                    placeHolder={startTitle ? startTitle : 'Abertura'}
+                    initialValue={businessHour.start}
+                    bind:value={businessHour.start}
+                    type={TTextEdit.TIME}
+                    sizeMultiplier={0.7}
+                    marginTop={8}
+                    rightPadding={8}
+                  />
+                  <TextEdit
+                    sizeMultiplier={0.7}
+                    marginTop={8}
+                    placeHolder={endTitle ? endTitle : 'Fechamento'}
+                    bind:value={businessHour.end}
+                    initialValue={businessHour.end}
+                    type={TTextEdit.TIME}
+                    leftPadding={8}
+                  />
+                </div>
+              </busninessHours>
+            {/each}
+          {:else}
+            <span class="noExpedient">sem horário de expediente</span>
+          {/if}
+        </day>
+      {/if}
+    {/each}
+  {:else if mandatory}
+    <Divider />
+    <span>Você precisa definir seus {title ? title : 'horários de funcionamento'}</span>
+  {/if}
+</days>
 
 <style>
-  .busninessHours {
+  days {
+    width: 100%;
+    height: fit-content;
+  }
+  busninessHours {
     position: relative;
     border-radius: 8px;
     margin-top: 12px;
     padding: 12px;
   }
-  .day {
+  day {
     flex: 1;
     border-radius: 4px;
     margin: 0;
@@ -122,15 +128,30 @@
     flex-direction: column;
     flex-basis: 100%;
     position: relative;
+    height: fit-content;
   }
-  .day > h3 {
+  day > h3 {
     text-shadow: 0.8px 1px #18056b66;
     border-bottom: 1px solid #ccc;
   }
-  .day > .noExpedient {
+  day > .noExpedient {
     margin-top: 8px;
   }
   .twoCells {
     display: flex;
+  }
+  @media (min-width: 481px) {
+    days {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+    day {
+      flex-grow: 1;
+      width: calc(50% - 16px);
+      max-width: calc(50% - 16px);
+      margin-left: 8px;
+      margin-right: 8px;
+    }
   }
 </style>

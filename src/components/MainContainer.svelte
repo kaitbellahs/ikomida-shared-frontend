@@ -24,13 +24,15 @@
     padding: var(--padding);
     padding-top: var(--paddingTop);
     max-width: 100%;
+    width: 100%;
     position: relative;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     padding-bottom: var(--paddingBottom);
-    height: 100vh;
     max-height: 100%;
+    height: 100%;
     overflow: hidden;
     overflow-y: scroll;
+    flex-wrap: wrap;
   }
 </style>
