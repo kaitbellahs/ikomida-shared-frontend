@@ -4,7 +4,7 @@
   "description": "The iKomida fromntend shared code",
   "private": false,
   "author": "Khalid Ait Bellahs",
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "type": "module",
   "main": "lib/index.js",
   "module": "lib/index.js",
@@ -84,5 +84,9 @@
     "react-image-file-resizer": "^0.4.8",
     "semver": "^7.3.8",
     "yarn": "^1.22.19"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kaitbellahs/ikomida-shared-frontend.git"
   }
 }
